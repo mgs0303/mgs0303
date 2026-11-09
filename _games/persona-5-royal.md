@@ -13,8 +13,8 @@ developer: Atlus
 note: 9
 completion: 100%
 platform: Steam PC
-banner: /assets/images/persona-5-royal-pc-jeu-steam-europe-cover (1).jpg
-cover: /assets/images/P5R_Key_Art.webp
+banner: /assets/images/persona-5-royal-pc-jeu-steam-europe-cover (1)-1.jpg
+cover: /assets/images/P5R_Key_Art-1.webp
 blocks:
   - type: titre
     text: Mon avis
