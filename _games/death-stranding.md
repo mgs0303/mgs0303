@@ -13,4 +13,9 @@ cover: /assets/images/EGS_DeathStrandingDirectorsCut_KOJIMAPRODUCTIONS_S4_1200x1
 blocks:
   - type: titre
     text: Death Stranding Teste
+  - type: texte
+    text: ai go mon texte a ete delete vilain kojima ouille ouillleeeee
+  - type: image
+    image: /assets/images/Capture d'écran 2026-10-28 011028-1.png
+    caption: sexy raind grrrr
 ---
