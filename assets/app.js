@@ -24,7 +24,12 @@
   /* ---------- utilitaires ---------- */
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const BASE = location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '');
-  const path = (s) => (!s ? '' : /^(https?:)?\/\//.test(s) || /^data:/.test(s) ? s : s.charAt(0) === '/' ? BASE + s : s);
+  const encPath = (p) => p.split('/').map((seg) => { try { return encodeURIComponent(decodeURIComponent(seg)); } catch (e) { return encodeURIComponent(seg); } }).join('/');
+  const path = (s) => {
+    if (!s) return '';
+    if (/^(https?:)?\/\//.test(s) || /^data:/.test(s)) return s;
+    return s.charAt(0) === '/' ? BASE + encPath(s) : encPath(s);
+  };
   const color = (status) => STATUS_COLORS[status] || '#8a8f9a';
   const hasNote = (g) => typeof g.note === 'number' && !isNaN(g.note);
   const noteText = (g) => (hasNote(g) ? String(g.note).replace('.', ',') : 'N/A');
@@ -97,7 +102,7 @@
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
-    const present = GROUP_ORDER.filter((st) => of(st).length);
+    const present = GROUP_ORDER.filter((st) => st !== 'Complété' && of(st).length);
     if (present.length) {
       if (homeStatus !== 'Tous' && !present.includes(homeStatus)) homeStatus = 'Tous';
       const shown = homeStatus === 'Tous' ? present : [homeStatus];
@@ -128,20 +133,34 @@
       ${list.length ? `<div class="grid posters">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu à afficher ici pour l\'instant.</p>'}`;
   }
 
+  const toList = (v) => (Array.isArray(v) ? v : v ? [v] : []).filter(Boolean);
   function facts(g, full) {
     const rows = [];
     const add = (k, v) => { if (v !== null && v !== undefined && v !== '') rows.push(`<dt>${k}</dt><dd>${v}</dd>`); };
+    const finished = g.status === 'Complété' || g.status === 'Dropped';
     add('Série', esc(g.series));
     add('Année', esc(g.release_year));
-    add('Genre', esc([g.genre, g.subgenre].filter(Boolean).join(' / ')));
+    add('Genre', esc([...toList(g.genre), ...toList(g.subgenre)].join(' / ')));
     add('Éditeur', esc(g.publisher));
     add('Développeur', esc(g.developer));
-    add('Plateforme', esc(g.platform));
+    add('Plateforme', esc(toList(g.platform).join(', ')));
+    add('Mode', esc(g.mode));
+    const hours = Number(g.playtime);
+    if (g.playtime !== null && g.playtime !== undefined && g.playtime !== '' && !isNaN(hours)) add('Temps de jeu', `${esc(String(hours).replace('.', ','))} h`);
+    else if (g.status === 'Complété') add('Temps de jeu', 'N/A');
     add('Note', hasNote(g) ? `${esc(noteText(g))} / 10` : 'N/A');
     const c = g.completion;
     add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '');
-    add('Début', esc(fmtDate(g.start_date)));
-    add('Fin', esc(fmtDate(g.end_date)));
+    const notStarted = ['Pas lancé', 'En attente de sortie', 'Priorité backlog'].includes(g.status);
+    if (g.start_date) add('Début', esc(fmtDate(g.start_date)));
+    else if (g.no_start_date && !notStarted) add('Début', 'N/A');
+    if (finished) {
+      if (g.end_date) add('Fin', esc(fmtDate(g.end_date)));
+      else if (g.no_end_date) add('Fin', 'N/A');
+    }
+    const n = Number(g.replays);
+    if (n > 0) add('Rejoué', `${n} fois`.replace(/^1 fois$/, '1 fois'));
+    add('Raison du rejeu', esc(g.replay_reason));
     return `<dl class="facts">${rows.join('')}</dl>`;
   }
 
