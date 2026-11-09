@@ -18,6 +18,6 @@ completion: 100%
 platform: Steam PC
 mode: Solo
 playtime: 11
-banner: /assets/images/u13ArMFXakq8zD6GjMkmfJr3TTwNxm.avif
-cover: /assets/images/batman-the-telltale-series---episode-1-realm-of-shadows-cover.cover_300x.webp
+banner: /assets/images/u13ArMFXakq8zD6GjMkmfJr3TTwNxm-1.avif
+cover: /assets/images/batman-telltale-series.jpg
 ---
