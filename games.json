@@ -1,0 +1,26 @@
+---
+---
+[
+{% for g in site.games %}
+{
+  "slug": {{ g.slug | jsonify }},
+  "title": {{ g.title | jsonify }},
+  "status": {{ g.status | jsonify }},
+  "progress": {{ g.progress | jsonify }},
+  "start_date": {{ g.start_date | date: "%Y-%m-%d" | jsonify }},
+  "end_date": {{ g.end_date | date: "%Y-%m-%d" | jsonify }},
+  "release_year": {{ g.release_year | jsonify }},
+  "genre": {{ g.genre | jsonify }},
+  "subgenre": {{ g.subgenre | jsonify }},
+  "series": {{ g.series | jsonify }},
+  "publisher": {{ g.publisher | jsonify }},
+  "developer": {{ g.developer | jsonify }},
+  "note": {{ g.note | jsonify }},
+  "completion": {{ g.completion | jsonify }},
+  "platform": {{ g.platform | jsonify }},
+  "banner": {{ g.banner | jsonify }},
+  "cover": {{ g.cover | jsonify }},
+  "blocks": {{ g.blocks | jsonify }}
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

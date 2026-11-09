@@ -1,0 +1,1 @@
+Les images que tu envoies depuis l'admin arrivent dans ce dossier.

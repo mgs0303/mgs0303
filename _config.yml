@@ -1,0 +1,6 @@
+title: La Li Lu Le Log
+collections:
+  games:
+    output: false
+exclude:
+  - README.md
