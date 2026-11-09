@@ -100,6 +100,11 @@ content:
           collection: platforms
           value: "{primary}"
           label: "{primary}"
+      - name: mode
+        label: Solo / Multi
+        type: select
+        options:
+          values: [Solo, Multi]
       - name: playtime
         label: Temps de jeu pour finir, en heures (vide = N/A)
         type: number
