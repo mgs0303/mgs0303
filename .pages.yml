@@ -77,7 +77,7 @@ content:
         options:
           min: 0
           max: 10
-          step: 0.1
+          step: 0.01
       - name: completion
         label: Completion
         type: select
@@ -110,7 +110,7 @@ content:
         type: number
         options:
           min: 0
-          step: 0.1
+          step: 0.01
       - name: replays
         label: Nombre de fois rejoué (0 si jamais)
         type: number
