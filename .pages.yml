@@ -42,9 +42,15 @@ content:
       - name: start_date
         label: Date de début
         type: date
+      - name: no_start_date
+        label: "Pas de date de début (case à cocher si inconnue)"
+        type: boolean
       - name: end_date
         label: Date de fin
         type: date
+      - name: no_end_date
+        label: "Pas de date de fin (case à cocher si inconnue)"
+        type: boolean
       - name: release_year
         label: Année de sortie
         type: number
