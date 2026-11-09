@@ -8,6 +8,8 @@
   "status": {{ g.status | jsonify }},
   "progress": {{ g.progress | jsonify }},
   "start_date": {{ g.start_date | date: "%Y-%m-%d" | jsonify }},
+  "no_start_date": {{ g.no_start_date | jsonify }},
+  "no_end_date": {{ g.no_end_date | jsonify }},
   "end_date": {{ g.end_date | date: "%Y-%m-%d" | jsonify }},
   "release_year": {{ g.release_year | jsonify }},
   "genre": {{ g.genre | jsonify }},

@@ -150,8 +150,13 @@
     add('Note', hasNote(g) ? `${esc(noteText(g))} / 10` : 'N/A');
     const c = g.completion;
     add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '');
-    add('Début', esc(fmtDate(g.start_date)));
-    if (finished) add('Fin', esc(fmtDate(g.end_date)));
+    const notStarted = ['Pas lancé', 'En attente de sortie', 'Priorité backlog'].includes(g.status);
+    if (g.start_date) add('Début', esc(fmtDate(g.start_date)));
+    else if (g.no_start_date && !notStarted) add('Début', 'N/A');
+    if (finished) {
+      if (g.end_date) add('Fin', esc(fmtDate(g.end_date)));
+      else if (g.no_end_date) add('Fin', 'N/A');
+    }
     const n = Number(g.replays);
     if (n > 0) add('Rejoué', `${n} fois`.replace(/^1 fois$/, '1 fois'));
     add('Raison du rejeu', esc(g.replay_reason));
