@@ -1,0 +1,136 @@
+media:
+  input: assets/images
+  output: /assets/images
+
+content:
+  - name: games
+    label: Jeux
+    type: collection
+    path: _games
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, status, progress, note]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Titre
+        type: string
+        required: true
+      - name: status
+        label: Statut
+        type: select
+        required: true
+        options:
+          values:
+            - Pas lancé
+            - En attente de sortie
+            - Accès Anticipé
+            - Priorité backlog
+            - Relancé
+            - Pause
+            - Partie en cours
+            - Dropped
+            - Complété
+      - name: progress
+        label: Progression (%)
+        type: number
+        options:
+          min: 0
+          max: 100
+      - name: start_date
+        label: Date de début
+        type: date
+      - name: end_date
+        label: Date de fin
+        type: date
+      - name: release_year
+        label: Année de sortie
+        type: number
+      - name: genre
+        label: Genre
+        type: string
+      - name: subgenre
+        label: Sous-genre (optionnel)
+        type: string
+      - name: series
+        label: Série / Licence (optionnel)
+        type: string
+      - name: publisher
+        label: Éditeur
+        type: string
+      - name: developer
+        label: Développeur
+        type: string
+      - name: note
+        label: Note sur 10 (vide = N/A)
+        type: number
+        options:
+          min: 0
+          max: 10
+          step: 0.5
+      - name: completion
+        label: Completion
+        type: select
+        options:
+          values:
+            - value: Main Story
+              label: "🎯 Main Story"
+            - value: Main + Sides
+              label: "🧭 Main + Sides"
+            - value: 100%
+              label: "🎖️ 100%"
+            - value: Endless
+              label: "⏳ Endless"
+            - value: N/A
+              label: "❌ N/A"
+      - name: platform
+        label: Plateforme
+        type: string
+      - name: banner
+        label: Bannière large (page d'accueil)
+        type: image
+      - name: cover
+        label: Jaquette en hauteur (pages Avis et jeu)
+        type: image
+      - name: blocks
+        label: Avis, captures, vidéos (optionnel)
+        type: block
+        list: true
+        blockKey: type
+        blocks:
+          - name: titre
+            label: Titre
+            fields:
+              - name: text
+                label: Texte du titre
+                type: string
+          - name: texte
+            label: Paragraphe
+            fields:
+              - name: text
+                label: Texte
+                type: rich-text
+          - name: image
+            label: Image
+            fields:
+              - name: image
+                label: Image
+                type: image
+              - name: caption
+                label: Légende (optionnel)
+                type: string
+          - name: galerie
+            label: Galerie de captures
+            fields:
+              - name: images
+                label: Images
+                type: image
+                list: true
+          - name: video
+            label: Vidéo YouTube
+            fields:
+              - name: url
+                label: Lien YouTube
+                type: string
