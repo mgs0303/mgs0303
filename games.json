@@ -19,6 +19,7 @@
   "developer": {{ g.developer | jsonify }},
   "note": {{ g.note | jsonify }},
   "completion": {{ g.completion | jsonify }},
+  "mode": {{ g.mode | jsonify }},
   "platform": {{ g.platform | jsonify }},
   "playtime": {{ g.playtime | jsonify }},
   "replays": {{ g.replays | jsonify }},

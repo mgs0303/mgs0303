@@ -144,6 +144,7 @@
     add('Éditeur', esc(g.publisher));
     add('Développeur', esc(g.developer));
     add('Plateforme', esc(toList(g.platform).join(', ')));
+    add('Mode', esc(g.mode));
     const hours = Number(g.playtime);
     if (g.playtime !== null && g.playtime !== undefined && g.playtime !== '' && !isNaN(hours)) add('Temps de jeu', `${esc(String(hours).replace('.', ','))} h`);
     else if (g.status === 'Complété') add('Temps de jeu', 'N/A');
