@@ -49,11 +49,13 @@ content:
         label: Année de sortie
         type: number
       - name: genre
-        label: Genre
-        type: string
-      - name: subgenre
-        label: Sous-genre (optionnel)
-        type: string
+        label: Genres (tu peux en choisir plusieurs)
+        type: reference
+        options:
+          collection: genres
+          multiple: true
+          value: "{primary}"
+          label: "{primary}"
       - name: series
         label: Série / Licence (optionnel)
         type: string
@@ -87,7 +89,25 @@ content:
               label: "❌ N/A"
       - name: platform
         label: Plateforme
-        type: string
+        type: reference
+        options:
+          collection: platforms
+          value: "{primary}"
+          label: "{primary}"
+      - name: playtime
+        label: Temps de jeu pour finir, en heures (vide = N/A)
+        type: number
+        options:
+          min: 0
+          step: 0.5
+      - name: replays
+        label: Nombre de fois rejoué (0 si jamais)
+        type: number
+        options:
+          min: 0
+      - name: replay_reason
+        label: Raison du rejeu (optionnel)
+        type: text
       - name: banner
         label: Bannière large (page d'accueil)
         type: image
@@ -134,3 +154,35 @@ content:
               - name: url
                 label: Lien YouTube
                 type: string
+
+  - name: genres
+    label: Genres (liste)
+    type: collection
+    path: _genres
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Nom du genre
+        type: string
+        required: true
+
+  - name: platforms
+    label: Plateformes (liste)
+    type: collection
+    path: _platforms
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Nom de la plateforme
+        type: string
+        required: true
