@@ -18,6 +18,9 @@
   "note": {{ g.note | jsonify }},
   "completion": {{ g.completion | jsonify }},
   "platform": {{ g.platform | jsonify }},
+  "playtime": {{ g.playtime | jsonify }},
+  "replays": {{ g.replays | jsonify }},
+  "replay_reason": {{ g.replay_reason | jsonify }},
   "banner": {{ g.banner | jsonify }},
   "cover": {{ g.cover | jsonify }},
   "blocks": {{ g.blocks | jsonify }}
