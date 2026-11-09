@@ -11,11 +11,15 @@ series: Persona
 publisher: Atlus
 developer: Atlus
 note: 9
-completion: Main Story
+completion: 100%
 platform: Steam PC
+banner: /assets/images/persona-5-royal-pc-jeu-steam-europe-cover (1).jpg
+cover: /assets/images/P5R_Key_Art.webp
 blocks:
   - type: titre
     text: Mon avis
   - type: texte
-    text: "Ceci est un **exemple** d'avis. Tu peux écrire ce que tu veux, ajouter des images, une galerie de captures ou une vidéo YouTube, dans l'ordre de ton choix."
+    text: Ceci est un **exemple** d'avis. Tu peux écrire ce que tu veux, ajouter des
+      images, une galerie de captures ou une vidéo YouTube, dans l'ordre de ton
+      choix.
 ---
