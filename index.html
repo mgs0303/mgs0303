@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>La Li Lu Le Log</title>
+<title>La-Li-Lu-Le-Log</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%90%8D%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,7 +12,7 @@
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="#/">La Li Lu Le Log</a>
+  <a class="brand" href="#/">La-Li-Lu-Le-Log <span aria-hidden="true">🐍</span></a>
   <nav>
     <a href="#/" data-nav="home">Accueil</a>
     <a href="#/avis" data-nav="avis">Avis</a>
@@ -19,6 +20,13 @@
 </header>
 <main id="app"><p class="empty">Chargement…</p></main>
 <div id="modal" class="modal" hidden></div>
+<div id="lightbox" class="lightbox" hidden>
+  <button class="lb-close" aria-label="Fermer">×</button>
+  <button class="lb-prev" aria-label="Précédente">‹</button>
+  <img alt="">
+  <button class="lb-next" aria-label="Suivante">›</button>
+  <div class="lb-count"></div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="assets/app.js"></script>
 </body>

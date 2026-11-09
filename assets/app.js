@@ -16,7 +16,10 @@
   const app = document.getElementById('app');
   const modal = document.getElementById('modal');
   let games = [];
-  let avisFilter = 'Tous';
+  let avisStatus = 'Tous';
+  let avisSort = 'recent';
+  let homeStatus = 'Tous';
+  let homeSort = 'recent';
 
   /* ---------- utilitaires ---------- */
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -30,6 +33,28 @@
     const n = Number(g.progress);
     return isNaN(n) ? 0 : Math.max(0, Math.min(100, n));
   };
+  const cmpDate = (dir) => (a, b) => {
+    const x = a.end_date || '', y = b.end_date || '';
+    if (!x && !y) return a.title.localeCompare(b.title);
+    if (!x) return 1;
+    if (!y) return -1;
+    return dir * x.localeCompare(y) || a.title.localeCompare(b.title);
+  };
+  const cmpNote = (dir) => (a, b) => {
+    if (!hasNote(a) && !hasNote(b)) return a.title.localeCompare(b.title);
+    if (!hasNote(a)) return 1;
+    if (!hasNote(b)) return -1;
+    return dir * (a.note - b.note) || a.title.localeCompare(b.title);
+  };
+  const SORTS = {
+    recent: { label: 'Plus récent', fn: cmpDate(-1) },
+    ancien: { label: 'Plus ancien', fn: cmpDate(1) },
+    note_desc: { label: 'Meilleure note', fn: cmpNote(-1) },
+    note_asc: { label: 'Moins bonne note', fn: cmpNote(1) },
+    az: { label: 'A → Z', fn: (a, b) => a.title.localeCompare(b.title) }
+  };
+  const sortSelect = (which, current) => `<select class="select" data-sort="${which}" aria-label="Trier">${Object.keys(SORTS).map((k) => `<option value="${k}"${k === current ? ' selected' : ''}>${SORTS[k].label}</option>`).join('')}</select>`;
+  const chip = (filter, value, on) => `<button class="chip${on ? ' on' : ''}" data-filter="${filter}" data-value="${esc(value)}">${esc(value)}</button>`;
   const byEndDesc = (a, b) => (b.end_date || '').localeCompare(a.end_date || '') || a.title.localeCompare(b.title);
   const byStartDesc = (a, b) => (b.start_date || '').localeCompare(a.start_date || '') || a.title.localeCompare(b.title);
   const fmtDate = (d) => {
@@ -72,25 +97,34 @@
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
-    const groups = GROUP_ORDER.map((s) => {
-      let list = of(s);
-      list = s === 'Complété' ? list.sort(byEndDesc) : list.sort((a, b) => a.title.localeCompare(b.title));
-      if (!list.length) return '';
-      return `<div class="group"><div class="sec-head">${badge(s)}<span class="count">${list.length}</span></div>
-        <div class="grid small">${list.map((g) => card(g, false)).join('')}</div></div>`;
-    }).join('');
-    if (groups) html += `<section><div class="sec-head"><h2>Par statut</h2></div>${groups}</section>`;
+    const present = GROUP_ORDER.filter((st) => of(st).length);
+    if (present.length) {
+      if (homeStatus !== 'Tous' && !present.includes(homeStatus)) homeStatus = 'Tous';
+      const shown = homeStatus === 'Tous' ? present : [homeStatus];
+      const groups = shown.map((st) => {
+        let list = of(st);
+        list = st === 'Complété' ? list.sort(byEndDesc) : list.sort((a, b) => a.title.localeCompare(b.title));
+        return `<div class="group"><div class="sec-head">${badge(st)}<span class="count">${list.length}</span></div>
+          <div class="grid small">${list.map((g) => card(g, false)).join('')}</div></div>`;
+      }).join('');
+      const chips = ['Tous', ...present].map((st) => chip('home-status', st, st === homeStatus)).join('');
+      html += `<section><div class="sec-head"><h2>Par statut</h2></div><div class="filters">${chips}</div>${groups}</section>`;
+    }
 
-    html += section('Complété', of('Complété').sort(byEndDesc), true);
+    const done = of('Complété').sort(SORTS[homeSort].fn);
+    if (done.length) {
+      html += `<section><div class="sec-head"><h2>Complété</h2><span class="count">${done.length}</span>${sortSelect('home', homeSort)}</div>
+        <div class="grid">${done.map((g) => card(g, true)).join('')}</div></section>`;
+    }
     app.innerHTML = html;
   }
 
   function renderAvis() {
     const list = games.filter((g) => g.status === 'Complété' || g.status === 'Dropped')
-      .filter((g) => avisFilter === 'Tous' || g.status === avisFilter).sort(byEndDesc);
-    const chips = ['Tous', 'Complété', 'Dropped'].map((f) => `<button class="chip${f === avisFilter ? ' on' : ''}" data-filter="${f}">${f}</button>`).join('');
+      .filter((g) => avisStatus === 'Tous' || g.status === avisStatus).sort(SORTS[avisSort].fn);
+    const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
     app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count">${list.length}</span></div>
-      <div class="filters">${chips}</div>
+      <div class="filters">${chips}${sortSelect('avis', avisSort)}</div>
       ${list.length ? `<div class="grid posters">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu à afficher ici pour l\'instant.</p>'}`;
   }
 
@@ -127,7 +161,7 @@
       if (type === 'titre') return b.text ? `<h2>${esc(b.text)}</h2>` : '';
       if (type === 'texte') return b.text ? `<div>${renderMarkdown(b.text)}</div>` : '';
       if (type === 'image') return b.image ? `<figure><img src="${esc(path(b.image))}" alt="${esc(b.caption)}" loading="lazy">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>` : '';
-      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gallery">${b.images.map((s) => `<a href="${esc(path(s))}" target="_blank" rel="noopener"><img src="${esc(path(s))}" alt="" loading="lazy"></a>`).join('')}</div>` : '';
+      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gallery">${b.images.map((s) => `<img src="${esc(path(s))}" alt="" loading="lazy">`).join('')}</div>` : '';
       if (type === 'video') { const id = youtubeId(b.url); return id ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" allowfullscreen loading="lazy" title="Vidéo"></iframe></div>` : ''; }
       return '';
     }).join('');
@@ -150,7 +184,7 @@
         </div>
       </article>
       ${renderBlocks(g.blocks)}`;
-    document.title = g.title + ' · La Li Lu Le Log';
+    document.title = g.title + ' · La-Li-Lu-Le-Log';
   }
 
   /* ---------- aperçu (fenêtre) ---------- */
@@ -174,11 +208,34 @@
   }
   function closeModal() { modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; }
 
+  /* ---------- visionneuse d'images ---------- */
+  const lb = document.getElementById('lightbox');
+  const lbImg = lb.querySelector('img');
+  const lbCount = lb.querySelector('.lb-count');
+  let lbList = [];
+  let lbIdx = 0;
+  function lbShow() {
+    lbImg.src = lbList[lbIdx];
+    lbCount.textContent = lbList.length > 1 ? `${lbIdx + 1} / ${lbList.length}` : '';
+    lb.classList.toggle('single', lbList.length < 2);
+  }
+  function openLb(el) {
+    const all = Array.from(document.querySelectorAll('.content img'));
+    lbList = all.map((i) => i.currentSrc || i.src);
+    lbIdx = Math.max(0, all.indexOf(el));
+    lbShow();
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() { lb.hidden = true; lbImg.removeAttribute('src'); document.body.style.overflow = ''; }
+  function stepLb(d) { lbIdx = (lbIdx + d + lbList.length) % lbList.length; lbShow(); }
+
   /* ---------- routage ---------- */
   function route() {
     closeModal();
+    closeLb();
     const h = location.hash || '#/';
-    document.title = 'La Li Lu Le Log';
+    document.title = 'La-Li-Lu-Le-Log';
     document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('on',
       (a.dataset.nav === 'home' && (h === '#/' || h === '')) || (a.dataset.nav === 'avis' && h.startsWith('#/avis'))));
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
@@ -188,13 +245,38 @@
   }
 
   document.addEventListener('click', (e) => {
+    if (!lb.hidden) {
+      if (e.target.closest('.lb-prev')) { stepLb(-1); return; }
+      if (e.target.closest('.lb-next')) { stepLb(1); return; }
+      if (e.target.closest('.lb-close') || e.target === lb) { closeLb(); return; }
+      return;
+    }
+    const zoom = e.target.closest('.content img');
+    if (zoom) { openLb(zoom); return; }
     const open = e.target.closest('[data-open]');
     if (open) { openModal(open.dataset.open); return; }
     if (e.target.closest('[data-close]') || e.target === modal) { closeModal(); return; }
     const f = e.target.closest('[data-filter]');
-    if (f) { avisFilter = f.dataset.filter; renderAvis(); }
+    if (f) {
+      if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
+      if (f.dataset.filter === 'home-status') { homeStatus = f.dataset.value; renderHome(); }
+    }
   });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  document.addEventListener('change', (e) => {
+    const sel = e.target.closest('[data-sort]');
+    if (!sel) return;
+    if (sel.dataset.sort === 'avis') { avisSort = sel.value; renderAvis(); }
+    if (sel.dataset.sort === 'home') { homeSort = sel.value; renderHome(); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.hidden) {
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft' && lbList.length > 1) stepLb(-1);
+      if (e.key === 'ArrowRight' && lbList.length > 1) stepLb(1);
+      return;
+    }
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
   window.addEventListener('hashchange', route);
 
   fetch('games.json')
