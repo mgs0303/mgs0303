@@ -20,6 +20,8 @@
 
   /* ---------- utilitaires ---------- */
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const BASE = location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '');
+  const path = (s) => (!s ? '' : /^(https?:)?\/\//.test(s) || /^data:/.test(s) ? s : s.charAt(0) === '/' ? BASE + s : s);
   const color = (status) => STATUS_COLORS[status] || '#8a8f9a';
   const hasNote = (g) => typeof g.note === 'number' && !isNaN(g.note);
   const noteText = (g) => (hasNote(g) ? String(g.note).replace('.', ',') : 'N/A');
@@ -35,7 +37,7 @@
     const dt = new Date(d + 'T00:00:00');
     return isNaN(dt) ? d : dt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
   };
-  const img = (src, cls, alt) => (src ? `<img class="${cls}" src="${esc(src)}" alt="${esc(alt || '')}" loading="lazy">` : '');
+  const img = (src, cls, alt) => (src ? `<img class="${cls}" src="${esc(path(src))}" alt="${esc(alt || '')}" loading="lazy">` : '');
   const badge = (status) => `<span class="badge" style="--c:${color(status)}">${esc(status || 'Sans statut')}</span>`;
   const progressBar = (g) => `<div class="progress" style="--c:${color(g.status)}"><span class="pct">${pct(g)} %</span><div class="bar"><i style="width:${pct(g)}%"></i></div></div>`;
 
@@ -124,8 +126,8 @@
       const type = b.type || b._block;
       if (type === 'titre') return b.text ? `<h2>${esc(b.text)}</h2>` : '';
       if (type === 'texte') return b.text ? `<div>${renderMarkdown(b.text)}</div>` : '';
-      if (type === 'image') return b.image ? `<figure><img src="${esc(b.image)}" alt="${esc(b.caption)}" loading="lazy">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>` : '';
-      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gallery">${b.images.map((s) => `<a href="${esc(s)}" target="_blank" rel="noopener"><img src="${esc(s)}" alt="" loading="lazy"></a>`).join('')}</div>` : '';
+      if (type === 'image') return b.image ? `<figure><img src="${esc(path(b.image))}" alt="${esc(b.caption)}" loading="lazy">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>` : '';
+      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gallery">${b.images.map((s) => `<a href="${esc(path(s))}" target="_blank" rel="noopener"><img src="${esc(path(s))}" alt="" loading="lazy"></a>`).join('')}</div>` : '';
       if (type === 'video') { const id = youtubeId(b.url); return id ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" allowfullscreen loading="lazy" title="Vidéo"></iframe></div>` : ''; }
       return '';
     }).join('');
