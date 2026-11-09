@@ -1,3 +1,0 @@
----
-title: "Nintendo Switch"
----
