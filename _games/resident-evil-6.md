@@ -3,9 +3,11 @@ title: Resident Evil 6
 status: Partie en cours
 progress: 20
 start_date: 2026-10-20
+end_date: 2026-11-09
 release_year: 2012
 genre:
-  - Action/Adventure
+  - Horreur
+  - Action
 series: Resident Evil
 publisher: Capcom
 developer: Capcom
