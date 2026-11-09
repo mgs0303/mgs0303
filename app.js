@@ -102,7 +102,7 @@
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
-    const present = GROUP_ORDER.filter((st) => of(st).length);
+    const present = GROUP_ORDER.filter((st) => st !== 'Complété' && of(st).length);
     if (present.length) {
       if (homeStatus !== 'Tous' && !present.includes(homeStatus)) homeStatus = 'Tous';
       const shown = homeStatus === 'Tous' ? present : [homeStatus];
