@@ -9,6 +9,7 @@ no_end_date: false
 release_year: 2001
 genre:
   - Hack'n'slash
+series: Devil May Cry
 publisher: Capcom
 developer: Capcom
 note: 8
