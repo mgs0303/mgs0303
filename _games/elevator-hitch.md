@@ -13,6 +13,7 @@ genre:
   - Indépendant
 note: 5
 completion: 100%
+platform: Itch.io
 mode: Solo
 banner: /assets/images/maxresdefault-1.jpg
 cover: /assets/images/5HGed6.png
