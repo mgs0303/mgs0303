@@ -17,6 +17,6 @@ completion: Main Story
 platform: Steam PC
 mode: Solo
 playtime: 8.4
-banner: /assets/images/dc7d86312af1a264c691433d17d36619.jpg
+banner: /assets/images/capsule_616x353 (1)-3.jpg
 cover: /assets/images/0ff6978171ce13c6cb11e881c589dbec.png
 ---
