@@ -17,6 +17,6 @@ completion: Main Story
 platform: Yuzu
 mode: Solo
 playtime: 17.9
-banner: /assets/images/3f19d1a89dce0d486de8e79fbda8e0490eb84895e709aed64fc73436e903f625.avif
-cover: /assets/images/visual_sp.jpg
+banner: /assets/images/3f19d1a89dce0d486de8e79fbda8e0490eb84895e709aed64fc73436e903f625-1.avif
+cover: /assets/images/visual_sp-1.jpg
 ---
