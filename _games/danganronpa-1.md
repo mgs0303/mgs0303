@@ -17,6 +17,6 @@ completion: Main Story
 platform: Steam PC
 mode: Solo
 playtime: 32.6
-banner: /assets/images/capsule_616x353 (1).jpg
-cover: /assets/images/Sampuldanganronpa.jpg
+banner: /assets/images/capsule_616x353 (1)-1.jpg
+cover: /assets/images/Sampuldanganronpa-1.jpg
 ---
