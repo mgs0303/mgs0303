@@ -9,6 +9,8 @@ no_end_date: false
 release_year: 2001
 genre:
   - Hack'n'slash
+  - Action
+  - Aventure
 series: Devil May Cry
 publisher: Capcom
 developer: Capcom
