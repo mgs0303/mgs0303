@@ -253,7 +253,7 @@
     if (!g) { app.innerHTML = '<a class="back" href="#/">← Accueil</a><p class="empty">Ce jeu n\'existe pas.</p>'; return; }
     const art = g.cover || g.banner;
     const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie';
-    app.innerHTML = `<a class="back" href="#/avis">← Retour</a>
+    app.innerHTML = `<a class="back" href="#/avis" data-back>← Retour</a>
       <article class="game">
         <div class="cover">${art ? img(art, '', g.title) : `<div class="ph">${esc(g.title)}</div>`}</div>
         <div class="ginfo">
@@ -319,14 +319,17 @@
         <span class="st-name">${esc(gr.name)}</span>${m !== null ? `<span class="st-meta">note moyenne ${fmt1(m)}</span>` : ''}</button>`;
     }).join('') + '</div>';
     window.__series = groups;
-    openSeriesIdx = -1;
+    openSeriesIdx = openSeriesName ? groups.findIndex((x) => x.name === openSeriesName) : -1;
+    if (openSeriesIdx >= 0) placeSeriesPanel(false);
   }
   let openSeriesIdx = -1;
-  function placeSeriesPanel() {
+  let openSeriesName = '';
+  function placeSeriesPanel(userClick) {
     const wrap = document.getElementById('stiles');
     if (!wrap) return;
     wrap.querySelectorAll('.spanel').forEach((n) => n.remove());
     const tiles = [...wrap.querySelectorAll('.stile')];
+    openSeriesName = openSeriesIdx >= 0 ? window.__series[openSeriesIdx].name : '';
     tiles.forEach((t, i) => { const on = i === openSeriesIdx; t.classList.toggle('on', on); t.setAttribute('aria-expanded', on); });
     if (openSeriesIdx < 0) return;
     const gr = window.__series[openSeriesIdx];
@@ -337,10 +340,13 @@
     panel.innerHTML = `<div class="sp-head"><h3>${esc(gr.name)}</h3><span class="v-meta">${gr.sorted.length} jeux</span><button class="chip" data-series-close>Fermer</button></div>
       <div class="grid posters compact">${gr.sorted.map(poster).join('')}</div>`;
     tiles[end].after(panel);
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (userClick) {
+      const tr = tiles[openSeriesIdx].getBoundingClientRect();
+      if (panel.getBoundingClientRect().top > window.innerHeight - 120) window.scrollBy({ top: tr.top - 80, behavior: 'smooth' });
+    }
   }
 
-  window.addEventListener('resize', () => { if (openSeriesIdx >= 0) placeSeriesPanel(); });
+  window.addEventListener('resize', () => { if (openSeriesIdx >= 0) placeSeriesPanel(false); });
 
   /* ---------- GOTY ---------- */
   function gameByRef(ref) {
@@ -506,7 +512,18 @@
   function stepLb(d) { lbIdx = (lbIdx + d + lbList.length) % lbList.length; lbShow(); }
 
   /* ---------- routage ---------- */
+  const scrollPos = {};
+  let lastY = 0;
+  let currentHash = null;
+  let userNav = false;
+  let navCount = 0;
+  window.addEventListener('scroll', () => { lastY = window.scrollY; }, { passive: true });
   function route() {
+    if (currentHash !== null) scrollPos[currentHash] = lastY;
+    const restoreY = !userNav && scrollPos[location.hash || '#/'] ? scrollPos[location.hash || '#/'] : 0;
+    userNav = false;
+    currentHash = location.hash || '#/';
+    navCount += 1;
     closeModal();
     closeLb();
     const h = location.hash || '#/';
@@ -518,7 +535,7 @@
       const q = decodeURIComponent(h.slice(12));
       if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
       renderSearch(q);
-      window.scrollTo(0, 0);
+      window.scrollTo(0, restoreY);
       return;
     }
     if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
@@ -528,10 +545,15 @@
     else if (h.startsWith('#/series')) renderSeries();
     else if (h.startsWith('#/stats')) renderStats(decodeURIComponent(h.slice(8)) || 'Tous');
     else renderHome();
-    window.scrollTo(0, 0);
+    window.scrollTo(0, restoreY);
+    lastY = restoreY;
   }
 
   document.addEventListener('click', (e) => {
+    const nl = e.target.closest('a[href^="#/"]');
+    if (nl && !nl.hasAttribute('data-back')) userNav = true;
+    const bk = e.target.closest('[data-back]');
+    if (bk && navCount > 1) { e.preventDefault(); history.back(); return; }
     if (!lb.hidden) {
       if (e.target.closest('.lb-prev')) { stepLb(-1); return; }
       if (e.target.closest('.lb-next')) { stepLb(1); return; }
@@ -543,9 +565,9 @@
     const open = e.target.closest('[data-open]');
     if (open) { openModal(open.dataset.open); return; }
     if (e.target.closest('[data-close]') || e.target === modal) { closeModal(); return; }
-    if (e.target.closest('[data-series-close]')) { openSeriesIdx = -1; placeSeriesPanel(); return; }
+    if (e.target.closest('[data-series-close]')) { openSeriesIdx = -1; placeSeriesPanel(true); return; }
     const st = e.target.closest('.stile');
-    if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(); return; }
+    if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(true); return; }
     const f = e.target.closest('[data-filter]');
     if (f) {
       if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
@@ -594,7 +616,7 @@
     const top = list.slice(0, 7);
     suggest.innerHTML = top.length
       ? top.map((g) => {
-        const art = g.cover || g.banner;
+        const art = g.banner || g.cover;
         const meta = [g.release_year, g.status !== 'Complété' ? g.status : '', hasNote(g) ? `${noteText(g)} / 10` : ''].filter(Boolean).join(' · ');
         return `<a class="sug" href="#/jeu/${encodeURIComponent(g.slug)}">${art ? img(art, '', '') : '<span class="sug-ph"></span>'}
           <span class="sug-t"><b>${esc(g.title)}</b><small>${esc(meta)}</small></span></a>`;
