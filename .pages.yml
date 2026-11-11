@@ -80,7 +80,7 @@ content:
         options:
           min: 0
           max: 10
-          step: 0.01
+          step: 0.5
       - name: completion
         label: Completion
         type: select
@@ -113,7 +113,7 @@ content:
         type: number
         options:
           min: 0
-          step: 0.01
+          step: 0.5
       - name: replays
         label: Nombre de fois rejoué (0 si jamais)
         type: number
@@ -231,3 +231,26 @@ content:
           - name: comment
             label: Mon mot sur ce jeu (optionnel)
             type: text
+
+
+  - name: profile
+    label: Profil (bannière et photo)
+    type: file
+    path: _data/profile.yml
+    format: yaml
+    fields:
+      - name: banner
+        label: Bannière (grande image en haut de l'accueil)
+        type: image
+      - name: avatar
+        label: Photo de profil
+        type: image
+      - name: name
+        label: Nom affiché
+        type: string
+      - name: twitter
+        label: Pseudo Twitter / X (sans le @)
+        type: string
+      - name: bio
+        label: Petite phrase sous ton nom
+        type: text
