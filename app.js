@@ -13,7 +13,11 @@
   const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'Relancé', 'Pause', 'Dropped', 'Complété'];
   const COMPLETION_ICONS = { 'Main Story': '🎯', 'Main + Sides': '🧭', '100%': '🎖️', 'Endless': '⏳', 'N/A': '❌' };
 
+  // Mets ton pseudo Twitter / X ici, sans le @ (laisse vide pour cacher le lien)
+  const TWITTER = '';
+
   const app = document.getElementById('app');
+  const searchInput = document.getElementById('search');
   const modal = document.getElementById('modal');
   let games = [];
   let avisStatus = 'Tous';
@@ -102,7 +106,7 @@
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
-    const present = GROUP_ORDER.filter((st) => st !== 'Complété' && of(st).length);
+    const present = GROUP_ORDER.filter((st) => of(st).length);
     if (present.length) {
       if (homeStatus !== 'Tous' && !present.includes(homeStatus)) homeStatus = 'Tous';
       const shown = homeStatus === 'Tous' ? present : [homeStatus];
@@ -134,6 +138,18 @@
   }
 
   const toList = (v) => (Array.isArray(v) ? v : v ? [v] : []).filter(Boolean);
+  const norm = (t) => String(t == null ? '' : t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function renderSearch(q) {
+    const terms = norm(q).split(/\s+/).filter(Boolean);
+    const hay = (g) => norm([g.title, g.series, g.developer, g.publisher, ...toList(g.genre), ...toList(g.platform), g.release_year].join(' '));
+    const list = terms.length ? games.filter((g) => { const h = hay(g); return terms.every((t) => h.includes(t)); }).sort((a, b) => {
+      const ta = norm(a.title).startsWith(terms[0]) ? 0 : 1, tb = norm(b.title).startsWith(terms[0]) ? 0 : 1;
+      return ta - tb || a.title.localeCompare(b.title);
+    }) : [];
+    app.innerHTML = `<div class="sec-head"><h2>Recherche</h2><span class="count">${list.length} résultat${list.length > 1 ? 's' : ''}</span></div>
+      ${list.length ? `<div class="grid small">${list.map((g) => card(g, false)).join('')}</div>` : `<p class="empty">Aucun jeu trouvé pour « ${esc(q)} ».</p>`}`;
+  }
+
   function facts(g, full) {
     const rows = [];
     const add = (k, v) => { if (v !== null && v !== undefined && v !== '') rows.push(`<dt>${k}</dt><dd>${v}</dd>`); };
@@ -257,6 +273,14 @@
     document.title = 'La-Li-Lu-Le-Log';
     document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('on',
       (a.dataset.nav === 'home' && (h === '#/' || h === '')) || (a.dataset.nav === 'avis' && h.startsWith('#/avis'))));
+    if (h.startsWith('#/recherche/')) {
+      const q = decodeURIComponent(h.slice(12));
+      if (searchInput.value !== q) searchInput.value = q;
+      renderSearch(q);
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (searchInput.value) searchInput.value = '';
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
     else if (h.startsWith('#/avis')) renderAvis();
     else renderHome();
@@ -296,6 +320,28 @@
     }
     if (e.key === 'Escape' && !modal.hidden) closeModal();
   });
+  let backTo = '#/';
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim();
+    const h = location.hash || '#/';
+    if (!h.startsWith('#/recherche/')) backTo = h;
+    if (!q) { location.replace(backTo); return; }
+    const next = '#/recherche/' + encodeURIComponent(q);
+    if (h.startsWith('#/recherche/')) history.replaceState(null, '', next), renderSearch(q);
+    else location.hash = next;
+  });
+  searchInput.addEventListener('keydown', (e) => { if (e.key === 'Escape') { searchInput.value = ''; searchInput.dispatchEvent(new Event('input')); searchInput.blur(); } });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !/^(input|textarea|select)$/i.test((e.target.tagName || '')) && lb.hidden && modal.hidden) { e.preventDefault(); searchInput.focus(); }
+  });
+  (function () {
+    const a = document.getElementById('twitter-link');
+    const h = TWITTER.trim().replace(/^@/, '');
+    if (!a || !h) return;
+    a.href = 'https://x.com/' + encodeURIComponent(h);
+    document.getElementById('twitter-label').textContent = '@' + h;
+    a.hidden = false;
+  })();
   window.addEventListener('hashchange', route);
 
   fetch('games.json')
