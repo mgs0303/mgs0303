@@ -69,7 +69,7 @@
   };
   const dd = (kind, which, options, current, cls) => {
     const cur = options.find((o) => o.v === current) || options[0];
-    return `<div class="dd${cls ? ' ' + cls : ''}"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(cur.l)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${options.map((o) => `<button class="chip opt${o.v === cur.v ? ' on' : ''}" data-dd="${kind}" data-which="${which}" data-value="${esc(o.v)}">${esc(o.l)}</button>`).join('')}</div></div>`;
+    return `<div class="dd${cls ? ' ' + cls : ''}"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(cur.s || cur.l)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${options.map((o) => `<button class="chip opt${o.v === cur.v ? ' on' : ''}" data-dd="${kind}" data-which="${which}" data-value="${esc(o.v)}">${esc(o.l)}</button>`).join('')}</div></div>`;
   };
   const sortSelect = (which, current) => dd('sort', which, Object.keys(SORTS).map((k) => ({ v: k, l: SORTS[k].label })), current, 'right');
   const backBtn = (href, label, hist) => `<a class="backbtn" href="${href}"${hist ? ' data-back' : ''}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(label)}</span></a>`;
@@ -142,7 +142,7 @@
     app.innerHTML = html;
   }
 
-  const filterSelect = (name, allLabel, values, current) => dd('fsel', name, [{ v: 'Tous', l: allLabel }, ...values.map((v) => ({ v, l: v }))], current, '');
+  const filterSelect = (name, allLabel, values, current, short) => dd('fsel', name, [{ v: 'Tous', l: allLabel, s: short }, ...values.map((v) => ({ v, l: v }))], current, '');
   const fmtN = (n) => String(n).replace('.', ',');
   const rangeLabel = () => (avisMin <= 0 && avisMax >= 10 ? 'toutes' : avisMin === avisMax ? fmtN(avisMin) : `${fmtN(avisMin)} à ${fmtN(avisMax)}`);
   const rangeFill = () => `left:${avisMin * 10}%;width:${(avisMax - avisMin) * 10}%`;
@@ -172,7 +172,7 @@
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
     app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}</div>
       <div class="filters avis-top"><span class="desk-only chips-inline">${chips}</span>${sortSelect('avis', avisSort)}</div>
-      <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear)}
+      <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear, 'Année')}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
           <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
             <input type="range" min="0" max="10" step="0.5" value="${avisMin}" data-range="min" aria-label="Note minimale">
@@ -376,12 +376,10 @@
     if (!years.length) { app.innerHTML = '<div class="sec-head"><h2>GOTY</h2></div><p class="empty">Pas encore de top.</p>'; return; }
     app.innerHTML = `<div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 de chaque année.</p>
       <div class="ycards">${years.map((y) => {
-      const rows = gotyRows(y);
-      const first = rows[0] && rows[0].g;
-      const art = first && (first.banner || first.cover);
-      return `<a class="ycard${rows.length ? '' : ' empty-y'}" href="#/goty/${y}">
-        <span class="y-art">${art ? img(art, '', '') : ''}</span>
-        <span class="y-info"><b class="y-year">${esc(y)}</b><span class="y-meta">${rows.length ? `${rows.length} jeu${rows.length > 1 ? 'x' : ''}${first ? ' · n°1 : ' + esc(first.title) : ''}` : 'Pas encore fait'}</span></span></a>`;
+      const n = gotyRows(y).length;
+      const hue = (Number(y) * 47) % 360;
+      return `<a class="ycard${n ? '' : ' empty-y'}" href="#/goty/${y}" style="--h:${isNaN(hue) ? 220 : hue}">
+        <span class="y-year">${esc(y)}</span><span class="y-label">${n ? 'Top 10' : 'Bientôt'}</span></a>`;
     }).join('')}</div>`;
   }
   function renderGoty(year) {
