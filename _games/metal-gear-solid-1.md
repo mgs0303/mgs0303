@@ -10,7 +10,7 @@ release_year: 1998
 genre:
   - Action
   - Aventure
-series: Metal Gear
+series: METAL GEAR
 publisher: KONAMI
 developer: KONAMI
 note: 10
