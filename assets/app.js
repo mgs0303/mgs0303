@@ -543,6 +543,7 @@
     const idx = Math.min(dots.length - 1, Math.round(c.scrollLeft / step));
     dots.forEach((d, i) => d.classList.toggle('on', i === idx));
   }, true);
+  const enterPage = () => { app.classList.remove('enter'); void app.offsetWidth; app.classList.add('enter'); };
   const scrollPos = {};
   let lastY = 0;
   let currentHash = null;
@@ -567,6 +568,7 @@
       if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
       renderSearch(q);
       window.scrollTo(0, restoreY);
+      enterPage();
       return;
     }
     if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
@@ -578,6 +580,7 @@
     else renderHome();
     window.scrollTo(0, restoreY);
     lastY = restoreY;
+    enterPage();
   }
 
   document.addEventListener('click', (e) => {

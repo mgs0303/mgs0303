@@ -534,3 +534,6 @@ html{scrollbar-gutter:stable}
   .sec-head .dd.right{flex:0 0 auto}
   .sec-head .dd .fold-toggle{width:auto}
 }
+
+#app.enter{animation:pageIn .28s cubic-bezier(.2,.7,.2,1) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
