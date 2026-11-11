@@ -164,13 +164,17 @@
 
   const toList = (v) => (Array.isArray(v) ? v : v ? [v] : []).filter(Boolean);
   const norm = (t) => String(t == null ? '' : t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  function renderSearch(q) {
+  const initials = (t) => norm(t).split(/[^a-z0-9]+/).filter(Boolean).map((w) => w[0]).join('');
+  function searchGames(q) {
     const terms = norm(q).split(/\s+/).filter(Boolean);
-    const hay = (g) => norm([g.title, g.series, g.developer, g.publisher, ...toList(g.genre), ...toList(g.platform), g.release_year].join(' '));
-    const list = terms.length ? games.filter((g) => { const h = hay(g); return terms.every((t) => h.includes(t)); }).sort((a, b) => {
-      const ta = norm(a.title).startsWith(terms[0]) ? 0 : 1, tb = norm(b.title).startsWith(terms[0]) ? 0 : 1;
-      return ta - tb || a.title.localeCompare(b.title);
-    }) : [];
+    if (!terms.length) return [];
+    const hay = (g) => norm([g.title, initials(g.title), seriesOf(g), g.developer, g.publisher, ...toList(g.genre), ...toList(g.platform), g.release_year].join(' '));
+    const rank = (g) => { const t = norm(g.title); return t.startsWith(terms[0]) ? 0 : t.includes(terms[0]) ? 1 : 2; };
+    return games.filter((g) => { const h = hay(g); return terms.every((t) => h.includes(t)); })
+      .sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
+  }
+  function renderSearch(q) {
+    const list = searchGames(q);
     app.innerHTML = `<div class="sec-head"><h2>Recherche</h2><span class="count">${list.length} résultat${list.length > 1 ? 's' : ''}</span></div>
       ${list.length ? `<div class="grid small">${list.map((g) => card(g, false)).join('')}</div>` : `<p class="empty">Aucun jeu trouvé pour « ${esc(q)} ».</p>`}`;
   }
@@ -442,12 +446,12 @@
     document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('on', a.dataset.nav === navKey));
     if (h.startsWith('#/recherche/')) {
       const q = decodeURIComponent(h.slice(12));
-      if (searchInput.value !== q) searchInput.value = q;
+      if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
       renderSearch(q);
       window.scrollTo(0, 0);
       return;
     }
-    if (searchInput.value) searchInput.value = '';
+    if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
     else if (h.startsWith('#/avis')) renderAvis();
     else if (h.startsWith('#/goty')) renderGoty(decodeURIComponent(h.slice(7)));
@@ -498,17 +502,48 @@
     }
     if (e.key === 'Escape' && !modal.hidden) closeModal();
   });
-  let backTo = '#/';
-  searchInput.addEventListener('input', () => {
+  const suggest = document.getElementById('suggest');
+  let sugIdx = -1;
+  const hideSuggest = () => { suggest.hidden = true; suggest.innerHTML = ''; sugIdx = -1; };
+  function showSuggest() {
     const q = searchInput.value.trim();
-    const h = location.hash || '#/';
-    if (!h.startsWith('#/recherche/')) backTo = h;
-    if (!q) { location.replace(backTo); return; }
-    const next = '#/recherche/' + encodeURIComponent(q);
-    if (h.startsWith('#/recherche/')) history.replaceState(null, '', next), renderSearch(q);
-    else location.hash = next;
+    if (!q) { hideSuggest(); return; }
+    const list = searchGames(q);
+    const top = list.slice(0, 7);
+    suggest.innerHTML = top.length
+      ? top.map((g) => {
+        const art = g.cover || g.banner;
+        const meta = [g.release_year, g.status !== 'Complété' ? g.status : '', hasNote(g) ? `${noteText(g)} / 10` : ''].filter(Boolean).join(' · ');
+        return `<a class="sug" href="#/jeu/${encodeURIComponent(g.slug)}">${art ? img(art, '', '') : '<span class="sug-ph"></span>'}
+          <span class="sug-t"><b>${esc(g.title)}</b><small>${esc(meta)}</small></span></a>`;
+      }).join('') + (list.length > top.length ? `<a class="sug more" href="#/recherche/${encodeURIComponent(q)}">Voir les ${list.length} résultats</a>` : '')
+      : `<div class="sug none">Aucun jeu trouvé</div>`;
+    suggest.hidden = false;
+    sugIdx = -1;
+  }
+  searchInput.addEventListener('input', showSuggest);
+  searchInput.addEventListener('focus', showSuggest);
+  searchInput.addEventListener('keydown', (e) => {
+    const items = Array.from(suggest.querySelectorAll('a.sug'));
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!items.length) return;
+      e.preventDefault();
+      sugIdx = (sugIdx + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+      items.forEach((a, i) => a.classList.toggle('active', i === sugIdx));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const q = searchInput.value.trim();
+      if (sugIdx >= 0 && items[sugIdx]) { location.hash = items[sugIdx].getAttribute('href'); }
+      else if (q) location.hash = '#/recherche/' + encodeURIComponent(q);
+      hideSuggest();
+      searchInput.blur();
+    } else if (e.key === 'Escape') {
+      if (!suggest.hidden) hideSuggest(); else { searchInput.value = ''; }
+      searchInput.blur();
+    }
   });
-  searchInput.addEventListener('keydown', (e) => { if (e.key === 'Escape') { searchInput.value = ''; searchInput.dispatchEvent(new Event('input')); searchInput.blur(); } });
+  suggest.addEventListener('click', (e) => { if (e.target.closest('a.sug')) { hideSuggest(); searchInput.value = ''; } });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.search')) hideSuggest(); });
   document.addEventListener('keydown', (e) => {
     if (e.key === '/' && !/^(input|textarea|select)$/i.test((e.target.tagName || '')) && lb.hidden && modal.hidden) { e.preventDefault(); searchInput.focus(); }
   });

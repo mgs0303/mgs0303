@@ -26,7 +26,9 @@
   </nav>
   <div class="search">
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4"/></svg>
-    <input id="search" type="search" placeholder="Chercher un jeu…" autocomplete="off" aria-label="Chercher un jeu">
+    <input id="search" type="text" placeholder="Rechercher un jeu" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-label="Rechercher un jeu">
+    <kbd aria-hidden="true">/</kbd>
+    <div id="suggest" class="suggest" hidden></div>
   </div>
 </header>
 <main id="app"><p class="empty">Chargement…</p></main>
