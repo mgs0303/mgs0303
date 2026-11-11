@@ -2,14 +2,15 @@
 title: Persona 5 Royal
 status: Complété
 progress: 100
-start_date: 2026-05-01
+start_date: 2023-07-07
 no_start_date: false
-end_date: 2026-08-15
+end_date: 2024-03-09
 no_end_date: false
 release_year: 2019
 genre:
   - JRPG
 series: Persona
+hide_series: false
 publisher: Atlus
 developer: Atlus
 note: 9
