@@ -1,5 +1,7 @@
 ---
+banner: /assets/images/Persona 3 Reload Classroom Window.jpg
+avatar: /assets/images/Naoto Shirogane.jpg
 name: La-Li-Lu-Le-Log
 twitter: bitterchocosan
-bio: Je note des jeux vidéo, je finis (presque) tout et je dis ce que j'en pense.
+bio: kya pwo kya kya !!! pow pow :33
 ---
