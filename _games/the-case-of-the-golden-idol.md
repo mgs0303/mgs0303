@@ -12,13 +12,14 @@ genre:
   - Narratif
   - Indépendant
 series: The case of the golden idol
+hide_series: true
 publisher: Playstack
 developer: Color Gray Games
 note: 9
 completion: 100%
 platform: Steam PC
 mode: Solo
-playtime: 12.9
+playtime: 12
 banner: /assets/images/ce7fa8133a0d2b68064ec91f5b36baeb.jpg
 cover: /assets/images/fcdb8bdeff1a0cf49a1ad6cde09a9a1b.jpg
 ---
