@@ -15,6 +15,7 @@
   "genre": {{ g.genre | jsonify }},
   "subgenre": {{ g.subgenre | jsonify }},
   "series": {{ g.series | jsonify }},
+  "hide_series": {{ g.hide_series | jsonify }},
   "publisher": {{ g.publisher | jsonify }},
   "developer": {{ g.developer | jsonify }},
   "note": {{ g.note | jsonify }},

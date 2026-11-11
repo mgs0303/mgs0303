@@ -1,0 +1,234 @@
+media:
+  input: assets/images
+  output: /assets/images
+
+content:
+  - name: games
+    label: Jeux
+    type: collection
+    path: _games
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, status, progress, note]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Titre
+        type: string
+        required: true
+      - name: status
+        label: Statut
+        type: select
+        required: true
+        options:
+          values:
+            - Pas lancé
+            - En attente de sortie
+            - Accès Anticipé
+            - Priorité backlog
+            - Relancé
+            - Pause
+            - Partie en cours
+            - Dropped
+            - Complété
+      - name: progress
+        label: Progression (%)
+        type: number
+        options:
+          min: 0
+          max: 100
+      - name: start_date
+        label: Date de début
+        type: date
+      - name: no_start_date
+        label: "Pas de date de début (case à cocher si inconnue)"
+        type: boolean
+      - name: end_date
+        label: Date de fin
+        type: date
+      - name: no_end_date
+        label: "Pas de date de fin (case à cocher si inconnue)"
+        type: boolean
+      - name: release_year
+        label: Année de sortie
+        type: number
+      - name: genre
+        label: Genres (tu peux en choisir plusieurs)
+        type: reference
+        options:
+          collection: genres
+          multiple: true
+          value: "{primary}"
+          label: "{primary}"
+      - name: series
+        label: Série / Licence (optionnel)
+        type: string
+      - name: hide_series
+        label: "Ne pas afficher ce jeu dans l'onglet Séries"
+        type: boolean
+      - name: publisher
+        label: Éditeur
+        type: string
+      - name: developer
+        label: Développeur
+        type: string
+      - name: note
+        label: Note sur 10 (vide = N/A)
+        type: number
+        options:
+          min: 0
+          max: 10
+          step: 0.5
+      - name: completion
+        label: Completion
+        type: select
+        options:
+          values:
+            - value: Main Story
+              label: "🎯 Main Story"
+            - value: Main + Sides
+              label: "🧭 Main + Sides"
+            - value: 100%
+              label: "🎖️ 100%"
+            - value: Endless
+              label: "⏳ Endless"
+            - value: N/A
+              label: "❌ N/A"
+      - name: platform
+        label: Plateforme
+        type: reference
+        options:
+          collection: platforms
+          value: "{primary}"
+          label: "{primary}"
+      - name: mode
+        label: Solo / Multi
+        type: select
+        options:
+          values: [Solo, Multi]
+      - name: playtime
+        label: Temps de jeu pour finir, en heures (vide = N/A)
+        type: number
+        options:
+          min: 0
+          step: 0.5
+      - name: replays
+        label: Nombre de fois rejoué (0 si jamais)
+        type: number
+        options:
+          min: 0
+      - name: replay_reason
+        label: Raison du rejeu (optionnel)
+        type: text
+      - name: banner
+        label: Bannière large (page d'accueil)
+        type: image
+      - name: cover
+        label: Jaquette en hauteur (pages Avis et jeu)
+        type: image
+      - name: blocks
+        label: Avis, captures, vidéos (optionnel)
+        type: block
+        list: true
+        blockKey: type
+        blocks:
+          - name: titre
+            label: Titre
+            fields:
+              - name: text
+                label: Texte du titre
+                type: string
+          - name: texte
+            label: Paragraphe
+            fields:
+              - name: text
+                label: Texte
+                type: rich-text
+          - name: image
+            label: Image
+            fields:
+              - name: image
+                label: Image
+                type: image
+              - name: caption
+                label: Légende (optionnel)
+                type: string
+          - name: galerie
+            label: Galerie de captures
+            fields:
+              - name: images
+                label: Images
+                type: image
+                list: true
+          - name: video
+            label: Vidéo YouTube
+            fields:
+              - name: url
+                label: Lien YouTube
+                type: string
+
+  - name: genres
+    label: Genres (liste)
+    type: collection
+    path: _genres
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Nom du genre
+        type: string
+        required: true
+
+  - name: platforms
+    label: Plateformes (liste)
+    type: collection
+    path: _platforms
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Nom de la plateforme
+        type: string
+        required: true
+
+  - name: goty
+    label: GOTY (top 10 par année)
+    type: collection
+    path: _goty
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [annee]
+      primary: annee
+      sort: [annee]
+    fields:
+      - name: annee
+        label: "Année (par exemple 2026)"
+        type: string
+        required: true
+      - name: entries
+        label: "Top 10 (le 1er est ton GOTY, glisse pour réordonner, 10 maximum)"
+        type: object
+        list: true
+        fields:
+          - name: game
+            label: Jeu
+            type: reference
+            options:
+              collection: games
+              value: "{primary}"
+              label: "{primary}"
+          - name: comment
+            label: Mon mot sur ce jeu (optionnel)
+            type: text
+
