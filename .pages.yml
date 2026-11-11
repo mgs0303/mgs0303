@@ -236,8 +236,8 @@ content:
   - name: profile
     label: Profil (bannière et photo)
     type: file
-    path: _data/profile.yml
-    format: yaml
+    path: profile.md
+    format: yaml-frontmatter
     fields:
       - name: banner
         label: Bannière (grande image en haut de l'accueil)
