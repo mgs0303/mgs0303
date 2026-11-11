@@ -17,5 +17,6 @@ note: 8
 completion: Main Story
 platform: Steam PC
 mode: Solo
-banner: /assets/images/deltarune-key-art-1.png
+banner: /assets/images/f9284df86baabf0d5c80f2910ee888cb.png
+cover: /assets/images/34.png
 ---
