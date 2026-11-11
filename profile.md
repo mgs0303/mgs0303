@@ -1,0 +1,5 @@
+---
+name: La-Li-Lu-Le-Log
+twitter: bitterchocosan
+bio: Je note des jeux vidéo, je finis (presque) tout et je dis ce que j'en pense.
+---

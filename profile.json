@@ -1,3 +1,9 @@
 ---
 ---
-{{ site.data.profile | jsonify }}
+{% assign p = site.pages | where: "name", "profile.md" | first %}{
+  "name": {{ p.name | jsonify }},
+  "twitter": {{ p.twitter | jsonify }},
+  "bio": {{ p.bio | jsonify }},
+  "banner": {{ p.banner | jsonify }},
+  "avatar": {{ p.avatar | jsonify }}
+}
