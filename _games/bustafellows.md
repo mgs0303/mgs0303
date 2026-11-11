@@ -18,5 +18,5 @@ platform: Steam PC
 mode: Solo
 playtime: 13.9
 banner: /assets/images/H2x1_NSwitch_Bustafellows_image1600w.jpg
-cover: /assets/images/Bustafellows.webp
+cover: /assets/images/24918ff5bc54b05be7fe471e23a16e32.png
 ---
