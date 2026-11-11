@@ -16,6 +16,6 @@ note: 10
 completion: 100%
 platform: Steam PC
 mode: Solo
-banner: /assets/images/Slow-Damage.png
+banner: /assets/images/6-1-905921-52.jpg
 cover: /assets/images/Slow_Damage_cover.jpg
 ---
