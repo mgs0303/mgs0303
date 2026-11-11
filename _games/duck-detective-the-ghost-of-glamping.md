@@ -12,6 +12,7 @@ genre:
   - Narratif
   - Aventure
   - Indépendant
+hide_series: true
 publisher: Happy Broccoli Games
 developer: Happy Broccoli Games
 note: 8
