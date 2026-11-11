@@ -286,7 +286,7 @@
     const map = new Map();
     games.forEach((g) => {
       const name = seriesOf(g);
-      if (!name) return;
+      if (!name || g.hide_series) return;
       const k = norm(name);
       if (!map.has(k)) map.set(k, { name, games: [] });
       map.get(k).games.push(g);
@@ -294,18 +294,40 @@
     const groups = [...map.values()].filter((x) => x.games.length >= 2)
       .sort((a, b) => b.games.length - a.games.length || a.name.localeCompare(b.name));
     if (!groups.length) { app.innerHTML = '<div class="sec-head"><h2>Séries</h2></div><p class="empty">Aucune série avec au moins 2 jeux pour l\'instant.</p>'; return; }
-    app.innerHTML = `<div class="sec-head"><h2>Séries</h2><span class="count">${groups.length}</span>
-      <span class="spacer"></span><button class="chip" data-series-toggle="open">Tout déplier</button><button class="chip" data-series-toggle="close">Tout replier</button></div>
-      <div class="volets">` + groups.map((gr) => {
+    app.innerHTML = `<div class="sec-head"><h2>Séries</h2><span class="count">${groups.length}</span></div>
+      <div class="stiles" id="stiles">` + groups.map((gr, i) => {
       const gs = gr.games.slice().sort((a, b) => gameTime(a).localeCompare(gameTime(b)));
       const m = avg(gs.filter(hasNote).map((g) => g.note));
-      const thumbs = gs.slice(0, 6).map((g) => { const a = g.cover || g.banner; return a ? img(a, 'mini', '') : '<span class="mini"></span>'; }).join('');
-      return `<details class="volet"><summary><span class="chev" aria-hidden="true"></span>
-        <span class="v-name">${esc(gr.name)}</span><span class="v-meta">${gs.length} jeux${m !== null ? ` · note moyenne ${fmt1(m)}` : ''}</span>
-        <span class="v-thumbs">${thumbs}</span></summary>
-        <div class="grid posters compact">${gs.map(poster).join('')}</div></details>`;
+      const cg = gs.find((g) => g.cover) || gs.find((g) => g.banner);
+      const art = cg && (cg.cover || cg.banner);
+      gr.sorted = gs;
+      return `<button class="stile" data-series="${i}" aria-expanded="false">
+        <span class="st-art">${art ? img(art, '', gr.name) : `<span class="ph">${esc(gr.name)}</span>`}<span class="st-count">${gs.length} jeux</span></span>
+        <span class="st-name">${esc(gr.name)}</span>${m !== null ? `<span class="st-meta">note moyenne ${fmt1(m)}</span>` : ''}</button>`;
     }).join('') + '</div>';
+    window.__series = groups;
+    openSeriesIdx = -1;
   }
+  let openSeriesIdx = -1;
+  function placeSeriesPanel() {
+    const wrap = document.getElementById('stiles');
+    if (!wrap) return;
+    wrap.querySelectorAll('.spanel').forEach((n) => n.remove());
+    const tiles = [...wrap.querySelectorAll('.stile')];
+    tiles.forEach((t, i) => { const on = i === openSeriesIdx; t.classList.toggle('on', on); t.setAttribute('aria-expanded', on); });
+    if (openSeriesIdx < 0) return;
+    const gr = window.__series[openSeriesIdx];
+    const cols = Math.max(1, getComputedStyle(wrap).gridTemplateColumns.split(' ').length);
+    const end = Math.min(tiles.length - 1, (Math.floor(openSeriesIdx / cols) + 1) * cols - 1);
+    const panel = document.createElement('section');
+    panel.className = 'spanel';
+    panel.innerHTML = `<div class="sp-head"><h3>${esc(gr.name)}</h3><span class="v-meta">${gr.sorted.length} jeux</span><button class="chip" data-series-close>Fermer</button></div>
+      <div class="grid posters compact">${gr.sorted.map(poster).join('')}</div>`;
+    tiles[end].after(panel);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  window.addEventListener('resize', () => { if (openSeriesIdx >= 0) placeSeriesPanel(); });
 
   /* ---------- GOTY ---------- */
   function gameByRef(ref) {
@@ -508,8 +530,9 @@
     const open = e.target.closest('[data-open]');
     if (open) { openModal(open.dataset.open); return; }
     if (e.target.closest('[data-close]') || e.target === modal) { closeModal(); return; }
-    const tg = e.target.closest('[data-series-toggle]');
-    if (tg) { document.querySelectorAll('.volet').forEach((d) => { d.open = tg.dataset.seriesToggle === 'open'; }); return; }
+    if (e.target.closest('[data-series-close]')) { openSeriesIdx = -1; placeSeriesPanel(); return; }
+    const st = e.target.closest('.stile');
+    if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(); return; }
     const f = e.target.closest('[data-filter]');
     if (f) {
       if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
