@@ -349,11 +349,12 @@
       return wrap(r, 'toprow', `<span class="tr-rank">${i + 4}</span>
         <span class="tr-art">${art ? img(art, '', t.title) : ''}</span>
         <span class="tr-body"><span class="tr-title">${esc(t.title)}</span>
-        <span class="tr-meta">${esc([t.score ? `${t.score} / 10` : '', t.meta].filter(Boolean).join(' · '))}</span>
-        ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>`);
+        <span class="tr-meta">${esc(t.meta || '')}</span>
+        ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>
+        ${t.score ? `<span class="tr-score">${esc(t.score)}</span>` : ''}`);
     }).join('');
     app.innerHTML = `<div class="sec-head"><h2>GOTY ${esc(year)}</h2><span class="spacer"></span>${chips}</div>
-      ${rows.length ? `<div class="podium" style="--cols:${['1.35fr', '1fr', '1fr'].slice(0, top.length).join(' ')}">${podium}</div>
+      ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
         ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
       : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
   }
