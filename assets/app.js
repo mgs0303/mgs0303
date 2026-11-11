@@ -26,7 +26,8 @@
   let homeSort = 'recent';
   let avisGenre = 'Tous';
   let avisYear = 'Tous';
-  let avisNote = 'Tous';
+  let avisMin = 0;
+  let avisMax = 10;
   let gotyData = [];
 
   /* ---------- utilitaires ---------- */
@@ -110,19 +111,21 @@
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
-    const present = GROUP_ORDER.filter((st) => of(st).length);
-    if (present.length) {
-      if (homeStatus !== 'Tous' && !present.includes(homeStatus)) homeStatus = 'Tous';
-      const shown = homeStatus === 'Tous' ? present : [homeStatus];
-      const groups = shown.map((st) => {
-        let list = of(st);
-        list = st === 'Complété' ? list.sort(byEndDesc) : list.sort((a, b) => a.title.localeCompare(b.title));
-        return `<div class="group"><div class="sec-head">${badge(st)}<span class="count">${list.length}</span></div>
-          <div class="grid small">${list.map((g) => card(g, false)).join('')}</div></div>`;
-      }).join('');
-      const chips = ['Tous', ...present].map((st) => chip('home-status', st, st === homeStatus)).join('');
-      html += `<section><div class="sec-head"><h2>Par statut</h2></div><div class="filters">${chips}</div>${groups}</section>`;
-    }
+    const tabs = ['En attente de sortie', 'Accès Anticipé', 'Relancé', 'Pause', 'Dropped'];
+    if (of('Pas lancé').length) tabs.unshift('Pas lancé');
+    if (homeStatus !== 'Tous' && !tabs.includes(homeStatus)) homeStatus = 'Tous';
+    const shown = (homeStatus === 'Tous' ? tabs : [homeStatus]).filter((st) => of(st).length);
+    const groups = shown.map((st) => {
+      const list = of(st).sort((a, b) => a.title.localeCompare(b.title));
+      return `<div class="group"><div class="sec-head">${badge(st)}<span class="count">${list.length}</span></div>
+        <div class="grid small">${list.map((g) => card(g, false)).join('')}</div></div>`;
+    }).join('');
+    const empty = groups ? '' : `<p class="empty">${homeStatus === 'Tous' ? 'Aucun jeu dans ces statuts pour l\'instant.' : 'Aucun jeu avec ce statut pour l\'instant.'}</p>`;
+    const chips = ['Tous', ...tabs].map((st) => {
+      const n = st === 'Tous' ? 0 : of(st).length;
+      return `<button class="chip${st === homeStatus ? ' on' : ''}" data-filter="home-status" data-value="${esc(st)}">${esc(st)}${n ? ` <span class="chip-n">${n}</span>` : ''}</button>`;
+    }).join('');
+    html += `<section><div class="sec-head"><h2>Par statut</h2></div><div class="filters">${chips}</div>${groups}${empty}</section>`;
 
     const done = of('Complété').sort(SORTS[homeSort].fn);
     if (done.length) {
@@ -132,16 +135,27 @@
     app.innerHTML = html;
   }
 
-  const NOTE_FILTERS = {
-    '10': (g) => hasNote(g) && g.note >= 10,
-    '9 et plus': (g) => hasNote(g) && g.note >= 9,
-    '8 et plus': (g) => hasNote(g) && g.note >= 8,
-    '7 et plus': (g) => hasNote(g) && g.note >= 7,
-    '6 et moins': (g) => hasNote(g) && g.note <= 6,
-    'Non noté': (g) => !hasNote(g)
-  };
   const filterSelect = (name, allLabel, values, current) => `<select class="select flat" data-fsel="${name}" aria-label="${esc(allLabel)}">
     <option value="Tous">${esc(allLabel)}</option>${values.map((v) => `<option value="${esc(v)}"${v === current ? ' selected' : ''}>${esc(v)}</option>`).join('')}</select>`;
+  const fmtN = (n) => String(n).replace('.', ',');
+  const rangeLabel = () => (avisMin <= 0 && avisMax >= 10 ? 'toutes' : avisMin === avisMax ? fmtN(avisMin) : `${fmtN(avisMin)} à ${fmtN(avisMax)}`);
+  const rangeFill = () => `left:${avisMin * 10}%;width:${(avisMax - avisMin) * 10}%`;
+
+  function avisFiltered() {
+    return games.filter((g) => g.status === 'Complété' || g.status === 'Dropped')
+      .filter((g) => avisStatus === 'Tous' || g.status === avisStatus)
+      .filter((g) => avisGenre === 'Tous' || toList(g.genre).includes(avisGenre))
+      .filter((g) => avisYear === 'Tous' || (g.end_date || '').slice(0, 4) === avisYear)
+      .filter((g) => (avisMin <= 0 && avisMax >= 10) || (hasNote(g) && g.note >= avisMin && g.note <= avisMax))
+      .sort(SORTS[avisSort].fn);
+  }
+  function updateAvisResults() {
+    const list = avisFiltered();
+    const box = document.getElementById('avis-results');
+    if (!box) return;
+    document.getElementById('avis-count').textContent = list.length;
+    box.innerHTML = list.length ? `<div class="grid posters">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>';
+  }
 
   function renderAvis() {
     const base = games.filter((g) => g.status === 'Complété' || g.status === 'Dropped');
@@ -149,17 +163,16 @@
     const years = [...new Set(base.filter((g) => g.end_date).map((g) => g.end_date.slice(0, 4)))].sort().reverse();
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
-    const list = base
-      .filter((g) => avisStatus === 'Tous' || g.status === avisStatus)
-      .filter((g) => avisGenre === 'Tous' || toList(g.genre).includes(avisGenre))
-      .filter((g) => avisYear === 'Tous' || (g.end_date || '').slice(0, 4) === avisYear)
-      .filter((g) => avisNote === 'Tous' || (NOTE_FILTERS[avisNote] ? NOTE_FILTERS[avisNote](g) : true))
-      .sort(SORTS[avisSort].fn);
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
-    app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count">${list.length}</span></div>
+    app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span></div>
       <div class="filters">${chips}${sortSelect('avis', avisSort)}</div>
-      <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear)}${filterSelect('note', 'Toutes les notes', Object.keys(NOTE_FILTERS), avisNote)}</div>
-      ${list.length ? `<div class="grid posters">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>'}`;
+      <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear)}
+        <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
+          <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
+            <input type="range" min="0" max="10" step="0.5" value="${avisMin}" data-range="min" aria-label="Note minimale">
+            <input type="range" min="0" max="10" step="0.5" value="${avisMax}" data-range="max" aria-label="Note maximale"></div></div></div>
+      <div id="avis-results"></div>`;
+    updateAvisResults();
   }
 
   const toList = (v) => (Array.isArray(v) ? v : v ? [v] : []).filter(Boolean);
@@ -281,13 +294,17 @@
     const groups = [...map.values()].filter((x) => x.games.length >= 2)
       .sort((a, b) => b.games.length - a.games.length || a.name.localeCompare(b.name));
     if (!groups.length) { app.innerHTML = '<div class="sec-head"><h2>Séries</h2></div><p class="empty">Aucune série avec au moins 2 jeux pour l\'instant.</p>'; return; }
-    app.innerHTML = `<div class="sec-head"><h2>Séries</h2><span class="count">${groups.length}</span></div>` + groups.map((gr) => {
+    app.innerHTML = `<div class="sec-head"><h2>Séries</h2><span class="count">${groups.length}</span>
+      <span class="spacer"></span><button class="chip" data-series-toggle="open">Tout déplier</button><button class="chip" data-series-toggle="close">Tout replier</button></div>
+      <div class="volets">` + groups.map((gr) => {
       const gs = gr.games.slice().sort((a, b) => gameTime(a).localeCompare(gameTime(b)));
       const m = avg(gs.filter(hasNote).map((g) => g.note));
-      return `<section class="series-group"><div class="series-head"><h2>${esc(gr.name)}</h2>
-        <span class="meta">${gs.length} jeux${m !== null ? ` · note moyenne ${fmt1(m)}` : ''}</span></div>
-        <div class="grid posters compact">${gs.map(poster).join('')}</div></section>`;
-    }).join('');
+      const thumbs = gs.slice(0, 6).map((g) => { const a = g.cover || g.banner; return a ? img(a, 'mini', '') : '<span class="mini"></span>'; }).join('');
+      return `<details class="volet"><summary><span class="chev" aria-hidden="true"></span>
+        <span class="v-name">${esc(gr.name)}</span><span class="v-meta">${gs.length} jeux${m !== null ? ` · note moyenne ${fmt1(m)}` : ''}</span>
+        <span class="v-thumbs">${thumbs}</span></summary>
+        <div class="grid posters compact">${gs.map(poster).join('')}</div></details>`;
+    }).join('') + '</div>';
   }
 
   /* ---------- GOTY ---------- */
@@ -307,21 +324,38 @@
       return { g: gameByRef(ref), ref, comment: typeof e === 'object' ? e.comment : '' };
     }).filter((r) => r.ref).slice(0, 10);
     const chips = years.map((y) => `<a class="chip${y === year ? ' on' : ''}" href="#/goty/${y}">${y}</a>`).join('');
-    const items = rows.map((r, i) => {
+    const info = (r) => {
       const g = r.g;
-      const art = g && (g.cover || g.banner);
-      const title = g ? g.title : r.ref;
-      const meta = g ? [hasNote(g) ? `${noteText(g)} / 10` : '', toList(g.genre).join(' / '), toList(g.platform).join(', ')].filter(Boolean).join(' · ') : '';
-      const inner = `<div class="goty-art">${art ? img(art, '', title) : `<div class="ph">${esc(title)}</div>`}</div>`;
-      return `<li class="goty-item r${i + 1}"><div class="goty-rank">${i + 1}</div>
-        ${g ? `<a href="#/jeu/${encodeURIComponent(g.slug)}">${inner}</a>` : inner}
-        <div><div class="goty-title">${g ? `<a href="#/jeu/${encodeURIComponent(g.slug)}">${esc(title)}</a>` : esc(title)}</div>
-        ${meta ? `<div class="goty-meta">${esc(meta)}</div>` : ''}
-        ${r.comment ? `<p class="goty-comment">${esc(r.comment)}</p>` : ''}</div></li>`;
+      return {
+        title: g ? g.title : r.ref,
+        meta: g ? [toList(g.genre).slice(0, 2).join(' / '), toList(g.platform).join(', ')].filter(Boolean).join(' · ') : '',
+        score: g && hasNote(g) ? noteText(g) : ''
+      };
+    };
+    const wrap = (r, cls, inner) => (r.g ? `<a class="${cls}" href="#/jeu/${encodeURIComponent(r.g.slug)}">${inner}</a>` : `<div class="${cls}">${inner}</div>`);
+    const top = rows.slice(0, 3);
+    const rest = rows.slice(3);
+    const podium = top.map((r, i) => {
+      const t = info(r);
+      const art = r.g && (r.g.banner || r.g.cover);
+      return wrap(r, `pod p${i + 1}`, `<div class="pod-art">${art ? img(art, '', t.title) : `<div class="ph">${esc(t.title)}</div>`}
+          <span class="pod-rank">${i + 1}</span>${t.score ? `<span class="pod-score">${esc(t.score)}</span>` : ''}</div>
+        <div class="pod-body"><div class="pod-title">${esc(t.title)}</div>${t.meta ? `<div class="pod-meta">${esc(t.meta)}</div>` : ''}
+        ${r.comment ? `<p class="pod-comment">${esc(r.comment)}</p>` : ''}</div>`);
     }).join('');
-    app.innerHTML = `<div class="sec-head"><h2>GOTY ${esc(year)}</h2></div>
-      <div class="filters">${chips}</div>
-      ${items ? `<ol class="goty">${items}</ol>` : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
+    const list = rest.map((r, i) => {
+      const t = info(r);
+      const art = r.g && (r.g.cover || r.g.banner);
+      return wrap(r, 'toprow', `<span class="tr-rank">${i + 4}</span>
+        <span class="tr-art">${art ? img(art, '', t.title) : ''}</span>
+        <span class="tr-body"><span class="tr-title">${esc(t.title)}</span>
+        <span class="tr-meta">${esc([t.score ? `${t.score} / 10` : '', t.meta].filter(Boolean).join(' · '))}</span>
+        ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>`);
+    }).join('');
+    app.innerHTML = `<div class="sec-head"><h2>GOTY ${esc(year)}</h2><span class="spacer"></span>${chips}</div>
+      ${rows.length ? `<div class="podium" style="--cols:${['1.35fr', '1fr', '1fr'].slice(0, top.length).join(' ')}">${podium}</div>
+        ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
+      : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
   }
 
   /* ---------- statistiques ---------- */
@@ -473,18 +507,29 @@
     const open = e.target.closest('[data-open]');
     if (open) { openModal(open.dataset.open); return; }
     if (e.target.closest('[data-close]') || e.target === modal) { closeModal(); return; }
+    const tg = e.target.closest('[data-series-toggle]');
+    if (tg) { document.querySelectorAll('.volet').forEach((d) => { d.open = tg.dataset.seriesToggle === 'open'; }); return; }
     const f = e.target.closest('[data-filter]');
     if (f) {
       if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
       if (f.dataset.filter === 'home-status') { homeStatus = f.dataset.value; renderHome(); }
     }
   });
+  document.addEventListener('input', (e) => {
+    const r = e.target.closest('[data-range]');
+    if (!r) return;
+    const v = Number(r.value);
+    if (r.dataset.range === 'min') { avisMin = Math.min(v, avisMax); r.value = avisMin; }
+    else { avisMax = Math.max(v, avisMin); r.value = avisMax; }
+    document.getElementById('range-label').textContent = rangeLabel();
+    document.getElementById('range-fill').style.cssText = rangeFill();
+    updateAvisResults();
+  });
   document.addEventListener('change', (e) => {
     const fs = e.target.closest('[data-fsel]');
     if (fs) {
       if (fs.dataset.fsel === 'genre') avisGenre = fs.value;
       if (fs.dataset.fsel === 'year') avisYear = fs.value;
-      if (fs.dataset.fsel === 'note') avisNote = fs.value;
       renderAvis();
       return;
     }
