@@ -9,6 +9,7 @@ no_end_date: false
 release_year: 2019
 genre:
   - JRPG
+  - Aventure
 series: Persona
 hide_series: false
 publisher: Atlus
