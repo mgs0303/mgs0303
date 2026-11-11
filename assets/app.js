@@ -20,6 +20,7 @@
   const searchInput = document.getElementById('search');
   const modal = document.getElementById('modal');
   let games = [];
+  let profile = {};
   let avisStatus = 'Tous';
   let avisSort = 'recent';
   let homeStatus = 'Tous';
@@ -110,11 +111,27 @@
       <div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => card(g, withBar)).join('')}</div>${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
 
+  function heroHtml() {
+    const p = profile || {};
+    const done = games.filter((g) => g.status === 'Complété');
+    const hrs = Math.round(games.reduce((a, g) => a + (parseFloat(g.playtime) || 0), 0));
+    const notes = games.map((g) => parseFloat(g.note)).filter((n) => !isNaN(n));
+    const avg = notes.length ? (notes.reduce((a, b) => a + b, 0) / notes.length).toFixed(1).replace('.', ',') : '–';
+    const name = p.name || 'La-Li-Lu-Le-Log';
+    const h = (p.twitter || TWITTER || '').trim().replace(/^@/, '');
+    return `<section class="hero3"><div class="hbg${p.banner ? '' : ' def'}"${p.banner ? ` style="background-image:url('${esc(path(p.banner))}')"` : ''}></div></section>
+      <div class="pf">${p.avatar ? `<img class="pf-av" src="${esc(path(p.avatar))}" alt="">` : '<div class="pf-av"></div>'}
+        <div class="pf-tx"><h1>${esc(name)}</h1>${h ? `<span class="h">@${esc(h)}</span>` : ''}
+          <div class="pf-pills"><span><b>${games.length}</b> jeux</span><span><b>${done.length}</b> terminés</span><span><b>${hrs.toLocaleString('fr-FR')}</b> h</span><span><b>${avg}</b> moyenne</span></div></div>
+        ${h ? `<a class="tw" href="https://x.com/${encodeURIComponent(h)}" target="_blank" rel="noopener">𝕏 @${esc(h)}</a>` : ''}</div>
+      ${p.bio ? `<p class="bio">${esc(p.bio)}</p>` : '<div style="height:24px"></div>'}`;
+  }
+
   /* ---------- pages ---------- */
   function renderHome() {
     if (!games.length) { app.innerHTML = '<p class="empty">Aucun jeu pour l\'instant. Ajoute le premier depuis l\'admin.</p>'; return; }
     const of = (s) => games.filter((g) => g.status === s);
-    let html = '';
+    let html = heroHtml();
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true, false, true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
@@ -571,6 +588,7 @@
       enterPage();
       return;
     }
+    document.body.classList.toggle('home', !/^#\/(jeu|avis|goty|series|stats|recherche)/.test(h));
     if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
     else if (h.startsWith('#/avis')) renderAvis();
@@ -699,8 +717,9 @@
 
   Promise.all([
     fetch('games.json').then((r) => r.json()),
-    fetch('goty.json').then((r) => (r.ok ? r.json() : [])).catch(() => [])
+    fetch('goty.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
+    fetch('profile.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
   ])
-    .then(([data, goty]) => { games = data.filter((g) => g && g.title); gotyData = Array.isArray(goty) ? goty : []; route(); })
+    .then(([data, goty, prof]) => { profile = prof || {}; games = data.filter((g) => g && g.title); gotyData = Array.isArray(goty) ? goty : []; route(); })
     .catch(() => { app.innerHTML = '<p class="empty">Impossible de charger les jeux. Vérifie que le site est bien en ligne sur GitHub Pages.</p>'; });
 })();
