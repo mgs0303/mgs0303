@@ -12,8 +12,8 @@ genre:
   - Aventure
 series: PERSONA
 hide_series: false
-publisher: Atlus
-developer: Atlus
+publisher: ATLUS
+developer: ATLUS
 note: 9
 completion: 100%
 platform: Steam PC
