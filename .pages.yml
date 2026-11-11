@@ -65,6 +65,9 @@ content:
       - name: series
         label: Série / Licence (optionnel)
         type: string
+      - name: hide_series
+        label: "Ne pas afficher ce jeu dans l'onglet Séries"
+        type: boolean
       - name: publisher
         label: Éditeur
         type: string
