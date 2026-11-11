@@ -229,7 +229,8 @@
   function renderMarkdown(t) {
     t = t || '';
     if (/^\s*<\w/.test(t)) return t;
-    return window.marked ? window.marked.parse(t) : `<p>${esc(t)}</p>`;
+    if (window.marked) return window.marked.parse(t, { breaks: true });
+    return t.split(/\n{2,}/).map((para) => `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
   }
   function renderBlocks(blocks) {
     if (!Array.isArray(blocks) || !blocks.length) return '';
@@ -253,7 +254,7 @@
     app.innerHTML = `<a class="back" href="#/avis">← Retour</a>
       <article class="game">
         <div class="cover">${art ? img(art, '', g.title) : `<div class="ph">${esc(g.title)}</div>`}</div>
-        <div>
+        <div class="ginfo">
           <h1>${esc(g.title)}</h1>
           <div class="row">${badge(g.status)}<span class="big-note">${esc(noteText(g))}${hasNote(g) ? '<small> / 10</small>' : ''}</span></div>
           ${showBar ? progressBar(g) : '<div style="height:16px"></div>'}
@@ -262,7 +263,17 @@
       </article>
       ${renderBlocks(g.blocks)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
+    fitCover();
   }
+  function fitCover() {
+    const art = document.querySelector('.game');
+    const info = art && art.querySelector('.ginfo');
+    if (!info) return;
+    if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
+    const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));
+    art.style.gridTemplateColumns = `${w}px 1fr`;
+  }
+  window.addEventListener('resize', fitCover);
 
   /* ---------- séries ---------- */
   const SERIES_RULES = [
