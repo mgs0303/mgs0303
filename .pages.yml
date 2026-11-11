@@ -77,7 +77,7 @@ content:
         options:
           min: 0
           max: 10
-          step: 0.01
+          step: 0.5
       - name: completion
         label: Completion
         type: select
@@ -110,7 +110,7 @@ content:
         type: number
         options:
           min: 0
-          step: 0.01
+          step: 0.5
       - name: replays
         label: Nombre de fois rejoué (0 si jamais)
         type: number
@@ -197,3 +197,34 @@ content:
         label: Nom de la plateforme
         type: string
         required: true
+
+  - name: goty
+    label: GOTY (top 10 par année)
+    type: collection
+    path: _goty
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [annee]
+      primary: annee
+      sort: [annee]
+    fields:
+      - name: annee
+        label: "Année (par exemple 2026)"
+        type: string
+        required: true
+      - name: entries
+        label: "Top 10 (le 1er est ton GOTY, glisse pour réordonner, 10 maximum)"
+        type: object
+        list: true
+        fields:
+          - name: game
+            label: Jeu
+            type: reference
+            options:
+              collection: games
+              value: "{primary}"
+              label: "{primary}"
+          - name: comment
+            label: Mon mot sur ce jeu (optionnel)
+            type: text
