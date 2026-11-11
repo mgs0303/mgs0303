@@ -69,6 +69,7 @@
   };
   const sortSelect = (which, current) => `<select class="select" data-sort="${which}" aria-label="Trier">${Object.keys(SORTS).map((k) => `<option value="${k}"${k === current ? ' selected' : ''}>${SORTS[k].label}</option>`).join('')}</select>`;
   const chip = (filter, value, on) => `<button class="chip${on ? ' on' : ''}" data-filter="${filter}" data-value="${esc(value)}">${esc(value)}</button>`;
+  const fold = (label, chipsHtml) => `<div class="fold"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(label)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${chipsHtml}</div></div>`;
   const byEndDesc = (a, b) => (b.end_date || '').localeCompare(a.end_date || '') || a.title.localeCompare(b.title);
   const byStartDesc = (a, b) => (b.start_date || '').localeCompare(a.start_date || '') || a.title.localeCompare(b.title);
   const fmtDate = (d) => {
@@ -97,10 +98,10 @@
       <div class="meta">${esc(g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété')}</div>
     </a>`;
   }
-  function section(title, list, withBar, small) {
+  function section(title, list, withBar, small, carousel) {
     if (!list.length) return '';
     return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div>
-      <div class="grid${small ? ' small' : ''}">${list.map((g) => card(g, withBar)).join('')}</div></section>`;
+      <div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => card(g, withBar)).join('')}</div>${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
 
   /* ---------- pages ---------- */
@@ -108,7 +109,7 @@
     if (!games.length) { app.innerHTML = '<p class="empty">Aucun jeu pour l\'instant. Ajoute le premier depuis l\'admin.</p>'; return; }
     const of = (s) => games.filter((g) => g.status === s);
     let html = '';
-    html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true);
+    html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true, false, true);
     html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
 
     const tabs = ['En attente de sortie', 'Accès Anticipé', 'Relancé', 'Pause', 'Dropped'];
@@ -125,7 +126,7 @@
       const n = st === 'Tous' ? 0 : of(st).length;
       return `<button class="chip${st === homeStatus ? ' on' : ''}" data-filter="home-status" data-value="${esc(st)}">${esc(st)}${n ? ` <span class="chip-n">${n}</span>` : ''}</button>`;
     }).join('');
-    html += `<section><div class="sec-head"><h2>Par statut</h2></div><div class="filters">${chips}</div>${groups}${empty}</section>`;
+    html += `<section><div class="sec-head"><h2>Par statut</h2>${fold(homeStatus, chips)}</div><div class="filters desk-only">${chips}</div>${groups}${empty}</section>`;
 
     const done = of('Complété').sort(SORTS[homeSort].fn);
     if (done.length) {
@@ -164,8 +165,8 @@
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
-    app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span></div>
-      <div class="filters">${chips}${sortSelect('avis', avisSort)}</div>
+    app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}</div>
+      <div class="filters avis-top"><span class="desk-only chips-inline">${chips}</span>${sortSelect('avis', avisSort)}</div>
       <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear)}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
           <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
@@ -194,13 +195,13 @@
 
   function facts(g, full) {
     const rows = [];
-    const add = (k, v) => { if (v !== null && v !== undefined && v !== '') rows.push(`<dt>${k}</dt><dd>${v}</dd>`); };
+    const add = (k, v, cls) => { if (v !== null && v !== undefined && v !== '') rows.push(`<div class="f${cls ? ' ' + cls : ''}"><dt>${k}</dt><dd>${v}</dd></div>`); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
-    if (!full && genreTxt) rows.push(`<dt class="k-wide">Genre</dt><dd class="v-wide">${genreTxt}</dd>`);
+    if (!full) add('Genre', genreTxt, 'wide');
     add('Série', esc(seriesOf(g)));
     add('Année', esc(g.release_year));
-    if (full) add('Genre', genreTxt);
+    if (full) add('Genre', genreTxt, 'genre');
     add('Éditeur', esc(g.publisher));
     add('Développeur', esc(g.developer));
     add('Plateforme', esc(toList(g.platform).join(', ')));
@@ -255,7 +256,7 @@
     const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie';
     app.innerHTML = `<a class="back" href="#/avis" data-back>← Retour</a>
       <article class="game">
-        <div class="cover">${art ? img(art, '', g.title) : `<div class="ph">${esc(g.title)}</div>`}</div>
+        <div class="cover">${art ? img(art, 'cv-main', g.title) : `<div class="ph">${esc(g.title)}</div>`}${g.banner ? img(g.banner, 'cv-alt', g.title) : ''}</div>
         <div class="ginfo">
           <h1>${esc(g.title)}</h1>
           <div class="row">${badge(g.status)}<span class="big-note">${esc(noteText(g))}${hasNote(g) ? '<small> / 10</small>' : ''}</span></div>
@@ -479,7 +480,7 @@
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
       <div class="inner">
         <div class="m-head"><div><h2>${esc(g.title)}</h2>${badge(g.status)}</div>
-          <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir avis</a></div>
+          <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Avis</a></div>
         ${showBar ? progressBar(g) : '<div style="height:14px"></div>'}
         ${facts(g, false)}
       </div></div>`;
@@ -512,6 +513,16 @@
   function stepLb(d) { lbIdx = (lbIdx + d + lbList.length) % lbList.length; lbShow(); }
 
   /* ---------- routage ---------- */
+  document.addEventListener('scroll', (e) => {
+    const c = e.target;
+    if (!c.classList || !c.classList.contains('carousel')) return;
+    const dots = c.parentElement.querySelectorAll('.dots i');
+    if (!dots.length) return;
+    const card = c.firstElementChild;
+    const step = card ? card.getBoundingClientRect().width + 10 : 1;
+    const idx = Math.min(dots.length - 1, Math.round(c.scrollLeft / step));
+    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+  }, true);
   const scrollPos = {};
   let lastY = 0;
   let currentHash = null;
@@ -568,6 +579,9 @@
     if (e.target.closest('[data-series-close]')) { openSeriesIdx = -1; placeSeriesPanel(true); return; }
     const st = e.target.closest('.stile');
     if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(true); return; }
+    document.querySelectorAll('.fold.open').forEach((f) => { if (!f.contains(e.target)) f.classList.remove('open'); });
+    const ft = e.target.closest('[data-fold]');
+    if (ft) { const box = ft.closest('.fold'); const on = box.classList.toggle('open'); ft.setAttribute('aria-expanded', on); return; }
     const f = e.target.closest('[data-filter]');
     if (f) {
       if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
