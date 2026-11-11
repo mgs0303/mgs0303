@@ -67,7 +67,13 @@
     note_asc: { label: 'Moins bonne note', fn: cmpNote(1) },
     az: { label: 'A → Z', fn: (a, b) => a.title.localeCompare(b.title) }
   };
-  const sortSelect = (which, current) => `<select class="select" data-sort="${which}" aria-label="Trier">${Object.keys(SORTS).map((k) => `<option value="${k}"${k === current ? ' selected' : ''}>${SORTS[k].label}</option>`).join('')}</select>`;
+  const dd = (kind, which, options, current, cls) => {
+    const cur = options.find((o) => o.v === current) || options[0];
+    return `<div class="dd${cls ? ' ' + cls : ''}"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(cur.l)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${options.map((o) => `<button class="chip opt${o.v === cur.v ? ' on' : ''}" data-dd="${kind}" data-which="${which}" data-value="${esc(o.v)}">${esc(o.l)}</button>`).join('')}</div></div>`;
+  };
+  const sortSelect = (which, current) => dd('sort', which, Object.keys(SORTS).map((k) => ({ v: k, l: SORTS[k].label })), current, 'right');
+  const backBtn = (href, label, hist) => `<a class="backbtn" href="${href}"${hist ? ' data-back' : ''}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(label)}</span></a>`;
+  const keepScroll = (fn) => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
   const chip = (filter, value, on) => `<button class="chip${on ? ' on' : ''}" data-filter="${filter}" data-value="${esc(value)}">${esc(value)}</button>`;
   const fold = (label, chipsHtml) => `<div class="fold"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(label)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${chipsHtml}</div></div>`;
   const byEndDesc = (a, b) => (b.end_date || '').localeCompare(a.end_date || '') || a.title.localeCompare(b.title);
@@ -136,8 +142,7 @@
     app.innerHTML = html;
   }
 
-  const filterSelect = (name, allLabel, values, current) => `<select class="select flat" data-fsel="${name}" aria-label="${esc(allLabel)}">
-    <option value="Tous">${esc(allLabel)}</option>${values.map((v) => `<option value="${esc(v)}"${v === current ? ' selected' : ''}>${esc(v)}</option>`).join('')}</select>`;
+  const filterSelect = (name, allLabel, values, current) => dd('fsel', name, [{ v: 'Tous', l: allLabel }, ...values.map((v) => ({ v, l: v }))], current, '');
   const fmtN = (n) => String(n).replace('.', ',');
   const rangeLabel = () => (avisMin <= 0 && avisMax >= 10 ? 'toutes' : avisMin === avisMax ? fmtN(avisMin) : `${fmtN(avisMin)} à ${fmtN(avisMax)}`);
   const rangeFill = () => `left:${avisMin * 10}%;width:${(avisMax - avisMin) * 10}%`;
@@ -251,10 +256,10 @@
 
   function renderGame(slug) {
     const g = games.find((x) => x.slug === slug);
-    if (!g) { app.innerHTML = '<a class="back" href="#/">← Accueil</a><p class="empty">Ce jeu n\'existe pas.</p>'; return; }
+    if (!g) { app.innerHTML = backBtn('#/', 'Accueil') + '<p class="empty">Ce jeu n\'existe pas.</p>'; return; }
     const art = g.cover || g.banner;
     const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie';
-    app.innerHTML = `<a class="back" href="#/avis" data-back>← Retour</a>
+    app.innerHTML = `${backBtn('#/avis', 'Retour', true)}
       <article class="game">
         <div class="cover">${art ? img(art, 'cv-main', g.title) : `<div class="ph">${esc(g.title)}</div>`}${g.banner ? img(g.banner, 'cv-alt', g.title) : ''}</div>
         <div class="ginfo">
@@ -354,18 +359,35 @@
     const k = norm(ref);
     return games.find((g) => norm(g.title) === k || g.slug === ref || norm(g.slug) === k);
   }
-  function renderGoty(year) {
+  function gotyYears() {
     const set = new Set(gotyData.map((x) => String(x.annee || x.year || '')));
     games.forEach((g) => { if ((g.status === 'Complété' || g.status === 'Dropped') && g.end_date) set.add(g.end_date.slice(0, 4)); });
-    const years = [...set].filter(Boolean).sort().reverse();
-    if (!years.length) { app.innerHTML = '<div class="sec-head"><h2>GOTY</h2></div><p class="empty">Pas encore de top.</p>'; return; }
-    if (!years.includes(year)) year = years[0];
+    return [...set].filter(Boolean).sort().reverse();
+  }
+  const gotyRows = (year) => {
     const entry = gotyData.find((x) => String(x.annee || x.year) === year);
-    const rows = toList(entry && entry.entries).map((e) => {
+    return toList(entry && entry.entries).map((e) => {
       const ref = typeof e === 'string' ? e : (e.game || e.title || '');
       return { g: gameByRef(ref), ref, comment: typeof e === 'object' ? e.comment : '' };
     }).filter((r) => r.ref).slice(0, 10);
-    const chips = years.map((y) => `<a class="chip${y === year ? ' on' : ''}" href="#/goty/${y}">${y}</a>`).join('');
+  };
+  function renderGotyIndex() {
+    const years = gotyYears();
+    if (!years.length) { app.innerHTML = '<div class="sec-head"><h2>GOTY</h2></div><p class="empty">Pas encore de top.</p>'; return; }
+    app.innerHTML = `<div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 de chaque année.</p>
+      <div class="ycards">${years.map((y) => {
+      const rows = gotyRows(y);
+      const first = rows[0] && rows[0].g;
+      const art = first && (first.banner || first.cover);
+      return `<a class="ycard${rows.length ? '' : ' empty-y'}" href="#/goty/${y}">
+        <span class="y-art">${art ? img(art, '', '') : ''}</span>
+        <span class="y-info"><b class="y-year">${esc(y)}</b><span class="y-meta">${rows.length ? `${rows.length} jeu${rows.length > 1 ? 'x' : ''}${first ? ' · n°1 : ' + esc(first.title) : ''}` : 'Pas encore fait'}</span></span></a>`;
+    }).join('')}</div>`;
+  }
+  function renderGoty(year) {
+    const years = gotyYears();
+    if (!years.includes(year)) { renderGotyIndex(); return; }
+    const rows = gotyRows(year);
     const info = (r) => {
       const g = r.g;
       return {
@@ -395,7 +417,7 @@
         ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>
         ${t.score ? `<span class="tr-score">${esc(t.score)}</span>` : ''}`);
     }).join('');
-    app.innerHTML = `<div class="sec-head"><h2>GOTY ${esc(year)}</h2><span class="spacer"></span>${chips}</div>
+    app.innerHTML = `${backBtn('#/goty', 'Tous les GOTY')}<div class="sec-head"><h2>GOTY ${esc(year)}</h2></div>
       ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
         ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
       : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
@@ -552,7 +574,7 @@
     if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
     else if (h.startsWith('#/avis')) renderAvis();
-    else if (h.startsWith('#/goty')) renderGoty(decodeURIComponent(h.slice(7)));
+    else if (h.startsWith('#/goty')) { const gy = decodeURIComponent(h.slice(7)); if (gy) renderGoty(gy); else renderGotyIndex(); }
     else if (h.startsWith('#/series')) renderSeries();
     else if (h.startsWith('#/stats')) renderStats(decodeURIComponent(h.slice(8)) || 'Tous');
     else renderHome();
@@ -579,13 +601,24 @@
     if (e.target.closest('[data-series-close]')) { openSeriesIdx = -1; placeSeriesPanel(true); return; }
     const st = e.target.closest('.stile');
     if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(true); return; }
-    document.querySelectorAll('.fold.open').forEach((f) => { if (!f.contains(e.target)) f.classList.remove('open'); });
+    document.querySelectorAll('.fold.open,.dd.open').forEach((f) => { if (!f.contains(e.target)) f.classList.remove('open'); });
+    const opt = e.target.closest('[data-dd]');
+    if (opt) {
+      const v = opt.dataset.value; const w = opt.dataset.which;
+      keepScroll(() => {
+        if (opt.dataset.dd === 'sort') { if (w === 'avis') { avisSort = v; renderAvis(); } else { homeSort = v; renderHome(); } }
+        else { if (w === 'genre') avisGenre = v; if (w === 'year') avisYear = v; renderAvis(); }
+      });
+      return;
+    }
     const ft = e.target.closest('[data-fold]');
-    if (ft) { const box = ft.closest('.fold'); const on = box.classList.toggle('open'); ft.setAttribute('aria-expanded', on); return; }
+    if (ft) { const box = ft.closest('.fold,.dd'); const on = box.classList.toggle('open'); ft.setAttribute('aria-expanded', on); return; }
     const f = e.target.closest('[data-filter]');
     if (f) {
-      if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
-      if (f.dataset.filter === 'home-status') { homeStatus = f.dataset.value; renderHome(); }
+      keepScroll(() => {
+        if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; renderAvis(); }
+        if (f.dataset.filter === 'home-status') { homeStatus = f.dataset.value; renderHome(); }
+      });
     }
   });
   document.addEventListener('input', (e) => {
@@ -598,19 +631,7 @@
     document.getElementById('range-fill').style.cssText = rangeFill();
     updateAvisResults();
   });
-  document.addEventListener('change', (e) => {
-    const fs = e.target.closest('[data-fsel]');
-    if (fs) {
-      if (fs.dataset.fsel === 'genre') avisGenre = fs.value;
-      if (fs.dataset.fsel === 'year') avisYear = fs.value;
-      renderAvis();
-      return;
-    }
-    const sel = e.target.closest('[data-sort]');
-    if (!sel) return;
-    if (sel.dataset.sort === 'avis') { avisSort = sel.value; renderAvis(); }
-    if (sel.dataset.sort === 'home') { homeSort = sel.value; renderHome(); }
-  });
+
   document.addEventListener('keydown', (e) => {
     if (!lb.hidden) {
       if (e.key === 'Escape') closeLb();
