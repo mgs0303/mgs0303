@@ -196,9 +196,11 @@
     const rows = [];
     const add = (k, v) => { if (v !== null && v !== undefined && v !== '') rows.push(`<dt>${k}</dt><dd>${v}</dd>`); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
+    const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
+    if (!full && genreTxt) rows.push(`<dt class="k-wide">Genre</dt><dd class="v-wide">${genreTxt}</dd>`);
     add('Série', esc(seriesOf(g)));
     add('Année', esc(g.release_year));
-    add('Genre', esc([...toList(g.genre), ...toList(g.subgenre)].join(' / ')));
+    if (full) add('Genre', genreTxt);
     add('Éditeur', esc(g.publisher));
     add('Développeur', esc(g.developer));
     add('Plateforme', esc(toList(g.platform).join(', ')));
