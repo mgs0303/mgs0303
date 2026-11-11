@@ -470,10 +470,10 @@
       <button class="close" data-close aria-label="Fermer">×</button>
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
       <div class="inner">
-        <h2>${esc(g.title)}</h2>${badge(g.status)}
-        ${showBar ? progressBar(g) : '<div style="height:18px"></div>'}
+        <div class="m-head"><div><h2>${esc(g.title)}</h2>${badge(g.status)}</div>
+          <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir avis</a></div>
+        ${showBar ? progressBar(g) : '<div style="height:14px"></div>'}
         ${facts(g, false)}
-        <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir avis</a>
       </div></div>`;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';

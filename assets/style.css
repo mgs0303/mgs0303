@@ -134,17 +134,19 @@ section{margin-bottom:56px}
 .modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,6,9,.7);backdrop-filter:blur(4px)}
 .modal[hidden]{display:none}
 .sheet{
-  position:relative;width:min(780px,100%);max-height:94vh;overflow:auto;background:var(--surface);
+  position:relative;width:min(700px,100%);max-height:96vh;overflow:auto;background:var(--surface);
   border:1px solid var(--line);border-radius:16px;animation:pop .18s ease;
 }
 @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
-.sheet .banner{aspect-ratio:16/5;max-height:30vh;width:100%;object-fit:cover;object-position:center 25%;background:var(--surface-2)}
-.sheet .inner{padding:18px 26px 22px}
-.sheet .facts{grid-template-columns:max-content 1fr max-content 1fr;gap:7px 22px}
+.sheet .banner{aspect-ratio:460/215;width:100%;object-fit:cover;object-position:center;background:var(--surface-2)}
+.sheet .inner{padding:12px 26px 14px}
+.m-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.m-head h2{margin:0 0 8px}
+.sheet .m-head .btn{margin-top:2px;white-space:nowrap}
+.sheet .facts{grid-template-columns:max-content 1fr max-content 1fr;gap:5px 20px;font-size:.92rem}
 .sheet .facts dd{padding-right:10px}
-.sheet .btn{margin-top:18px}
 .sheet h2{margin:0 0 10px;font-size:1.5rem;line-height:1.25}
-.sheet .progress{margin:12px 0 16px}
+.sheet .progress{margin:10px 0 12px}
 .close{
   position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;cursor:pointer;
   background:rgba(17,19,24,.8);color:var(--text);font-size:1.2rem;line-height:1;
@@ -406,4 +408,4 @@ a.chip{display:inline-block}
 .sp-head .chip{margin-left:auto}
 @media (max-width:720px){.stiles{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}.spanel{padding:12px}}
 
-@media (max-width:720px){.sheet .facts{grid-template-columns:max-content 1fr}.sheet .banner{aspect-ratio:16/8}}
+@media (max-width:720px){.sheet .facts{grid-template-columns:max-content 1fr}.m-head{flex-direction:column;gap:10px}}
