@@ -1,0 +1,10 @@
+---
+---
+[
+{% for e in site.goty %}
+{
+  "annee": {{ e.annee | jsonify }},
+  "entries": {{ e.entries | jsonify }}
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

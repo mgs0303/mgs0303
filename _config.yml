@@ -2,5 +2,7 @@ title: La Li Lu Le Log
 collections:
   games:
     output: false
+  goty:
+    output: false
 exclude:
   - README.md
