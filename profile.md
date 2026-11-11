@@ -1,5 +1,5 @@
 ---
-banner: /assets/images/Persona 3 Reload Classroom Window.jpg
+banner: /assets/images/Frame 2.png
 avatar: /assets/images/Naoto Shirogane.jpg
 name: La-Li-Lu-Le-Log
 twitter: bitterchocosan
