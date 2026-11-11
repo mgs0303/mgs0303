@@ -473,7 +473,7 @@
         <h2>${esc(g.title)}</h2>${badge(g.status)}
         ${showBar ? progressBar(g) : '<div style="height:18px"></div>'}
         ${facts(g, false)}
-        <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir la page complète</a>
+        <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir avis</a>
       </div></div>`;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
