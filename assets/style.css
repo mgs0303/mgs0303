@@ -1102,3 +1102,9 @@ body:not(.home) .top{position:relative!important}
   .game .facts.split{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)!important;align-items:start!important}
   .game .facts.split .fr dd{white-space:nowrap}
 }
+
+/* v85 : tuiles d'infos de la fiche jeu qui se soulèvent légèrement au survol */
+@media (hover:hover) and (min-width:721px){
+  .game .facts .f{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+  .game .facts .f:hover{transform:translateY(-3px);border-color:#7bbac9!important;box-shadow:0 14px 24px -12px rgba(60,120,160,.45)!important}
+}
