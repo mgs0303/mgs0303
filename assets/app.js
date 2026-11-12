@@ -3,7 +3,7 @@
     'Pas lancé': '#8a8f9a',
     'En attente de sortie': '#d2b252',
     'Accès Anticipé': '#47b5ad',
-    'DEMO': '#4a8fb3',
+    'Demo': '#4a8fb3',
     'Priorité backlog': '#9e84d8',
     'Relancé': '#e07fa8',
     'Pause': '#e3a05a',
@@ -11,7 +11,7 @@
     'Dropped': '#d96e6e',
     'Complété': '#5db97f'
   };
-  const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'DEMO', 'Relancé', 'Pause', 'Dropped', 'Complété'];
+  const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'Demo', 'Relancé', 'Pause', 'Dropped', 'Complété'];
   const COMPLETION_ICONS = { 'Main Story': '🎯', 'Main + Sides': '🧭', '100%': '🎖️', 'Endless': '⏳', 'N/A': '❌' };
 
   // Mets ton pseudo Twitter / X ici, sans le @ (laisse vide pour cacher le lien)
@@ -237,7 +237,7 @@
     if (doneAll.length) html += `<section class="wish"><div class="sec-head"><h2>Derniers complétés</h2><span class="count">${doneAll.length}</span><a class="see-all" href="#/avis" data-allavis>Voir tout ›</a></div><div class="pgrid">${doneAll.slice(0, 6).map((g) => pcard(g, 'note')).join('')}</div></section>`;
     html += section('Mes envies', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false, false, false, true);
 
-    const tabs = ['En attente de sortie', 'Accès Anticipé', 'DEMO', 'Relancé', 'Pause', 'Dropped'];
+    const tabs = ['En attente de sortie', 'Accès Anticipé', 'Demo', 'Relancé', 'Pause', 'Dropped'];
     if (of('Pas lancé').length) tabs.unshift('Pas lancé');
     if (homeStatus !== 'Tous' && !tabs.includes(homeStatus)) homeStatus = 'Tous';
     const shown = (homeStatus === 'Tous' ? tabs : [homeStatus]).filter((st) => of(st).length);
@@ -823,7 +823,7 @@
     fetch('goty.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
     fetch('profile.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
   ])
-    .then(([data, goty, prof]) => { profile = prof || {}; applyTint(profile.banner); games = data.filter((g) => g && g.title); gotyData = Array.isArray(goty) ? goty : []; route(); })
+    .then(([data, goty, prof]) => { profile = prof || {}; applyTint(profile.banner); games = data.filter((g) => g && g.title); games.forEach((g) => { if (g.status === 'DEMO') g.status = 'Demo'; }); gotyData = Array.isArray(goty) ? goty : []; route(); })
     .catch(() => { app.innerHTML = '<p class="empty">Impossible de charger les jeux. Vérifie que le site est bien en ligne sur GitHub Pages.</p>'; });
 
   /* ---------- lecteur de musique (ordinateur uniquement) ---------- */
