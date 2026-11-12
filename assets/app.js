@@ -290,10 +290,8 @@
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
-    app.innerHTML = `<section class="avis-panel"><div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}</div>
-      <div class="avis-bar"><div class="filters avis-top"><span class="desk-only chips-inline">${chips}</span>${sortSelect('avis', avisSort)}
-</div>
-      <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear, 'Année')}
+    app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
+      <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear, 'Année')}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
           <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
             <input type="range" min="0" max="10" step="0.5" value="${avisMin}" data-range="min" aria-label="Note minimale">

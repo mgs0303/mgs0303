@@ -1026,3 +1026,24 @@ body:not(.home) .top{position:relative!important}
 .tr-score{background:#e7f3fa!important;border:1px solid #7bbac9!important;color:#2d6f95!important}
 .tr-art{border-color:rgba(123,186,201,.6)!important}
 @media(max-width:720px){.podium,.podium[data-n],.podium[data-n="2"],.podium[data-n="1"]{grid-template-columns:1fr 1.2fr 1fr!important}.podium .gp1,.podium .p1{grid-column:auto!important}}
+
+/* v73 : Avis = une seule barre (titre + filtres sur peu de lignes), texte des avis dans un cadre blanc, liste GOTY 4-10 en lignes de 2 */
+@media(min-width:721px){
+  section.avis-panel{padding:18px 26px 28px!important}
+  .avis-panel .avis-bar{background:rgba(255,255,255,.6);border:1px solid rgba(123,186,201,.45);border-radius:26px;padding:14px 20px 4px;margin-bottom:22px}
+  .avis-panel .avis-bar>.sec-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+  .avis-panel .avis-bar>.sec-head .dd.right{margin-left:auto}
+  .avis-panel .avis-row{margin-bottom:10px}
+}
+@media(max-width:720px){
+  .avis-bar>.sec-head{flex-wrap:wrap}
+  .avis-bar>.sec-head .dd.right{margin-left:0;flex-basis:100%}
+}
+/* texte de la page jeu : cadre blanc, pas de fond bleu */
+.content{background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);border-radius:28px;padding:10px 34px 24px;box-shadow:0 14px 40px rgba(80,170,190,.14);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.content>:first-child{margin-top:20px}
+@media(max-width:720px){.content{padding:4px 16px 16px;border-radius:22px}}
+/* liste GOTY 4-10 : 4 5 / 6 7 / 8 9 / 10 au centre */
+.toplist{grid-auto-flow:row!important;grid-template-rows:none!important}
+.toplist .toprow:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - 8px);justify-self:center}
+@media(max-width:720px){.toplist .toprow:last-child:nth-child(odd){width:auto}}
