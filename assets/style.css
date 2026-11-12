@@ -1072,3 +1072,7 @@ body:not(.home) .top{position:relative!important}
 /* v75b : cadres du podium = même cadre que les autres jeux (1.5px bleu #7bbac9), on garde le podium */
 .podium .gpod,.podium .gpod.gp1{border:1.5px solid rgba(123,186,201,.9)!important;border-radius:20px!important;box-shadow:0 10px 24px -10px rgba(60,120,160,.45)!important}
 .podium .gpod:hover,.podium .gpod.gp1:hover{border-color:#5aaabd!important;box-shadow:0 14px 28px -10px rgba(60,120,160,.55)!important}
+
+/* v78 : notes du podium style bouton GOTY, numéros 4-10 en bleu foncé */
+.podium .gpod .pc-pct,.podium .gpod .pc-pct.gold{background:#e7f3fa!important;border:1px solid #7bbac9!important;color:#2b3a46!important;box-shadow:0 6px 18px rgba(80,170,190,.28)!important;text-shadow:none!important}
+.tr-rank{color:#1f4f73!important}
