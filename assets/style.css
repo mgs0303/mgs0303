@@ -934,3 +934,12 @@ body:not(.home) .top{position:relative!important}
     -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.04) 8px,rgba(0,0,0,.15) 20px,rgba(0,0,0,.35) 34px,rgba(0,0,0,.6) 48px,rgba(0,0,0,.85) 60px,#000 72px,#000 calc(100% - 72px),rgba(0,0,0,.85) calc(100% - 60px),rgba(0,0,0,.6) calc(100% - 48px),rgba(0,0,0,.35) calc(100% - 34px),rgba(0,0,0,.15) calc(100% - 20px),rgba(0,0,0,.04) calc(100% - 8px),rgba(0,0,0,0) 100%);
     mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.04) 8px,rgba(0,0,0,.15) 20px,rgba(0,0,0,.35) 34px,rgba(0,0,0,.6) 48px,rgba(0,0,0,.85) 60px,#000 72px,#000 calc(100% - 72px),rgba(0,0,0,.85) calc(100% - 60px),rgba(0,0,0,.6) calc(100% - 48px),rgba(0,0,0,.35) calc(100% - 34px),rgba(0,0,0,.15) calc(100% - 20px),rgba(0,0,0,.04) calc(100% - 8px),rgba(0,0,0,0) 100%)}
 }
+
+/* v62 : cartes bien cadrées au repos (rien ne dépasse) ; le dégradé de bord n'apparaît que pendant le défilement */
+@property --fw{syntax:"<length>";inherits:false;initial-value:0px}
+@media(min-width:721px){
+  .grid.carousel{margin:0!important;padding:8px 0 28px!important;scroll-padding-left:0!important;--fw:0px;transition:--fw .28s ease;
+    -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.05) calc(var(--fw)*.11),rgba(0,0,0,.2) calc(var(--fw)*.28),rgba(0,0,0,.45) calc(var(--fw)*.47),rgba(0,0,0,.72) calc(var(--fw)*.67),rgba(0,0,0,.92) calc(var(--fw)*.84),#000 var(--fw),#000 calc(100% - var(--fw)),rgba(0,0,0,.92) calc(100% - var(--fw)*.84),rgba(0,0,0,.72) calc(100% - var(--fw)*.67),rgba(0,0,0,.45) calc(100% - var(--fw)*.47),rgba(0,0,0,.2) calc(100% - var(--fw)*.28),rgba(0,0,0,.05) calc(100% - var(--fw)*.11),rgba(0,0,0,0) 100%);
+    mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.05) calc(var(--fw)*.11),rgba(0,0,0,.2) calc(var(--fw)*.28),rgba(0,0,0,.45) calc(var(--fw)*.47),rgba(0,0,0,.72) calc(var(--fw)*.67),rgba(0,0,0,.92) calc(var(--fw)*.84),#000 var(--fw),#000 calc(100% - var(--fw)),rgba(0,0,0,.92) calc(100% - var(--fw)*.84),rgba(0,0,0,.72) calc(100% - var(--fw)*.67),rgba(0,0,0,.45) calc(100% - var(--fw)*.47),rgba(0,0,0,.2) calc(100% - var(--fw)*.28),rgba(0,0,0,.05) calc(100% - var(--fw)*.11),rgba(0,0,0,0) 100%)}
+  .grid.carousel.moving{--fw:64px}
+}
