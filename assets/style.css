@@ -785,3 +785,9 @@ body:not(.home) .top .search>svg,body:not(.home) .top .search kbd{color:#5a7684}
 /* v42 : contour des cartes identique à celui du cadre (la bordure translucide laissait voir le fond sombre dessous) */
 .pcard{background-clip:padding-box!important;border:1.5px solid rgba(123,186,201,.9)!important}
 .pcard:hover{border-color:#5aaabd!important}
+
+/* v43 : l'image remplit toute la carte (plus de trou), format un peu plus proche des bannières */
+@media(min-width:721px){
+  .pcard{aspect-ratio:1.9/1}
+  .pc-img{object-fit:cover!important;object-position:center!important;height:100%!important;max-height:none!important}
+}
