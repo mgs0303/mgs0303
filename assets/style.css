@@ -956,3 +956,37 @@ body:not(.home) .top{position:relative!important}
     -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,0) 12px,rgba(0,0,0,.12) 17px,rgba(0,0,0,.4) 22px,rgba(0,0,0,.75) 26px,#000 30px,#000 calc(100% - 30px),rgba(0,0,0,.75) calc(100% - 26px),rgba(0,0,0,.4) calc(100% - 22px),rgba(0,0,0,.12) calc(100% - 17px),rgba(0,0,0,0) calc(100% - 12px),rgba(0,0,0,0) 100%)!important;
     mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,0) 12px,rgba(0,0,0,.12) 17px,rgba(0,0,0,.4) 22px,rgba(0,0,0,.75) 26px,#000 30px,#000 calc(100% - 30px),rgba(0,0,0,.75) calc(100% - 26px),rgba(0,0,0,.4) calc(100% - 22px),rgba(0,0,0,.12) calc(100% - 17px),rgba(0,0,0,0) calc(100% - 12px),rgba(0,0,0,0) 100%)!important}
 }
+
+/* v67 : page Avis en galerie de jeux */
+@media(min-width:721px){
+  body.avispage main{max-width:1640px}
+}
+.avis-bar{background:rgba(255,255,255,.55);border:1px solid rgba(123,186,201,.45);border-radius:26px;padding:16px 20px 6px;margin-bottom:26px;box-shadow:0 14px 40px rgba(80,170,190,.12);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.avis-bar .filters{margin-bottom:12px}
+.avis-top .sizes{display:inline-flex;gap:6px;margin-left:auto}
+.avis-top .sizes+*{margin-left:0}
+.grid.posters.size-l{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px 22px}
+.grid.posters.size-m{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px 18px}
+.grid.posters.size-s{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px 14px}
+.grid.posters.size-s .pc-name{font-size:.8rem}
+.grid.posters.size-s .pc-meta{font-size:.68rem}
+.grid.posters.size-s .pc-hover{display:none}
+@keyframes avRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pcard.portrait{box-shadow:0 16px 26px -12px hsl(var(--h) var(--s) 28%/.6)!important;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,border-color .2s}
+.grid.posters .pcard.portrait{animation:avRise .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(min(var(--i,0),24)*30ms)}
+.pcard.portrait .pc-img{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.pcard.portrait:hover{transform:translateY(-8px) scale(1.02)!important;box-shadow:0 26px 40px -14px hsl(var(--h) var(--s) 26%/.75)!important}
+.pcard.portrait:hover .pc-img{transform:scale(1.07)}
+.pc-hover{display:flex;align-items:center;justify-content:space-between;gap:8px;max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin .3s ease}
+.pcard.portrait:hover .pc-hover,.pcard.portrait:focus-visible .pc-hover{max-height:46px;opacity:1;margin-top:10px}
+.ph-tags{display:flex;gap:5px;flex-wrap:wrap}
+.ph-tags span{padding:2px 9px;border-radius:999px;font-size:.7rem;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3)}
+.ph-go{font-size:.74rem;font-weight:700;white-space:nowrap;margin-left:auto}
+.pcard.portrait .pc-pct.gold{background:linear-gradient(135deg,#f3d27a,#d9a441);color:#4a3205;border-color:rgba(255,255,255,.7);box-shadow:0 4px 12px rgba(217,164,65,.5)}
+.pcard.portrait .pc-pct{font-size:.9rem;padding:4px 12px}
+@media(max-width:720px){.pc-hover{display:none}.avis-bar{padding:12px 12px 2px;border-radius:20px}}
+@media(prefers-reduced-motion:reduce){.grid.posters .pcard.portrait{animation:none}.pcard.portrait,.pcard.portrait .pc-img{transition:none}}
+@media(max-width:720px){
+  .avis-top .sizes{display:none!important}
+  .grid.posters,.grid.posters.size-l,.grid.posters.size-m,.grid.posters.size-s{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+}

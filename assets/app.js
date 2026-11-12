@@ -23,6 +23,7 @@
   let games = [];
   let profile = {};
   let avisStatus = 'Tous';
+  let avisSize = 'm'; try { avisSize = localStorage.getItem('avs') || 'm'; } catch (e) { /* ignoré */ }
   let avisSort = 'recent';
   let homeStatus = 'Tous';
   let homeSort = 'recent';
@@ -159,12 +160,15 @@
   }
   new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); }).observe(app, { childList: true, subtree: true });
   window.addEventListener('resize', syncCar);
-  function poster(g) {
+  function poster(g, i) {
     const art = g.cover || g.banner;
     const meta = g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété';
-    return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}">
-      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct">${esc(noteText(g))}</span>
-      <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div></div>
+    const tags = toList(g.genre).slice(0, 2);
+    const gold = hasNote(g) && Number(g.note) >= 9.5;
+    return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}" style="--i:${Number.isInteger(i) ? i : 0}">
+      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}</span>
+      <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
+        <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go">Lire l’avis ›</span></div></div>
     </a>`;
   }
   function lastReview() {
@@ -276,7 +280,7 @@
     const box = document.getElementById('avis-results');
     if (!box) return;
     document.getElementById('avis-count').textContent = list.length;
-    box.innerHTML = list.length ? `<div class="grid posters">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>';
+    box.innerHTML = list.length ? `<div class="grid posters size-${avisSize}" id="avis-grid">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>';
   }
 
   function renderAvis() {
@@ -287,12 +291,13 @@
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
     app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}</div>
-      <div class="filters avis-top"><span class="desk-only chips-inline">${chips}</span>${sortSelect('avis', avisSort)}</div>
+      <div class="avis-bar"><div class="filters avis-top"><span class="desk-only chips-inline">${chips}</span>${sortSelect('avis', avisSort)}
+        <span class="sizes desk-only" role="group" aria-label="Taille des jaquettes">${[['l', 'Grand'], ['m', 'Moyen'], ['s', 'Petit']].map(([k, l]) => `<button type="button" class="chip${avisSize === k ? ' on' : ''}" data-avsize="${k}">${l}</button>`).join('')}</span></div>
       <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear, 'Année')}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
           <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
             <input type="range" min="0" max="10" step="0.5" value="${avisMin}" data-range="min" aria-label="Note minimale">
-            <input type="range" min="0" max="10" step="0.5" value="${avisMax}" data-range="max" aria-label="Note maximale"></div></div></div>
+            <input type="range" min="0" max="10" step="0.5" value="${avisMax}" data-range="max" aria-label="Note maximale"></div></div></div></div>
       <div id="avis-results"></div>`;
     updateAvisResults();
   }
@@ -691,6 +696,7 @@
       enterPage();
       return;
     }
+    document.body.classList.toggle('avispage', h.startsWith('#/avis'));
     document.body.classList.toggle('home', !/^#\/(jeu|avis|goty|series|stats|recherche)/.test(h));
     if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
@@ -706,6 +712,13 @@
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('[data-allavis]')) { avisStatus = 'Complété'; }
+    const szb = e.target.closest('[data-avsize]');
+    if (szb) {
+      avisSize = szb.dataset.avsize; try { localStorage.setItem('avs', avisSize); } catch (er) { /* ignoré */ }
+      document.querySelectorAll('[data-avsize]').forEach((b) => b.classList.toggle('on', b === szb));
+      const gr = document.getElementById('avis-grid'); if (gr) gr.className = 'grid posters size-' + avisSize;
+      return;
+    }
     const cn = e.target.closest('[data-car]');
     if (cn) { const c = cn.closest('section').querySelector('.carousel'); if (c) { const f = c.firstElementChild; const st = f ? f.getBoundingClientRect().width + 18 : c.clientWidth; const k = Math.max(1, Math.floor(c.clientWidth / st)); c.scrollBy({ left: Number(cn.dataset.car) * st * k, behavior: 'smooth' }); } return; }
     const nl = e.target.closest('a[href^="#/"]');
