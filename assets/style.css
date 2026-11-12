@@ -9,6 +9,8 @@
   --muted:#7d6f73;
   --accent:#c9788f;
   --avb:#f3eeea;
+  --tint:70,45,90;
+  --tintl:200,170,230;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -586,3 +588,29 @@ body.home .search input{background:rgba(255,255,255,.7)}
 .modal{background:rgba(60,35,50,.38)}
 .badge{color:color-mix(in srgb,var(--c) 55%,#2b2326)}
 .search>svg{z-index:1}
+
+/* ===== v24 : en-tête sur bannière, fond aux couleurs de la bannière, cartes glass ===== */
+:root{--bg1:#f2c4d6;--bg2:#d6c4f0;--bg3:#f6e4dc}
+body{background-color:var(--bg3);background-image:linear-gradient(180deg,var(--bg1) 0,var(--bg2) 60vh,var(--bg3) 140vh);background-attachment:fixed}
+body.home main{padding-top:0}
+body.home .top{z-index:30}
+.hero3::before{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(var(--tint),.78),rgba(var(--tint),.35) 55%,transparent)}
+body.home .brand{color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+body.home .top nav{background:rgba(var(--tint),.38);border:1px solid rgba(255,255,255,.28)}
+body.home .top nav a{color:rgba(255,255,255,.92)}
+body.home .top nav a.on{background:rgba(255,255,255,.92);color:#2b2326}
+body.home .search input{background:rgba(var(--tint),.38);border-color:rgba(255,255,255,.28);color:#fff}
+body.home .search input::placeholder,body.home .search>svg,body.home .search kbd{color:rgba(255,255,255,.75)}
+.top{background:rgba(var(--bg1x,255,255,255),.0)}
+/* cartes : image entière en haut, zone de texte en verre (flou de l'image) */
+.card{position:relative;overflow:hidden;background:var(--surface)}
+.card::before{content:"";position:absolute;inset:0;background:var(--art) center/cover;filter:blur(22px) saturate(1.4);transform:scale(1.4);opacity:.9}
+.card .banner{position:relative;aspect-ratio:16/8;display:block}
+.card .body{position:relative;background:rgba(255,255,255,.42);border-top:1px solid rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:12px 14px 14px;text-align:left}
+.card .name{color:#2b2326}
+.card .progress{color:#4a3d42}
+.card .progress .bar{background:rgba(255,255,255,.55)}
+@media(max-width:720px){.card .banner{aspect-ratio:460/215}.card .body{padding:8px 10px 10px}}
+:root{--muted:#4f4a57}
+.top nav a{color:#3a3744}
+.top nav a.on{color:var(--text)}

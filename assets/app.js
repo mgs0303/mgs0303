@@ -91,7 +91,7 @@
   /* ---------- cartes ---------- */
   function card(g, withBar) {
     const banner = g.banner || g.cover;
-    return `<button class="card" data-open="${esc(g.slug)}">
+    return `<button class="card" data-open="${esc(g.slug)}"${banner ? ` style="--art:url('${esc(path(banner))}')"` : ''}>
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
       <div class="body"><div class="name">${esc(g.title)}</div>${withBar ? progressBar(g) : ''}</div>
     </button>`;
@@ -111,6 +111,26 @@
       <div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => card(g, withBar)).join('')}</div>${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
 
+  function applyTint(src) {
+    if (!src) return;
+    const im = new Image();
+    im.onload = () => {
+      try {
+        const c = document.createElement('canvas'); c.width = c.height = 16;
+        const x = c.getContext('2d'); x.drawImage(im, 0, 0, 16, 16);
+        const d = x.getImageData(0, 0, 16, 16).data; let r = 0, g = 0, b = 0, n = 0;
+        for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
+        r /= n; g /= n; b /= n;
+        const k = 0.42, m = Math.max(r, g, b) || 1, boost = Math.min(1.5, 150 / m);
+        const dark = [r, g, b].map((v) => Math.round(v * boost * k)).join(',');
+        const mix = (t) => [r, g, b].map((v) => Math.round(v + (255 - v) * t)).join(',');
+        const light = mix(0.5);
+        const st = document.documentElement.style;
+        st.setProperty('--tint', dark); st.setProperty('--tintl', light); st.setProperty('--bg1', 'rgb(' + mix(0.3) + ')'); st.setProperty('--bg2', 'rgb(' + mix(0.5) + ')'); st.setProperty('--bg3', 'rgb(' + mix(0.68) + ')');
+      } catch (e) { /* on garde les couleurs par défaut */ }
+    };
+    im.src = path(src);
+  }
   function heroHtml() {
     const p = profile || {};
     const done = games.filter((g) => g.status === 'Complété');
@@ -123,7 +143,7 @@
       <div class="pf">${p.avatar ? `<img class="pf-av" src="${esc(path(p.avatar))}" alt="">` : '<div class="pf-av"></div>'}
         <div class="pf-tx"><h1>${esc(name)}</h1>${h ? `<span class="h">@${esc(h)}</span>` : ''}
           <div class="pf-pills"><span><b>${games.length}</b> jeux</span><span><b>${done.length}</b> terminés</span><span><b>${hrs.toLocaleString('fr-FR')}</b> h</span><span><b>${avg}</b> moyenne</span></div></div>
-        ${h ? `<a class="tw" href="https://x.com/${encodeURIComponent(h)}" target="_blank" rel="noopener">𝕏 @${esc(h)}</a>` : ''}</div>
+</div>
       ${p.bio ? `<p class="bio">${esc(p.bio)}</p>` : '<div style="height:24px"></div>'}`;
   }
 
@@ -720,6 +740,6 @@
     fetch('goty.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
     fetch('profile.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
   ])
-    .then(([data, goty, prof]) => { profile = prof || {}; games = data.filter((g) => g && g.title); gotyData = Array.isArray(goty) ? goty : []; route(); })
+    .then(([data, goty, prof]) => { profile = prof || {}; applyTint(profile.banner); games = data.filter((g) => g && g.title); gotyData = Array.isArray(goty) ? goty : []; route(); })
     .catch(() => { app.innerHTML = '<p class="empty">Impossible de charger les jeux. Vérifie que le site est bien en ligne sur GitHub Pages.</p>'; });
 })();
