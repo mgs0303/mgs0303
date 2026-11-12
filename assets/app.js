@@ -530,9 +530,8 @@
       return wrap(r, 'toprow', `<span class="tr-rank">${i + 4}</span>
         <span class="tr-art">${art ? img(art, '', t.title) : ''}</span>
         <span class="tr-body"><span class="tr-title">${esc(t.title)}</span>
-        <span class="tr-meta">${esc(t.meta || '')}</span>
-        ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>
-        ${t.score ? `<span class="tr-score">${esc(t.score)}</span>` : ''}`);
+        <span class="tr-meta">${esc([t.meta, t.score ? 'Note ' + t.score + '/10' : ''].filter(Boolean).join(' · '))}</span>
+        ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>`);
     }).join('');
     app.innerHTML = `<div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
       ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
