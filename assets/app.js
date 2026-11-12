@@ -126,7 +126,7 @@
         const mix = (t) => [r, g, b].map((v) => Math.round(v + (255 - v) * t)).join(',');
         const light = mix(0.5);
         const st = document.documentElement.style;
-        st.setProperty('--tint', dark); st.setProperty('--tintl', light); st.setProperty('--bg1', 'rgb(' + mix(0.3) + ')'); st.setProperty('--bg2', 'rgb(' + mix(0.5) + ')'); st.setProperty('--bg3', 'rgb(' + mix(0.68) + ')');
+        st.setProperty('--tint', dark); st.setProperty('--tintl', light);
       } catch (e) { /* on garde les couleurs par défaut */ }
     };
     im.src = path(src);

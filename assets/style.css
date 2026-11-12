@@ -614,3 +614,7 @@ body.home .search input::placeholder,body.home .search>svg,body.home .search kbd
 :root{--muted:#4f4a57}
 .top nav a{color:#3a3744}
 .top nav a.on{color:var(--text)}
+
+/* v25 : fond blanc-bleuté en dégradé */
+body{background-color:#dff0f5;background-image:radial-gradient(900px 600px at 0% 0%,rgba(120,175,230,.38),transparent 70%),radial-gradient(800px 600px at 100% 100%,rgba(150,205,225,.45),transparent 70%),radial-gradient(700px 500px at 85% 10%,rgba(255,255,255,.7),transparent 70%),linear-gradient(165deg,#f0fafb 0%,#dcf0f4 45%,#c9e4ee 100%);background-attachment:fixed}
+:root{--bg:#dff0f5;--bgrgb:223,240,245;--accent:#4a86c8;--line:rgba(40,80,120,.14);--avb:#e3f2f6;--muted:#4a5a68}
