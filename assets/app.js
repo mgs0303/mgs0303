@@ -251,7 +251,7 @@
       const n = st === 'Tous' ? 0 : of(st).length;
       return `<button class="chip${st === homeStatus ? ' on' : ''}" data-filter="home-status" data-value="${esc(st)}">${esc(st)}${n ? ` <span class="chip-n">${n}</span>` : ''}</button>`;
     }).join('');
-    html += `<section><div class="sec-head"><h2>Par statut</h2>${fold(homeStatus, chips)}</div><div class="filters desk-only">${chips}</div>${groups}${empty}</section>`;
+    html += `<section class="statut"><div class="sec-head"><h2>Par statut</h2>${fold(homeStatus, chips)}</div><div class="filters desk-only">${chips}</div>${groups}${empty}</section>`;
 
     app.innerHTML = html;
   }
