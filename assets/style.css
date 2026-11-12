@@ -1059,3 +1059,19 @@ body:not(.home) .top{position:relative!important}
 .podium .gpod:hover{box-shadow:0 26px 40px -14px rgba(40,70,100,.6)!important}
 .toplist{grid-template-columns:minmax(0,1fr)!important;max-width:860px;margin-left:auto;margin-right:auto;gap:10px!important}
 .toplist .toprow:last-child:nth-child(odd){grid-column:auto!important;width:auto!important;justify-self:stretch!important}
+
+/* v75 : ronds de rang style bouton, lignes 4-10 plus compactes avec le cadre bleu des boutons, halo lumineux sur le podium */
+.gp-rank,.gp1 .gp-rank,.gp3 .gp-rank{background:#e7f3fa!important;border:1px solid #7bbac9!important;color:#2b3a46!important;box-shadow:0 6px 18px rgba(80,170,190,.28)!important}
+.gp1 .gp-rank{width:38px;height:38px}
+.podium{position:relative;isolation:isolate}
+.podium::before{content:"";position:absolute;left:50%;top:46%;width:86%;height:120%;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,rgba(190,235,250,.95) 0,rgba(150,215,240,.55) 38%,rgba(150,215,240,0) 70%);filter:blur(18px)}
+.podium .gpod{box-shadow:0 0 26px 2px rgba(150,215,240,.75),0 16px 28px -14px rgba(40,70,100,.4)!important}
+.podium .gpod.gp1{box-shadow:0 0 0 3px rgba(255,255,255,.9),0 0 46px 8px rgba(160,225,250,.95),0 22px 36px -14px rgba(40,70,100,.5)!important}
+.podium .gpod:hover{box-shadow:0 0 34px 4px rgba(160,225,250,.95),0 24px 38px -14px rgba(40,70,100,.55)!important}
+.toplist{max-width:720px!important;gap:9px!important}
+.toprow{border:1.5px solid #7bbac9!important;border-radius:16px!important;padding:8px 16px!important;gap:14px!important;box-shadow:0 6px 16px -8px rgba(80,170,190,.4)!important}
+.tr-art{width:36px!important;height:52px!important;flex:none}
+.tr-rank{font-size:1.1rem!important;min-width:24px}
+.tr-title{font-size:.95rem!important}
+.tr-meta,.tr-comment{font-size:.78rem!important}
+.tr-score{padding:2px 10px!important;font-size:.85rem!important}
