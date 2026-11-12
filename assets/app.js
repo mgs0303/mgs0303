@@ -324,8 +324,8 @@
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
     if (!full) add('Genre', genreTxt, 'wide');
-    add('Série', esc(seriesOf(g)));
-    if (full) { add('Genre', genreTxt, 'genre'); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); add('Année', esc(g.release_year)); }
+    if (!full) add('Série', esc(seriesOf(g)));
+    if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre'); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); add('Année', esc(g.release_year)); }
     else { add('Année', esc(g.release_year)); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
     if (full) { add('Mode', esc(g.mode)); add('Plateforme', esc(toList(g.platform).join(', '))); }
     else { add('Plateforme', esc(toList(g.platform).join(', '))); add('Mode', esc(g.mode)); }
@@ -531,8 +531,8 @@
       const r = top[i], t = info(r);
       const art = r.g && (r.g.cover || r.g.banner);
       return wrap(r, `pcard portrait gpod gp${i + 1}`, `${art ? img(art, 'pc-img', t.title) : ''}
-          <span class="gp-rank">${i + 1}</span>${t.score ? `<span class="pc-pct">${esc(t.score)}</span>` : ''}
-        <div class="pc-body"><div class="pc-name">${esc(t.title)}</div>${t.meta ? `<div class="pc-meta">${esc(t.meta)}</div>` : ''}
+          ${t.score ? `<span class="pc-pct">${esc(t.score)}</span>` : ''}
+        <div class="pc-body"><div class="pc-name"><span class="gp-rank">#${i + 1}</span> ${esc(t.title)}</div>${t.meta ? `<div class="pc-meta">${esc(t.meta)}</div>` : ''}
         ${i === 0 && r.comment ? `<p class="gp-comment">${esc(r.comment)}</p>` : ''}</div>`);
     }).join('');
     const list = rest.map((r, i) => {
