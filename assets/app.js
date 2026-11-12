@@ -96,6 +96,40 @@
       <div class="body"><div class="name">${esc(g.title)}</div>${withBar ? progressBar(g) : ''}</div>
     </button>`;
   }
+  function pcard(g) {
+    const ban = g.banner, cov = g.cover;
+    const tags = [...toList(g.genre)].slice(0, 2);
+    const pc = pct(g);
+    const imgs = ban && cov && ban !== cov ? img(ban, 'pc-img pc-ban', g.title) + img(cov, 'pc-img pc-cov', g.title) : img(ban || cov, 'pc-img', g.title);
+    return `<button class="pcard${imgs ? '' : ' noart'}" data-open="${esc(g.slug)}">
+      ${imgs}
+      <div class="pc-body"><div class="pc-name">${esc(g.title)}</div>
+        ${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+        <div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div></div>
+    </button>`;
+  }
+  function tintCards() {
+    document.querySelectorAll('.pcard:not([data-t]) .pc-img').forEach((im) => {
+      const go = () => {
+        const c = im.closest('.pcard'); if (!c || c.dataset.t) return;
+        c.dataset.t = '1';
+        try {
+          const cv = document.createElement('canvas'); cv.width = cv.height = 24;
+          const x = cv.getContext('2d'); x.drawImage(im, 0, 0, 24, 24);
+          const d = x.getImageData(0, 12, 24, 12).data; let r = 0, g = 0, b = 0, n = 0;
+          for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
+          r /= n * 255; g /= n * 255; b /= n * 255;
+          const mx = Math.max(r, g, b), mn = Math.min(r, g, b), dl = mx - mn;
+          let h = 0;
+          if (dl) { h = mx === r ? ((g - b) / dl) % 6 : mx === g ? (b - r) / dl + 2 : (r - g) / dl + 4; h = Math.round(h * 60); if (h < 0) h += 360; }
+          const l = (mx + mn) / 2, sat = dl ? dl / (1 - Math.abs(2 * l - 1)) : 0;
+          c.style.setProperty('--h', h); c.style.setProperty('--s', Math.round(Math.min(0.85, Math.max(0.25, sat * 1.15)) * 100) + '%');
+        } catch (e) { /* couleurs par défaut */ }
+      };
+      if (im.complete && im.naturalWidth) go(); else im.addEventListener('load', go, { once: true });
+    });
+  }
+  new MutationObserver(tintCards).observe(app, { childList: true, subtree: true });
   function poster(g) {
     const art = g.cover || g.banner;
     return `<a class="poster" href="#/jeu/${encodeURIComponent(g.slug)}">
@@ -107,8 +141,8 @@
   }
   function section(title, list, withBar, small, carousel) {
     if (!list.length) return '';
-    return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div>
-      <div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => card(g, withBar)).join('')}</div>${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
+    return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span>${carousel && list.length > 1 ? '<span class="car-nav"><button type="button" data-car="-1" aria-label="Précédent">‹</button><button type="button" data-car="1" aria-label="Suivant">›</button></span>' : ''}</div>
+      <div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => (carousel ? pcard(g) : card(g, withBar))).join('')}</div>${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
 
   function applyTint(src) {
@@ -137,7 +171,7 @@
     const hrs = Math.round(games.reduce((a, g) => a + (parseFloat(g.playtime) || 0), 0));
     const notes = games.map((g) => parseFloat(g.note)).filter((n) => !isNaN(n));
     const avg = notes.length ? (notes.reduce((a, b) => a + b, 0) / notes.length).toFixed(1).replace('.', ',') : '–';
-    const name = p.name || 'La-Li-Lu-Le-Log';
+    const name = p.display_name || 'La-Li-Lu-Le-Log';
     const h = (p.twitter || TWITTER || '').trim().replace(/^@/, '');
     return `<section class="hero3"><div class="hbg${p.banner ? '' : ' def'}"${p.banner ? ` style="background-image:url('${esc(path(p.banner))}')"` : ''}></div></section>
       <div class="pf">${p.avatar ? `<img class="pf-av" src="${esc(path(p.avatar))}" alt="">` : '<div class="pf-av"></div>'}
@@ -622,6 +656,8 @@
   }
 
   document.addEventListener('click', (e) => {
+    const cn = e.target.closest('[data-car]');
+    if (cn) { const c = cn.closest('section').querySelector('.carousel'); if (c) c.scrollBy({ left: Number(cn.dataset.car) * c.clientWidth * 0.8, behavior: 'smooth' }); return; }
     const nl = e.target.closest('a[href^="#/"]');
     if (nl && !nl.hasAttribute('data-back')) userNav = true;
     const bk = e.target.closest('[data-back]');
