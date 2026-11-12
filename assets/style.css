@@ -943,3 +943,8 @@ body:not(.home) .top{position:relative!important}
     mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.05) calc(var(--fw)*.11),rgba(0,0,0,.2) calc(var(--fw)*.28),rgba(0,0,0,.45) calc(var(--fw)*.47),rgba(0,0,0,.72) calc(var(--fw)*.67),rgba(0,0,0,.92) calc(var(--fw)*.84),#000 var(--fw),#000 calc(100% - var(--fw)),rgba(0,0,0,.92) calc(100% - var(--fw)*.84),rgba(0,0,0,.72) calc(100% - var(--fw)*.67),rgba(0,0,0,.45) calc(100% - var(--fw)*.47),rgba(0,0,0,.2) calc(100% - var(--fw)*.28),rgba(0,0,0,.05) calc(100% - var(--fw)*.11),rgba(0,0,0,0) 100%)}
   .grid.carousel.moving{--fw:64px}
 }
+
+/* v63 : on retire le dégradé de bord du carrousel (effet jugé bizarre) */
+@media(min-width:721px){
+  .grid.carousel,.grid.carousel.moving{-webkit-mask-image:none!important;mask-image:none!important;transition:none!important}
+}
