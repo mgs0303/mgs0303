@@ -129,14 +129,37 @@
       if (im.complete && im.naturalWidth) go(); else im.addEventListener('load', go, { once: true });
     });
   }
+  function setW(c) { const k = +c.dataset.n; return c.children[k].offsetLeft - c.children[0].offsetLeft; }
+  function initLoop() {
+    document.querySelectorAll('.car-wrap .carousel:not([data-loop])').forEach((c) => {
+      const items = [...c.children], n = items.length;
+      if (n < 4 || !c.clientWidth) return;
+      c.dataset.loop = '1'; c.dataset.n = n;
+      const mk = (el) => { const x = el.cloneNode(true); x.setAttribute('aria-hidden', 'true'); x.tabIndex = -1; x.dataset.clone = '1'; return x; };
+      items.slice().reverse().forEach((el) => c.insertBefore(mk(el), c.firstChild));
+      items.forEach((el) => c.appendChild(mk(el)));
+      c.style.scrollSnapType = 'none'; c.style.scrollBehavior = 'auto';
+      c.scrollLeft = setW(c);
+      requestAnimationFrame(() => { c.style.scrollSnapType = ''; c.style.scrollBehavior = ''; });
+      const w = c.closest('.car-wrap'); if (w) { w.dataset.start = '0'; w.dataset.end = '0'; }
+    });
+  }
+  function fixLoop(c) {
+    const W = setW(c); if (!W) return;
+    let x = c.scrollLeft;
+    if (x < W * 0.5) x += W; else if (x > W * 1.5) x -= W; else return;
+    c.style.scrollSnapType = 'none'; c.style.scrollBehavior = 'auto';
+    c.scrollLeft = x;
+    requestAnimationFrame(() => { c.style.scrollSnapType = ''; c.style.scrollBehavior = ''; });
+  }
   function syncCar() {
     document.querySelectorAll('.car-wrap').forEach((w) => {
-      const c = w.querySelector('.carousel'); if (!c) return;
+      const c = w.querySelector('.carousel'); if (!c || c.dataset.loop) return;
       w.dataset.start = c.scrollLeft < 4 ? '1' : '0';
       w.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0';
     });
   }
-  new MutationObserver(() => { tintCards(); requestAnimationFrame(syncCar); }).observe(app, { childList: true, subtree: true });
+  new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); }).observe(app, { childList: true, subtree: true });
   window.addEventListener('resize', syncCar);
   function poster(g) {
     const art = g.cover || g.banner;
@@ -617,12 +640,13 @@
     const c = e.target;
     if (!c.classList || !c.classList.contains('carousel')) return;
     const wrap = c.closest('.car-wrap');
-    if (wrap) { wrap.dataset.start = c.scrollLeft < 4 ? '1' : '0'; wrap.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0'; }
+    if (c.dataset.loop) { clearTimeout(c._lt); c._lt = setTimeout(() => fixLoop(c), 140); }
+    if (wrap && !c.dataset.loop) { wrap.dataset.start = c.scrollLeft < 4 ? '1' : '0'; wrap.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0'; }
     const dots = c.closest('section').querySelectorAll('.dots i');
     if (!dots.length) return;
     const card = c.firstElementChild;
     const step = card ? card.getBoundingClientRect().width + 10 : 1;
-    const idx = Math.min(dots.length - 1, Math.round(c.scrollLeft / step));
+    const idx = c.dataset.loop ? ((Math.round(c.scrollLeft / step) - +c.dataset.n) % dots.length + dots.length) % dots.length : Math.min(dots.length - 1, Math.round(c.scrollLeft / step));
     dots.forEach((d, i) => d.classList.toggle('on', i === idx));
   }, true);
   const enterPage = () => { app.classList.remove('enter'); void app.offsetWidth; app.classList.add('enter'); };
