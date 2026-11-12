@@ -23,7 +23,7 @@
   let games = [];
   let profile = {};
   let avisStatus = 'Tous';
-  let avisSize = 'm'; try { avisSize = localStorage.getItem('avs') || 'm'; } catch (e) { /* ignoré */ }
+  let avisSize = 'm';
   let avisSort = 'recent';
   let homeStatus = 'Tous';
   let homeSort = 'recent';
@@ -714,7 +714,7 @@
     if (e.target.closest('[data-allavis]')) { avisStatus = 'Complété'; }
     const szb = e.target.closest('[data-avsize]');
     if (szb) {
-      avisSize = szb.dataset.avsize; try { localStorage.setItem('avs', avisSize); } catch (er) { /* ignoré */ }
+      avisSize = szb.dataset.avsize;
       document.querySelectorAll('[data-avsize]').forEach((b) => b.classList.toggle('on', b === szb));
       const gr = document.getElementById('avis-grid'); if (gr) gr.className = 'grid posters size-' + avisSize;
       return;

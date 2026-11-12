@@ -990,3 +990,11 @@ body:not(.home) .top{position:relative!important}
   .avis-top .sizes{display:none!important}
   .grid.posters,.grid.posters.size-l,.grid.posters.size-m,.grid.posters.size-s{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
 }
+
+/* v69 : menus déroulants de la barre Avis au-dessus des jaquettes ; tri et tailles alignés à droite */
+.avis-bar{position:relative;z-index:40}
+@media(min-width:721px){
+  .avis-top>.select,.avis-top>.dd,.avis-top>div:not(.sizes){margin-left:auto}
+  .avis-top .sizes{margin-left:0!important}
+}
+.avis-bar .fold-list{background:#f6fbfd!important;box-shadow:0 14px 34px rgba(60,100,140,.28)}
