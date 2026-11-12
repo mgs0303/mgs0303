@@ -920,3 +920,17 @@ body:not(.home) .top{position:relative!important}
 @media(min-width:1240px){
   section.statut>*{max-width:966px;margin-left:auto;margin-right:auto}
 }
+
+/* v60 : bords du carrousel en dégradé (les cartes s'effacent doucement au lieu d'être coupées net) */
+@media(min-width:721px){
+  .grid.carousel{margin:0 -36px!important;padding:8px 36px 28px!important;scroll-padding-left:36px!important;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%)}
+}
+
+/* v61 : dégradé de bord plus long et plus doux (courbe progressive) */
+@media(min-width:721px){
+  .grid.carousel{margin:0 -72px!important;padding:8px 72px 28px!important;scroll-padding-left:72px!important;
+    -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.04) 8px,rgba(0,0,0,.15) 20px,rgba(0,0,0,.35) 34px,rgba(0,0,0,.6) 48px,rgba(0,0,0,.85) 60px,#000 72px,#000 calc(100% - 72px),rgba(0,0,0,.85) calc(100% - 60px),rgba(0,0,0,.6) calc(100% - 48px),rgba(0,0,0,.35) calc(100% - 34px),rgba(0,0,0,.15) calc(100% - 20px),rgba(0,0,0,.04) calc(100% - 8px),rgba(0,0,0,0) 100%);
+    mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,.04) 8px,rgba(0,0,0,.15) 20px,rgba(0,0,0,.35) 34px,rgba(0,0,0,.6) 48px,rgba(0,0,0,.85) 60px,#000 72px,#000 calc(100% - 72px),rgba(0,0,0,.85) calc(100% - 60px),rgba(0,0,0,.6) calc(100% - 48px),rgba(0,0,0,.35) calc(100% - 34px),rgba(0,0,0,.15) calc(100% - 20px),rgba(0,0,0,.04) calc(100% - 8px),rgba(0,0,0,0) 100%)}
+}
