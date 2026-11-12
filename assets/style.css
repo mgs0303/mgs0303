@@ -1097,10 +1097,8 @@ body:not(.home) .top{position:relative!important}
   .game .facts.split .f.genre,.game .facts.split .f.wide2{grid-column:1/-1}
 }
 
-/* v83 : dates plus larges sur une ligne, colonne de droite alignée sur le bas de celle de gauche */
+/* v83 : colonne de droite plus large (dates sur une ligne), tuiles du dessous aussi larges ; hauteurs comme avant */
 @media (min-width:721px){
-  .game .facts.split{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)!important;align-items:stretch!important}
-  .game .facts.split .fr{grid-auto-rows:1fr;align-content:stretch}
-  .game .facts.split .fr .f{display:flex!important;flex-direction:column;justify-content:center}
+  .game .facts.split{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)!important;align-items:start!important}
   .game .facts.split .fr dd{white-space:nowrap}
 }
