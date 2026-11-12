@@ -100,8 +100,8 @@
     return `<button class="pcard${imgs ? '' : ' noart'}" data-open="${esc(g.slug)}">
       ${imgs}
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div>
-        ${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
-        ${mode === 'bar' ? `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>` : mode === 'note' && hasNote(g) ? `<div class="pc-prog"><span class="pc-n">★ ${esc(noteText(g))} / 10</span></div>` : ''}</div>
+        ${mode === 'note' ? `<div class="pc-row">${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : '<span></span>'}${hasNote(g) ? `<span class="pc-note">★ ${esc(noteText(g))} / 10</span>` : ''}</div>` : `${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+        ${mode === 'bar' ? `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>` : ''}`}</div>
     </button>`;
   }
   function tintCards() {
@@ -232,6 +232,8 @@
     const of = (s) => games.filter((g) => g.status === s);
     let html = heroHtml();
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true, false, true);
+    const doneAll = of('Complété').sort(byEndDesc);
+    if (doneAll.length) html += `<section class="wish"><div class="sec-head"><h2>Derniers complétés</h2><span class="count">${doneAll.length}</span><a class="see-all" href="#/avis" data-allavis>Voir tout ›</a></div><div class="pgrid">${doneAll.slice(0, 6).map((g) => pcard(g, 'note')).join('')}</div></section>`;
     html += lastReview();
     html += section('Mes envies', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false, false, false, true);
 
@@ -251,11 +253,6 @@
     }).join('');
     html += `<section><div class="sec-head"><h2>Par statut</h2>${fold(homeStatus, chips)}</div><div class="filters desk-only">${chips}</div>${groups}${empty}</section>`;
 
-    const done = of('Complété').sort(SORTS[homeSort].fn);
-    if (done.length) {
-      html += `<section><div class="sec-head"><h2>Complété</h2><span class="count">${done.length}</span>${sortSelect('home', homeSort)}</div>
-        <div class="grid">${done.map((g) => card(g, true)).join('')}</div></section>`;
-    }
     app.innerHTML = html;
   }
 
@@ -705,6 +702,7 @@
   }
 
   document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-allavis]')) { avisStatus = 'Complété'; }
     const cn = e.target.closest('[data-car]');
     if (cn) { const c = cn.closest('section').querySelector('.carousel'); if (c) { const f = c.firstElementChild; const st = f ? f.getBoundingClientRect().width + 18 : c.clientWidth; const k = Math.max(1, Math.floor(c.clientWidth / st)); c.scrollBy({ left: Number(cn.dataset.car) * st * k, behavior: 'smooth' }); } return; }
     const nl = e.target.closest('a[href^="#/"]');

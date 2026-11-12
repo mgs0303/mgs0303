@@ -824,7 +824,7 @@ section.lastrev{margin-bottom:26px}
 @media(min-width:1240px){section.lastrev{padding-left:60px;padding-right:60px}section.lastrev>.sec-head,.lr-card{max-width:966px;margin-left:auto;margin-right:auto}}
 
 /* v49 : toutes les cartes de jeux = design dégradé + texte sur l'image */
-.grid>.pcard{flex:none!important;width:auto;min-width:0}
+.grid:not(.carousel)>.pcard{flex:none!important;width:auto;min-width:0}
 .grid.small{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
 .pc-meta{display:block;margin-top:4px;font-size:.78rem;opacity:.85}
 .pc-pct{z-index:3}
@@ -874,3 +874,12 @@ section.lastrev{margin-bottom:26px}
   .grid>.pcard:not(.portrait)::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,hsl(var(--h) var(--s) 14%/.8) 0,transparent 38%)}
   .grid>.pcard:not(.portrait) .pc-body{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end}
 }
+
+/* v51 : Derniers complétés + bouton Voir tout */
+.see-all{margin-left:auto;padding:7px 18px;border-radius:999px;background:#e7f3fa;border:1px solid #7bbac9;color:#2b3a46;font-weight:600;font-size:.88rem;text-decoration:none;box-shadow:0 6px 18px rgba(80,170,190,.28);transition:transform .15s}
+.see-all:hover{transform:translateY(-2px);background:#eef8fd}
+
+/* v52 : note en bas à droite, genres en bas à gauche */
+.pc-row{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.pc-row .pc-tags{margin-top:0;min-width:0}
+.pc-note{flex:none;font-weight:700;font-size:.9rem;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.4)}
