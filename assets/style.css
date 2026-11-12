@@ -900,3 +900,9 @@ body:not(.home) .top{position:relative!important}
   #mp:focus-visible{outline:2px solid #4a8fb3;outline-offset:4px;border-radius:30px}
   #mp .mp-time{position:absolute;left:31.3%;top:53.6%;height:11%;display:flex;align-items:center;font:700 14.5px/1 "Courier New",ui-monospace,monospace;letter-spacing:.06em;color:#4d598d;pointer-events:none}
 }
+
+/* v56 : lecteur plus petit et en bas à gauche */
+@media(min-width:721px){
+  #mp{right:auto;left:26px;bottom:20px;width:170px}
+  #mp .mp-time{font-size:8.2px}
+}
