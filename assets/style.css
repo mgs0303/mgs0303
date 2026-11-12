@@ -618,3 +618,37 @@ body.home .search input::placeholder,body.home .search>svg,body.home .search kbd
 /* v25 : fond blanc-bleuté en dégradé */
 body{background-color:#dff0f5;background-image:radial-gradient(900px 600px at 0% 0%,rgba(120,175,230,.38),transparent 70%),radial-gradient(800px 600px at 100% 100%,rgba(150,205,225,.45),transparent 70%),radial-gradient(700px 500px at 85% 10%,rgba(255,255,255,.7),transparent 70%),linear-gradient(165deg,#f0fafb 0%,#dcf0f4 45%,#c9e4ee 100%);background-attachment:fixed}
 :root{--bg:#dff0f5;--bgrgb:223,240,245;--accent:#4a86c8;--line:rgba(40,80,120,.14);--avb:#e3f2f6;--muted:#4a5a68}
+
+/* v26 : boutons style "pilule verre bleutée" */
+:root{--btn-bg:#e7f3fa;--btn-bd:#7bbac9;--btn-glow:0 6px 18px rgba(80,170,190,.28)}
+.chip,.fold-toggle,.backbtn,.btn,.pf-pills span,.select,.top nav a.on,.search input,.sheet .btn,.fold-list .opt.on{
+  background:var(--btn-bg)!important;color:#2b3a46!important;border:1px solid var(--btn-bd)!important;border-radius:999px!important;box-shadow:var(--btn-glow)!important;text-shadow:none!important}
+.chip:hover,.fold-toggle:hover,.backbtn:hover,.btn:hover,.select:hover{background:#eef8fd!important;border-color:#5aaabd!important;transform:translateY(-1px)}
+.chip.on{background:#d3ebf6!important;border-color:#3f9dbd!important}
+.chip,.fold-toggle,.backbtn,.btn,.select{transition:transform .15s ease,background .15s ease,border-color .15s ease}
+.chip.on .chip-n,.chip-n{color:#4a6a7a}
+body.home .search input{color:#2b3a46!important}
+body.home .search input::placeholder{color:#5a7684}
+body.home .search>svg,body.home .search kbd{color:#5a7684}
+.pf-pills span{padding:5px 14px}
+
+/* v27 : même barre (verre foncé teinté) sur toutes les pages */
+.top{background:transparent!important;border:0!important;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+.top nav{background:rgba(var(--tint),.5);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:4px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.top nav a{color:rgba(255,255,255,.92)!important}
+.top nav a:hover{color:#fff!important}
+.top nav a.on{background:rgba(255,255,255,.93)!important;color:#2b2326!important;border:0!important;box-shadow:none!important}
+.top .search input,body.home .top .search input{background:rgba(var(--tint),.5)!important;border:1px solid rgba(255,255,255,.28)!important;color:#fff!important;box-shadow:none!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.top .search input::placeholder,body.home .top .search input::placeholder{color:rgba(255,255,255,.75)}
+.top .search>svg,.top .search kbd,body.home .top .search>svg,body.home .top .search kbd{color:rgba(255,255,255,.78)}
+.brand{color:#2b2326;text-shadow:0 1px 8px rgba(255,255,255,.6)}
+body.home .brand{color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+
+/* v28 : barre claire sur les pages claires, foncée seulement sur l'accueil (bannière) */
+body:not(.home) .top nav{background:rgba(255,255,255,.55);border:1px solid rgba(123,186,201,.7);box-shadow:0 6px 18px rgba(80,170,190,.22)}
+body:not(.home) .top nav a{color:#3a4a56!important}
+body:not(.home) .top nav a:hover{color:#1f2d38!important}
+body:not(.home) .top nav a.on{background:#e7f3fa!important;color:#1f2d38!important;border:1px solid #7bbac9!important;box-shadow:0 4px 12px rgba(80,170,190,.25)!important}
+body:not(.home) .top .search input{background:rgba(255,255,255,.6)!important;border:1px solid rgba(123,186,201,.7)!important;color:#2b3a46!important;box-shadow:0 6px 18px rgba(80,170,190,.2)!important}
+body:not(.home) .top .search input::placeholder{color:#5a7684}
+body:not(.home) .top .search>svg,body:not(.home) .top .search kbd{color:#5a7684}
