@@ -883,3 +883,6 @@ section.lastrev{margin-bottom:26px}
 .pc-row{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
 .pc-row .pc-tags{margin-top:0;min-width:0}
 .pc-note{flex:none;font-weight:700;font-size:.9rem;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+
+/* v54 : la barre du haut ne suit plus quand on descend (elle défile avec la page) */
+body:not(.home) .top{position:relative!important}
