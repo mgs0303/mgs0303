@@ -232,9 +232,9 @@
     const of = (s) => games.filter((g) => g.status === s);
     let html = heroHtml();
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true, false, true);
+    html += lastReview();
     const doneAll = of('Complété').sort(byEndDesc);
     if (doneAll.length) html += `<section class="wish"><div class="sec-head"><h2>Derniers complétés</h2><span class="count">${doneAll.length}</span><a class="see-all" href="#/avis" data-allavis>Voir tout ›</a></div><div class="pgrid">${doneAll.slice(0, 6).map((g) => pcard(g, 'note')).join('')}</div></section>`;
-    html += lastReview();
     html += section('Mes envies', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false, false, false, true);
 
     const tabs = ['En attente de sortie', 'Accès Anticipé', 'DEMO', 'Relancé', 'Pause', 'Dropped'];
