@@ -90,14 +90,9 @@
   const progressBar = (g) => `<div class="progress" style="--c:${color(g.status)}"><span class="pct">${pct(g)} %</span><div class="bar"><i style="width:${pct(g)}%"></i></div></div>`;
 
   /* ---------- cartes ---------- */
-  function card(g, withBar) {
-    const banner = g.banner || g.cover;
-    return `<button class="card" data-open="${esc(g.slug)}"${banner ? ` style="--art:url('${esc(path(banner))}')"` : ''}>
-      ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
-      <div class="body"><div class="name">${esc(g.title)}</div>${withBar ? progressBar(g) : ''}</div>
-    </button>`;
-  }
-  function pcard(g, noProg) {
+  function card(g, withBar) { return pcard(g, withBar ? (g.status === 'Complété' ? 'note' : 'bar') : 'none'); }
+  function pcard(g, mode) {
+    if (mode === undefined || mode === false) mode = 'bar'; else if (mode === true) mode = 'none';
     const ban = g.banner, cov = g.cover;
     const tags = [...toList(g.genre)].slice(0, 2);
     const pc = pct(g);
@@ -106,13 +101,13 @@
       ${imgs}
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div>
         ${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
-        ${noProg ? '' : `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>`}</div>
+        ${mode === 'bar' ? `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>` : mode === 'note' && hasNote(g) ? `<div class="pc-prog"><span class="pc-n">★ ${esc(noteText(g))} / 10</span></div>` : ''}</div>
     </button>`;
   }
   function tintCards() {
-    document.querySelectorAll('.pcard:not([data-t]) .pc-img').forEach((im) => {
+    document.querySelectorAll('.pcard:not([data-t]) .pc-img, .pod:not([data-t]) .pod-art img, .toprow:not([data-t]) .tr-art img').forEach((im) => {
       const go = () => {
-        const c = im.closest('.pcard'); if (!c || c.dataset.t) return;
+        const c = im.closest('.pcard, .pod, .toprow'); if (!c || c.dataset.t) return;
         c.dataset.t = '1';
         try {
           const cv = document.createElement('canvas'); cv.width = cv.height = 24;
@@ -164,11 +159,10 @@
   window.addEventListener('resize', syncCar);
   function poster(g) {
     const art = g.cover || g.banner;
-    return `<a class="poster" href="#/jeu/${encodeURIComponent(g.slug)}">
-      <div class="art">${art ? img(art, '', g.title) : `<div class="ph">${esc(g.title)}</div>`}
-        <span class="score">${esc(noteText(g))}</span></div>
-      <div class="name">${esc(g.title)}</div>
-      <div class="meta">${esc(g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété')}</div>
+    const meta = g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété';
+    return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}">
+      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct">${esc(noteText(g))}</span>
+      <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div></div>
     </a>`;
   }
   function lastReview() {
@@ -191,7 +185,7 @@
   }
   function section(title, list, withBar, small, carousel, wish) {
     if (!list.length) return '';
-    if (wish) return `<section class="wish"><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div><div class="pgrid">${list.map((g) => pcard(g, true)).join('')}</div></section>`;
+    if (wish) return `<section class="wish"><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div><div class="pgrid">${list.map((g) => pcard(g, 'none')).join('')}</div></section>`;
     return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div>
       ${carousel && list.length > 1 ? '<div class="car-wrap" data-start="1">' : ''}<div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => (carousel ? pcard(g) : card(g, withBar))).join('')}</div>${carousel && list.length > 1 ? '<button type="button" class="car-btn prev" data-car="-1" aria-label="Précédent">‹</button><button type="button" class="car-btn next" data-car="1" aria-label="Suivant">›</button></div>' : ''}${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
@@ -443,9 +437,9 @@
       const cg = gs.find((g) => g.cover) || gs.find((g) => g.banner);
       const art = cg && (cg.cover || cg.banner);
       gr.sorted = gs;
-      return `<button class="stile" data-series="${i}" aria-expanded="false">
-        <span class="st-art">${art ? img(art, '', gr.name) : `<span class="ph">${esc(gr.name)}</span>`}<span class="st-count">${gs.length} jeux</span></span>
-        <span class="st-name">${esc(gr.name)}</span>${m !== null ? `<span class="st-meta">note moyenne ${fmt1(m)}</span>` : ''}</button>`;
+      return `<button class="pcard portrait stile" data-series="${i}" aria-expanded="false">
+        ${art ? img(art, 'pc-img', gr.name) : ''}<span class="pc-pct">${gs.length} jeux</span>
+        <span class="pc-body"><span class="pc-name">${esc(gr.name)}</span>${m !== null ? `<span class="pc-meta">note moyenne ${fmt1(m)}</span>` : ''}</span></button>`;
     }).join('') + '</div>';
     window.__series = groups;
     openSeriesIdx = openSeriesName ? groups.findIndex((x) => x.name === openSeriesName) : -1;
