@@ -657,7 +657,7 @@
 
   document.addEventListener('click', (e) => {
     const cn = e.target.closest('[data-car]');
-    if (cn) { const c = cn.closest('section').querySelector('.carousel'); if (c) c.scrollBy({ left: Number(cn.dataset.car) * c.clientWidth * 0.8, behavior: 'smooth' }); return; }
+    if (cn) { const c = cn.closest('section').querySelector('.carousel'); if (c) { const f = c.firstElementChild; const st = f ? f.getBoundingClientRect().width + 18 : c.clientWidth; const k = Math.max(1, Math.floor(c.clientWidth / st)); c.scrollBy({ left: Number(cn.dataset.car) * st * k, behavior: 'smooth' }); } return; }
     const nl = e.target.closest('a[href^="#/"]');
     if (nl && !nl.hasAttribute('data-back')) userNav = true;
     const bk = e.target.closest('[data-back]');
