@@ -886,3 +886,17 @@ section.lastrev{margin-bottom:26px}
 
 /* v54 : la barre du haut ne suit plus quand on descend (elle défile avec la page) */
 body:not(.home) .top{position:relative!important}
+
+/* v55 : lecteur de musique (ordinateur seulement) */
+#mp{display:none}
+@media(min-width:721px){
+  #mp{display:block;position:fixed;right:24px;bottom:22px;width:300px;z-index:80;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 8px 12px rgba(35,70,110,.38));transition:transform .12s ease,filter .12s ease}
+  #mp img{display:block;width:100%;height:auto}
+  #mp .mp-play{display:none}
+  #mp.playing .mp-play{display:block}
+  #mp.playing .mp-pause{display:none}
+  #mp:hover{transform:translateY(-2px);filter:drop-shadow(0 11px 14px rgba(35,70,110,.42))}
+  #mp:active{transform:translateY(1px) scale(.965);filter:drop-shadow(0 3px 5px rgba(35,70,110,.4)) brightness(.94)}
+  #mp:focus-visible{outline:2px solid #4a8fb3;outline-offset:4px;border-radius:30px}
+  #mp .mp-time{position:absolute;left:31.3%;top:53.6%;height:11%;display:flex;align-items:center;font:700 14.5px/1 "Courier New",ui-monospace,monospace;letter-spacing:.06em;color:#4d598d;pointer-events:none}
+}

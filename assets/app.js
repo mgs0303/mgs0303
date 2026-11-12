@@ -825,4 +825,35 @@
   ])
     .then(([data, goty, prof]) => { profile = prof || {}; applyTint(profile.banner); games = data.filter((g) => g && g.title); gotyData = Array.isArray(goty) ? goty : []; route(); })
     .catch(() => { app.innerHTML = '<p class="empty">Impossible de charger les jeux. Vérifie que le site est bien en ligne sur GitHub Pages.</p>'; });
+
+  /* ---------- lecteur de musique (ordinateur uniquement) ---------- */
+  (function initPlayer() {
+    if (!window.matchMedia('(min-width:721px)').matches) return;
+    let pref = null; try { pref = localStorage.getItem('mp'); } catch (e) { /* ignoré */ }
+    const box = document.createElement('div');
+    box.id = 'mp'; box.setAttribute('role', 'button'); box.setAttribute('tabindex', '0');
+    box.setAttribute('aria-label', 'Musique : lecture / pause'); box.title = 'Peace Reload — clic pour pause / lecture';
+    box.innerHTML = '<img class="mp-pause" src="assets/player-pause.png" alt=""><img class="mp-play" src="assets/player-play.png" alt=""><span class="mp-time">00:00</span>';
+    document.body.appendChild(box);
+    const au = new Audio('assets/peace-reload.mp3'); au.loop = true; au.volume = 0.25; au.preload = 'auto';
+    const tEl = box.querySelector('.mp-time');
+    const two = (n) => String(n).padStart(2, '0');
+    au.addEventListener('timeupdate', () => { const t = Math.floor(au.currentTime); tEl.textContent = two(Math.floor(t / 60)) + ':' + two(t % 60); });
+    au.addEventListener('play', () => box.classList.add('playing'));
+    au.addEventListener('pause', () => box.classList.remove('playing'));
+    const save = (v) => { try { localStorage.setItem('mp', v); } catch (e) { /* ignoré */ } };
+    const toggle = () => { if (au.paused) { save('on'); au.play().catch(() => {}); } else { save('off'); au.pause(); } };
+    box.addEventListener('click', toggle);
+    box.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    if (pref !== 'off') {
+      au.play().catch(() => {
+        const first = (e) => {
+          if (box.contains(e.target)) return;
+          document.removeEventListener('pointerdown', first, true); document.removeEventListener('keydown', first, true);
+          if (au.paused && pref !== 'off') au.play().catch(() => {});
+        };
+        document.addEventListener('pointerdown', first, true); document.addEventListener('keydown', first, true);
+      });
+    }
+  })();
 })();
