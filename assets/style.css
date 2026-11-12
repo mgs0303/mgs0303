@@ -791,3 +791,13 @@ body:not(.home) .top .search>svg,body:not(.home) .top .search kbd{color:#5a7684}
   .pcard{aspect-ratio:1.9/1}
   .pc-img{object-fit:cover!important;object-position:center!important;height:100%!important;max-height:none!important}
 }
+
+/* v44 : « Mes envies » = même design que Currently Playing, en grille (sans carrousel) */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.pgrid .pcard{flex:none;width:auto;min-width:0}
+.pgrid .pc-name{font-size:.88rem}
+@media(min-width:721px){
+  section.wish{background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);border-radius:32px;padding:22px 28px 28px;margin-bottom:34px;box-shadow:0 14px 40px rgba(80,170,190,.14);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .pgrid{grid-template-columns:repeat(3,1fr);gap:18px}
+}
+@media(min-width:1240px){section.wish{padding-left:60px;padding-right:60px}.pgrid,section.wish>.sec-head{max-width:966px;margin-left:auto;margin-right:auto}}

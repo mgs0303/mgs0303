@@ -96,7 +96,7 @@
       <div class="body"><div class="name">${esc(g.title)}</div>${withBar ? progressBar(g) : ''}</div>
     </button>`;
   }
-  function pcard(g) {
+  function pcard(g, noProg) {
     const ban = g.banner, cov = g.cover;
     const tags = [...toList(g.genre)].slice(0, 2);
     const pc = pct(g);
@@ -105,7 +105,7 @@
       ${imgs}
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div>
         ${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
-        <div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div></div>
+        ${noProg ? '' : `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>`}</div>
     </button>`;
   }
   function tintCards() {
@@ -147,8 +147,9 @@
       <div class="meta">${esc(g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété')}</div>
     </a>`;
   }
-  function section(title, list, withBar, small, carousel) {
+  function section(title, list, withBar, small, carousel, wish) {
     if (!list.length) return '';
+    if (wish) return `<section class="wish"><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div><div class="pgrid">${list.map((g) => pcard(g, true)).join('')}</div></section>`;
     return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div>
       ${carousel && list.length > 1 ? '<div class="car-wrap" data-start="1">' : ''}<div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => (carousel ? pcard(g) : card(g, withBar))).join('')}</div>${carousel && list.length > 1 ? '<button type="button" class="car-btn prev" data-car="-1" aria-label="Précédent">‹</button><button type="button" class="car-btn next" data-car="1" aria-label="Suivant">›</button></div>' : ''}${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
@@ -195,7 +196,7 @@
     const of = (s) => games.filter((g) => g.status === s);
     let html = heroHtml();
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true, false, true);
-    html += section('Backloggd', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false);
+    html += section('Mes envies', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false, false, false, true);
 
     const tabs = ['En attente de sortie', 'Accès Anticipé', 'Relancé', 'Pause', 'Dropped'];
     if (of('Pas lancé').length) tabs.unshift('Pas lancé');
