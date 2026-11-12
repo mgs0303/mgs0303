@@ -534,7 +534,7 @@
         ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>
         ${t.score ? `<span class="tr-score">${esc(t.score)}</span>` : ''}`);
     }).join('');
-    app.innerHTML = `${backBtn('#/goty', 'Tous les GOTY')}<div class="sec-head"><h2>GOTY ${esc(year)}</h2></div>
+    app.innerHTML = `<div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
       ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
         ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
       : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;

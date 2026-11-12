@@ -1047,3 +1047,15 @@ body:not(.home) .top{position:relative!important}
 .toplist{grid-auto-flow:row!important;grid-template-rows:none!important}
 .toplist .toprow:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - 8px);justify-self:center}
 @media(max-width:720px){.toplist .toprow:last-child:nth-child(odd){width:auto}}
+
+/* v74 : en-tête GOTY centré, podium sans teinte de couleur, liste 4-10 un jeu par ligne */
+.goty-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:4px auto 26px;max-width:860px}
+.goty-head h2{margin:0;font-size:1.7rem;text-align:center;letter-spacing:.01em}
+.goty-head .backbtn{justify-self:start;margin:0}
+@media(max-width:720px){.goty-head{grid-template-columns:auto 1fr;margin-bottom:18px}.goty-head h2{text-align:right;font-size:1.3rem}.goty-head span{display:none}}
+.podium .gpod{background:#1b222b!important;border:1.5px solid rgba(255,255,255,.75)!important;box-shadow:0 18px 30px -14px rgba(40,70,100,.45)!important}
+.podium .gpod.gp1{border-color:#fff!important;box-shadow:0 0 0 3px rgba(255,255,255,.85),0 24px 38px -14px rgba(40,70,100,.55)!important}
+.podium .gpod::after{background:linear-gradient(to top,rgba(8,14,22,.92) 0,rgba(8,14,22,.6) 30%,rgba(8,14,22,0) 62%)!important}
+.podium .gpod:hover{box-shadow:0 26px 40px -14px rgba(40,70,100,.6)!important}
+.toplist{grid-template-columns:minmax(0,1fr)!important;max-width:860px;margin-left:auto;margin-right:auto;gap:10px!important}
+.toplist .toprow:last-child:nth-child(odd){grid-column:auto!important;width:auto!important;justify-self:stretch!important}
