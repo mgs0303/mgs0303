@@ -944,7 +944,8 @@ body:not(.home) .top{position:relative!important}
   .grid.carousel.moving{--fw:64px}
 }
 
-/* v63 : on retire le dégradé de bord du carrousel (effet jugé bizarre) */
+/* v63 : dégradé de bord seulement pendant le vrai défilement, jamais au repos ni lors du repositionnement de la boucle */
 @media(min-width:721px){
-  .grid.carousel,.grid.carousel.moving{-webkit-mask-image:none!important;mask-image:none!important;transition:none!important}
+  .grid.carousel{transition:--fw .2s ease!important}
+  .grid.carousel.moving{--fw:56px}
 }

@@ -135,6 +135,7 @@
       items.slice().reverse().forEach((el) => c.insertBefore(mk(el), c.firstChild));
       items.forEach((el) => c.appendChild(mk(el)));
       c.style.scrollSnapType = 'none'; c.style.scrollBehavior = 'auto';
+      c._skipUntil = performance.now() + 120;
       c.scrollLeft = setW(c) - (parseFloat(getComputedStyle(c).scrollPaddingLeft) || 0);
       requestAnimationFrame(() => { c.style.scrollSnapType = ''; c.style.scrollBehavior = ''; });
       const w = c.closest('.car-wrap'); if (w) { w.dataset.start = '0'; w.dataset.end = '0'; }
@@ -145,6 +146,7 @@
     let x = c.scrollLeft;
     if (x < W * 0.5) x += W; else if (x > W * 1.5) x -= W; else return;
     c.style.scrollSnapType = 'none'; c.style.scrollBehavior = 'auto';
+    c._skipUntil = performance.now() + 120;
     c.scrollLeft = x;
     requestAnimationFrame(() => { c.style.scrollSnapType = ''; c.style.scrollBehavior = ''; });
   }
@@ -651,7 +653,7 @@
     const c = e.target;
     if (!c.classList || !c.classList.contains('carousel')) return;
     const wrap = c.closest('.car-wrap');
-    c.classList.add('moving'); clearTimeout(c._mt); c._mt = setTimeout(() => c.classList.remove('moving'), 220);
+    if (!(c._skipUntil && performance.now() < c._skipUntil)) { c.classList.add('moving'); clearTimeout(c._mt); c._mt = setTimeout(() => c.classList.remove('moving'), 100); }
     if (c.dataset.loop) { clearTimeout(c._lt); c._lt = setTimeout(() => fixLoop(c), 140); }
     if (wrap && !c.dataset.loop) { wrap.dataset.start = c.scrollLeft < 4 ? '1' : '0'; wrap.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0'; }
     const dots = c.closest('section').querySelectorAll('.dots i');
