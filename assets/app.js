@@ -3,6 +3,7 @@
     'Pas lancé': '#8a8f9a',
     'En attente de sortie': '#d2b252',
     'Accès Anticipé': '#47b5ad',
+    'DEMO': '#4a8fb3',
     'Priorité backlog': '#9e84d8',
     'Relancé': '#e07fa8',
     'Pause': '#e3a05a',
@@ -10,7 +11,7 @@
     'Dropped': '#d96e6e',
     'Complété': '#5db97f'
   };
-  const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'Relancé', 'Pause', 'Dropped', 'Complété'];
+  const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'DEMO', 'Relancé', 'Pause', 'Dropped', 'Complété'];
   const COMPLETION_ICONS = { 'Main Story': '🎯', 'Main + Sides': '🧭', '100%': '🎖️', 'Endless': '⏳', 'N/A': '❌' };
 
   // Mets ton pseudo Twitter / X ici, sans le @ (laisse vide pour cacher le lien)
@@ -170,6 +171,24 @@
       <div class="meta">${esc(g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété')}</div>
     </a>`;
   }
+  function lastReview() {
+    const txt = (g) => (Array.isArray(g.blocks) ? g.blocks.filter((b) => (b.type || b._block) === 'texte' && b.text).map((b) => b.text).join(' ') : '');
+    const list = games.filter((g) => (g.status === 'Complété' || g.status === 'Dropped') && txt(g).trim()).sort(byEndDesc);
+    const g = list[0]; if (!g) return '';
+    let ex = txt(g).replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/[*_`>#~]/g, '').replace(/\s+/g, ' ').trim();
+    if (ex.length > 260) ex = ex.slice(0, 260).replace(/\s+\S*$/, '') + '…';
+    const art = g.cover || g.banner;
+    const tags = toList(g.genre).slice(0, 2);
+    return `<section class="lastrev"><div class="sec-head"><h2>Dernier avis</h2></div>
+      <a class="lr-card" href="#/jeu/${encodeURIComponent(g.slug)}">
+        <div class="lr-art">${art ? img(art, '', g.title) : `<div class="ph">${esc(g.title)}</div>`}</div>
+        <div class="lr-body">
+          <div class="lr-top"><span class="lr-title">${esc(g.title)}</span><span class="lr-score">${esc(noteText(g))}<small>/10</small></span></div>
+          <div class="lr-meta">${[g.status !== 'Complété' ? g.status : '', g.end_date ? fmtDate(g.end_date) : '', ...tags].filter(Boolean).map((t) => `<span>${esc(t)}</span>`).join('')}</div>
+          <p class="lr-ex">${esc(ex)}</p>
+          <span class="lr-more">Lire l’avis ›</span>
+        </div></a></section>`;
+  }
   function section(title, list, withBar, small, carousel, wish) {
     if (!list.length) return '';
     if (wish) return `<section class="wish"><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div><div class="pgrid">${list.map((g) => pcard(g, true)).join('')}</div></section>`;
@@ -219,9 +238,10 @@
     const of = (s) => games.filter((g) => g.status === s);
     let html = heroHtml();
     html += section('Currently Playing', of('Partie en cours').sort(byStartDesc), true, false, true);
+    html += lastReview();
     html += section('Mes envies', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false, false, false, true);
 
-    const tabs = ['En attente de sortie', 'Accès Anticipé', 'Relancé', 'Pause', 'Dropped'];
+    const tabs = ['En attente de sortie', 'Accès Anticipé', 'DEMO', 'Relancé', 'Pause', 'Dropped'];
     if (of('Pas lancé').length) tabs.unshift('Pas lancé');
     if (homeStatus !== 'Tous' && !tabs.includes(homeStatus)) homeStatus = 'Tous';
     const shown = (homeStatus === 'Tous' ? tabs : [homeStatus]).filter((st) => of(st).length);
