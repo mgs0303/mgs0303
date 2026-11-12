@@ -245,7 +245,7 @@ content:
       - name: avatar
         label: Photo de profil
         type: image
-      - name: name
+      - name: display_name
         label: Nom affiché
         type: string
       - name: twitter
