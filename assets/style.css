@@ -739,3 +739,36 @@ body:not(.home) .top .search>svg,body:not(.home) .top .search kbd{color:#5a7684}
   .pc-img{object-fit:contain;object-position:center top;height:auto;max-height:100%}
   .pcard{background:hsl(var(--h) var(--s) 17%)}
 }
+
+/* v38 : flèches au survol sur les côtés, contour des cartes */
+.car-nav{display:none!important}
+.car-wrap{position:relative}
+.car-btn{position:absolute;top:8px;bottom:28px;width:70px;border:0;padding:0 0 4px;color:#fff;font-size:3rem;line-height:1;cursor:pointer;opacity:0;transition:opacity .2s ease;z-index:5;display:flex;align-items:center;text-shadow:0 2px 10px rgba(0,0,0,.5);background:none}
+.car-btn.prev{left:0;justify-content:flex-start;padding-left:14px;border-radius:20px 0 0 20px;background:linear-gradient(90deg,rgba(0,0,0,.45),transparent)}
+.car-btn.next{right:0;justify-content:flex-end;padding-right:14px;border-radius:0 20px 20px 0;background:linear-gradient(270deg,rgba(0,0,0,.45),transparent)}
+.car-wrap:hover .car-btn{opacity:1}
+.car-wrap[data-start="1"] .car-btn.prev,.car-wrap[data-end="1"] .car-btn.next{opacity:0!important;pointer-events:none}
+.car-btn:hover{font-size:3.4rem}
+@media(max-width:720px){.car-btn{display:none}}
+@media(min-width:721px){
+  .pcard{border:1px solid rgba(123,186,201,.55)!important;border-radius:20px;box-shadow:none!important}
+  .pcard:hover{transform:translateY(-3px);border-color:#5aaabd!important;box-shadow:0 12px 22px -8px rgba(60,100,140,.35)!important}
+  .car-btn.prev{border-radius:20px 0 0 20px}
+}
+
+/* v39 : retour du cadre blanc (le sélecteur ne le trouvait plus) + flèches dans les marges du cadre */
+@media(min-width:721px){
+  section:has(.car-wrap),section:has(>.grid.carousel){background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);border-radius:32px;padding:22px 60px 6px;margin-bottom:34px;box-shadow:0 14px 40px rgba(80,170,190,.14);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .car-btn{top:50%;bottom:auto;width:44px;height:64px;margin-top:-46px;padding:0;border-radius:0!important;background:none!important;color:#4a8fb3;text-shadow:none;opacity:.8;font-size:3rem;justify-content:center}
+  .car-btn.prev{left:-52px;padding:0}
+  .car-btn.next{right:-52px;padding:0}
+  .car-wrap:hover .car-btn,.car-btn{opacity:.85}
+  .car-btn:hover{opacity:1;font-size:3.3rem;color:#2d6f95}
+}
+
+/* v40 : flèches centrées dans la marge entre le cadre et les cartes */
+@media(min-width:721px){
+  .car-btn,.car-btn.prev,.car-btn.next{justify-content:center!important;padding:0!important;width:60px;text-align:center}
+  .car-btn.prev{left:-60px}
+  .car-btn.next{right:-60px}
+}

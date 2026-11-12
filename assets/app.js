@@ -129,7 +129,15 @@
       if (im.complete && im.naturalWidth) go(); else im.addEventListener('load', go, { once: true });
     });
   }
-  new MutationObserver(tintCards).observe(app, { childList: true, subtree: true });
+  function syncCar() {
+    document.querySelectorAll('.car-wrap').forEach((w) => {
+      const c = w.querySelector('.carousel'); if (!c) return;
+      w.dataset.start = c.scrollLeft < 4 ? '1' : '0';
+      w.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0';
+    });
+  }
+  new MutationObserver(() => { tintCards(); requestAnimationFrame(syncCar); }).observe(app, { childList: true, subtree: true });
+  window.addEventListener('resize', syncCar);
   function poster(g) {
     const art = g.cover || g.banner;
     return `<a class="poster" href="#/jeu/${encodeURIComponent(g.slug)}">
@@ -141,8 +149,8 @@
   }
   function section(title, list, withBar, small, carousel) {
     if (!list.length) return '';
-    return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span>${carousel && list.length > 1 ? '<span class="car-nav"><button type="button" data-car="-1" aria-label="Précédent">‹</button><button type="button" data-car="1" aria-label="Suivant">›</button></span>' : ''}</div>
-      <div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => (carousel ? pcard(g) : card(g, withBar))).join('')}</div>${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
+    return `<section><div class="sec-head"><h2>${esc(title)}</h2><span class="count">${list.length}</span></div>
+      ${carousel && list.length > 1 ? '<div class="car-wrap" data-start="1">' : ''}<div class="grid${small ? ' small' : ''}${carousel ? ' carousel' : ''}">${list.map((g) => (carousel ? pcard(g) : card(g, withBar))).join('')}</div>${carousel && list.length > 1 ? '<button type="button" class="car-btn prev" data-car="-1" aria-label="Précédent">‹</button><button type="button" class="car-btn next" data-car="1" aria-label="Suivant">›</button></div>' : ''}${carousel && list.length > 1 ? `<div class="dots" aria-hidden="true">${list.map((_, i) => `<i${i === 0 ? ' class="on"' : ''}></i>`).join('')}</div>` : ''}</section>`;
   }
 
   function applyTint(src) {
@@ -607,7 +615,9 @@
   document.addEventListener('scroll', (e) => {
     const c = e.target;
     if (!c.classList || !c.classList.contains('carousel')) return;
-    const dots = c.parentElement.querySelectorAll('.dots i');
+    const wrap = c.closest('.car-wrap');
+    if (wrap) { wrap.dataset.start = c.scrollLeft < 4 ? '1' : '0'; wrap.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0'; }
+    const dots = c.closest('section').querySelectorAll('.dots i');
     if (!dots.length) return;
     const card = c.firstElementChild;
     const step = card ? card.getBoundingClientRect().width + 10 : 1;
