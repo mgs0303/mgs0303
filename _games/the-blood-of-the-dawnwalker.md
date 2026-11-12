@@ -59,4 +59,14 @@ blocks:
 
       Mais on aura bientôt une New Game + et peut être j'essayerai de continuer
       des quêtes que j'avais pas pu finir et qui m'intéressait !
+  - type: galerie
+    images:
+      - /assets/images/Dawnwalker
+        pics/MedalTVDevilMayCry4SpecialEdition20260816222640702.png
+      - /assets/images/Dawnwalker
+        pics/MedalTVDevilMayCry4SpecialEdition20260816223332966.png
+      - /assets/images/Dawnwalker
+        pics/MedalTVDevilMayCry4SpecialEdition20260816223339099.png
+      - /assets/images/Dawnwalker
+        pics/MedalTVDevilMayCry4SpecialEdition20260817191241028.png
 ---
