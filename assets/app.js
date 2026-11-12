@@ -290,15 +290,15 @@
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
-    app.innerHTML = `<div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}</div>
+    app.innerHTML = `<section class="avis-panel"><div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}</div>
       <div class="avis-bar"><div class="filters avis-top"><span class="desk-only chips-inline">${chips}</span>${sortSelect('avis', avisSort)}
-        <span class="sizes desk-only" role="group" aria-label="Taille des jaquettes">${[['l', 'Grand'], ['m', 'Moyen'], ['s', 'Petit']].map(([k, l]) => `<button type="button" class="chip${avisSize === k ? ' on' : ''}" data-avsize="${k}">${l}</button>`).join('')}</span></div>
+</div>
       <div class="filters">${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear, 'Année')}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
           <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
             <input type="range" min="0" max="10" step="0.5" value="${avisMin}" data-range="min" aria-label="Note minimale">
             <input type="range" min="0" max="10" step="0.5" value="${avisMax}" data-range="max" aria-label="Note maximale"></div></div></div></div>
-      <div id="avis-results"></div>`;
+      <div id="avis-results"></div></section>`;
     updateAvisResults();
   }
 
@@ -518,13 +518,13 @@
     const wrap = (r, cls, inner) => (r.g ? `<a class="${cls}" href="#/jeu/${encodeURIComponent(r.g.slug)}">${inner}</a>` : `<div class="${cls}">${inner}</div>`);
     const top = rows.slice(0, 3);
     const rest = rows.slice(3);
-    const podium = top.map((r, i) => {
-      const t = info(r);
-      const art = r.g && (r.g.banner || r.g.cover);
-      return wrap(r, `pod p${i + 1}`, `<div class="pod-art">${art ? img(art, '', t.title) : `<div class="ph">${esc(t.title)}</div>`}
-          <span class="pod-rank">${i + 1}</span>${t.score ? `<span class="pod-score">${esc(t.score)}</span>` : ''}</div>
-        <div class="pod-body"><div class="pod-title">${esc(t.title)}</div>${t.meta ? `<div class="pod-meta">${esc(t.meta)}</div>` : ''}
-        ${r.comment ? `<p class="pod-comment">${esc(r.comment)}</p>` : ''}</div>`);
+    const podium = [1, 0, 2].filter((i) => top[i]).map((i) => {
+      const r = top[i], t = info(r);
+      const art = r.g && (r.g.cover || r.g.banner);
+      return wrap(r, `pcard portrait gpod gp${i + 1}`, `${art ? img(art, 'pc-img', t.title) : ''}
+          <span class="gp-rank">${i + 1}</span>${t.score ? `<span class="pc-pct">${esc(t.score)}</span>` : ''}
+        <div class="pc-body"><div class="pc-name">${esc(t.title)}</div>${t.meta ? `<div class="pc-meta">${esc(t.meta)}</div>` : ''}
+        ${i === 0 && r.comment ? `<p class="gp-comment">${esc(r.comment)}</p>` : ''}</div>`);
     }).join('');
     const list = rest.map((r, i) => {
       const t = info(r);
@@ -712,13 +712,6 @@
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('[data-allavis]')) { avisStatus = 'Complété'; }
-    const szb = e.target.closest('[data-avsize]');
-    if (szb) {
-      avisSize = szb.dataset.avsize;
-      document.querySelectorAll('[data-avsize]').forEach((b) => b.classList.toggle('on', b === szb));
-      const gr = document.getElementById('avis-grid'); if (gr) gr.className = 'grid posters size-' + avisSize;
-      return;
-    }
     const cn = e.target.closest('[data-car]');
     if (cn) { const c = cn.closest('section').querySelector('.carousel'); if (c) { const f = c.firstElementChild; const st = f ? f.getBoundingClientRect().width + 18 : c.clientWidth; const k = Math.max(1, Math.floor(c.clientWidth / st)); c.scrollBy({ left: Number(cn.dataset.car) * st * k, behavior: 'smooth' }); } return; }
     const nl = e.target.closest('a[href^="#/"]');
@@ -851,7 +844,7 @@
     box.setAttribute('aria-label', 'Musique : lecture / pause'); box.title = 'Peace Reload — clic pour pause / lecture';
     box.innerHTML = '<img class="mp-pause" src="assets/player-pause.png" alt=""><img class="mp-play" src="assets/player-play.png" alt=""><span class="mp-time">00:00</span>';
     document.body.appendChild(box);
-    const au = new Audio('assets/peace-reload.mp3'); au.loop = true; au.volume = 0.25; au.preload = 'auto';
+    const au = new Audio('assets/peace-reload.mp3'); au.loop = true; au.volume = 0.12; au.preload = 'auto';
     const tEl = box.querySelector('.mp-time');
     const two = (n) => String(n).padStart(2, '0');
     au.addEventListener('timeupdate', () => { const t = Math.floor(au.currentTime); tEl.textContent = two(Math.floor(t / 60)) + ':' + two(t % 60); });

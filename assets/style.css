@@ -998,3 +998,31 @@ body:not(.home) .top{position:relative!important}
   .avis-top .sizes{margin-left:0!important}
 }
 .avis-bar .fold-list{background:#f6fbfd!important;box-shadow:0 14px 34px rgba(60,100,140,.28)}
+
+/* v71 : Avis dans un cadre blanc, taille unique, lecteur plus discret, podium GOTY en portrait, liste glass */
+@media(min-width:721px){
+  section.avis-panel{background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);border-radius:32px;padding:22px 40px 30px;margin-bottom:34px;box-shadow:0 14px 40px rgba(80,170,190,.14);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .avis-panel .avis-bar{background:rgba(255,255,255,.55);box-shadow:none}
+  #mp{width:150px;left:18px;bottom:16px;opacity:.88;transition:transform .12s ease,filter .12s ease,opacity .2s}
+  #mp:hover{opacity:1}
+  #mp .mp-time{font-size:7.2px}
+}
+/* podium */
+.podium{display:grid!important;grid-template-columns:1fr 1.3fr 1fr!important;gap:18px!important;align-items:end;max-width:860px;margin:0 auto 26px!important}
+.podium[data-n="2"],.podium[data-n="1"]{grid-template-columns:repeat(auto-fit,minmax(0,1fr))!important}
+.podium .gpod{width:100%;animation:none!important}
+.podium .gpod.gp1{box-shadow:0 0 0 3px #e3c163,0 22px 36px -14px hsl(var(--h) var(--s) 26%/.7)!important}
+.podium .gpod.gp1 .pc-name{font-size:1.25rem}
+.gp-rank{position:absolute;top:10px;left:10px;z-index:3;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#2b2326;background:#d4dae3;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.gp1 .gp-rank{background:linear-gradient(135deg,#f3d27a,#d9a441);width:42px;height:42px;font-size:1.15rem}
+.gp3 .gp-rank{background:linear-gradient(135deg,#e0a874,#bf8250)}
+.gp-comment{margin:8px 0 0;font-size:.82rem;line-height:1.4;opacity:.9;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:720px){.podium{gap:8px!important;grid-template-columns:1fr 1.2fr 1fr!important}.podium .gpod .pc-name{font-size:.78rem}.podium .gpod.gp1 .pc-name{font-size:.9rem}.gp-comment{display:none}.gp-rank{width:26px;height:26px;font-size:.85rem}.gp1 .gp-rank{width:30px;height:30px}.podium .pc-meta{display:none}}
+/* liste 4 à 10 : verre blanc / bleu */
+.toprow{background:rgba(255,255,255,.66)!important;color:var(--text)!important;border:1px solid rgba(123,186,201,.6)!important;box-shadow:0 8px 20px -10px rgba(60,120,160,.3)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.toprow:hover{border-color:#5aaabd!important;background:rgba(255,255,255,.8)!important}
+.tr-rank{color:#7aa6ba!important}
+.tr-meta,.tr-comment{color:var(--muted)!important}
+.tr-score{background:#e7f3fa!important;border:1px solid #7bbac9!important;color:#2d6f95!important}
+.tr-art{border-color:rgba(123,186,201,.6)!important}
+@media(max-width:720px){.podium,.podium[data-n],.podium[data-n="2"],.podium[data-n="1"]{grid-template-columns:1fr 1.2fr 1fr!important}.podium .gp1,.podium .p1{grid-column:auto!important}}
