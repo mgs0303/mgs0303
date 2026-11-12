@@ -318,34 +318,45 @@
   }
 
   function facts(g, full) {
-    const rows = [];
-    const add = (k, v, cls) => { if (v !== null && v !== undefined && v !== '') rows.push(`<div class="f${cls ? ' ' + cls : ''}"><dt>${k}</dt><dd>${v}</dd></div>`); };
+    const rows = [], L = [], R = [];
+    const mk = (k, v, cls) => `<div class="f${cls ? ' ' + cls : ''}"><dt>${k}</dt><dd>${v}</dd></div>`;
+    const add = (k, v, cls, side) => { if (v !== null && v !== undefined && v !== '') (full && side === 'R' ? R : full ? L : rows).push(mk(k, v, cls)); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
     if (!full) add('Genre', genreTxt, 'wide');
     add('Série', esc(seriesOf(g)));
-    add('Année', esc(g.release_year));
-    if (full) add('Genre', genreTxt, 'genre');
-    add('Éditeur', esc(g.publisher));
-    add('Développeur', esc(g.developer));
-    add('Plateforme', esc(toList(g.platform).join(', ')));
-    add('Mode', esc(g.mode));
-    const hours = Number(g.playtime);
-    if (g.playtime !== null && g.playtime !== undefined && g.playtime !== '' && !isNaN(hours)) add('Temps de jeu', `${esc(String(hours).replace('.', ','))} h`);
-    else if (g.status === 'Complété') add('Temps de jeu', 'N/A');
-    add('Note', hasNote(g) ? `${esc(noteText(g))} / 10` : 'N/A');
-    const c = g.completion;
-    add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '');
+    if (full) { add('Genre', genreTxt, 'genre'); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); add('Année', esc(g.release_year)); }
+    else { add('Année', esc(g.release_year)); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
+    if (full) { add('Mode', esc(g.mode)); add('Plateforme', esc(toList(g.platform).join(', '))); }
+    else { add('Plateforme', esc(toList(g.platform).join(', '))); add('Mode', esc(g.mode)); }
     const notStarted = ['Pas lancé', 'En attente de sortie', 'Priorité backlog'].includes(g.status);
-    if (g.start_date) add('Début', esc(fmtDate(g.start_date)));
-    else if (g.no_start_date && !notStarted) add('Début', 'N/A');
+    const hours = Number(g.playtime);
+    let dStart = '', dEnd = '';
+    if (g.start_date) dStart = esc(fmtDate(g.start_date));
+    else if (g.no_start_date && !notStarted) dStart = 'N/A';
     if (finished) {
-      if (g.end_date) add('Fin', esc(fmtDate(g.end_date)));
-      else if (g.no_end_date) add('Fin', 'N/A');
+      if (g.end_date) dEnd = esc(fmtDate(g.end_date));
+      else if (g.no_end_date) dEnd = 'N/A';
+    }
+    const c = g.completion;
+    const noteV = hasNote(g) ? `${esc(noteText(g))} / 10` : 'N/A';
+    let hrs = '';
+    if (g.playtime !== null && g.playtime !== undefined && g.playtime !== '' && !isNaN(hours)) hrs = `${esc(String(hours).replace('.', ','))} h`;
+    else if (g.status === 'Complété') hrs = 'N/A';
+    if (full) {
+      add('Note', noteV);
+      add('Début', dStart, '', 'R'); add('Fin', dEnd, '', 'R');
+      add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '', 'wide2', 'R');
+      add('Temps de jeu', hrs, 'wide2', 'R');
+    } else {
+      add('Temps de jeu', hrs); add('Note', noteV);
+      add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '');
+      add('Début', dStart); add('Fin', dEnd);
     }
     const n = Number(g.replays);
-    if (n > 0) add('Rejoué', `${n} fois`.replace(/^1 fois$/, '1 fois'));
+    if (n > 0) add('Rejoué', `${n} fois`);
     add('Raison du rejeu', esc(g.replay_reason));
+    if (full) return `<dl class="facts split"><div class="fl">${L.join('')}</div><div class="fr">${R.join('')}</div></dl>`;
     return `<dl class="facts">${rows.join('')}</dl>`;
   }
 

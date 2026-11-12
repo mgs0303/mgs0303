@@ -1076,3 +1076,23 @@ body:not(.home) .top{position:relative!important}
 /* v78 : notes du podium style bouton GOTY, numéros 4-10 en bleu foncé */
 .podium .gpod .pc-pct,.podium .gpod .pc-pct.gold{background:#e7f3fa!important;border:1px solid #7bbac9!important;color:#2b3a46!important;box-shadow:0 6px 18px rgba(80,170,190,.28)!important;text-shadow:none!important}
 .tr-rank{color:#1f4f73!important}
+
+/* v80 : fiche jeu version PC = mêmes tuiles verre que sur téléphone, sur 3 colonnes pour remplir la droite */
+@media (min-width:721px){
+  .game .facts{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-flow:row dense;gap:12px!important;margin-top:20px;font-size:1rem}
+  .game .facts .f{display:block!important;background:rgba(255,255,255,.62)!important;border:1px solid rgba(123,186,201,.45)!important;border-radius:16px;padding:12px 16px;box-shadow:0 8px 20px -12px rgba(60,120,160,.3);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .game .facts .f.genre,.game .facts .f.wide{grid-column:1/-1}
+  .game .facts dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;color:var(--muted)}
+  .game .facts dd{font-size:1rem;font-weight:600;padding:0!important;grid-column:auto!important}
+}
+
+/* v81 : Début au-dessus de Fin dans une même tuile */
+.game .facts .f.dates .d2{margin-top:10px!important}
+
+/* v82 : fiche jeu PC en deux blocs (infos à gauche, dates/completion/temps à droite) */
+.game .facts.split .fl,.game .facts.split .fr{display:contents}
+@media (min-width:721px){
+  .game .facts.split{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:20px!important;align-items:start}
+  .game .facts.split .fl,.game .facts.split .fr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .game .facts.split .f.genre,.game .facts.split .f.wide2{grid-column:1/-1}
+}
