@@ -946,6 +946,6 @@ body:not(.home) .top{position:relative!important}
 
 /* v63 : dégradé de bord seulement pendant le vrai défilement, jamais au repos ni lors du repositionnement de la boucle */
 @media(min-width:721px){
-  .grid.carousel{transition:--fw .2s ease!important}
-  .grid.carousel.moving{--fw:56px}
+  .grid.carousel{transition:--fw .15s ease!important}
+  .grid.carousel.moving{--fw:26px}
 }
