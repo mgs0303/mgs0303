@@ -12,7 +12,7 @@ genre:
 series: Final Fantasy
 hide_series: true
 publisher: Square Enix
-developer: Square
+developer: Square Enix
 completion: N/A
 platform: Steam PC
 mode: Solo
