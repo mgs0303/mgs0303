@@ -949,3 +949,10 @@ body:not(.home) .top{position:relative!important}
   .grid.carousel{transition:--fw .15s ease!important}
   .grid.carousel.moving{--fw:26px}
 }
+
+/* v66 : dégradé de bord STATIQUE (toujours le même, aucun mouvement) ; les cartes au repos restent dans la zone pleine, seules celles qui glissent s'effacent */
+@media(min-width:721px){
+  .grid.carousel,.grid.carousel.moving{--fw:0px;transition:none!important;margin:0 -30px!important;padding:8px 30px 28px!important;scroll-padding-left:30px!important;
+    -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,0) 12px,rgba(0,0,0,.12) 17px,rgba(0,0,0,.4) 22px,rgba(0,0,0,.75) 26px,#000 30px,#000 calc(100% - 30px),rgba(0,0,0,.75) calc(100% - 26px),rgba(0,0,0,.4) calc(100% - 22px),rgba(0,0,0,.12) calc(100% - 17px),rgba(0,0,0,0) calc(100% - 12px),rgba(0,0,0,0) 100%)!important;
+    mask-image:linear-gradient(to right,rgba(0,0,0,0) 0,rgba(0,0,0,0) 12px,rgba(0,0,0,.12) 17px,rgba(0,0,0,.4) 22px,rgba(0,0,0,.75) 26px,#000 30px,#000 calc(100% - 30px),rgba(0,0,0,.75) calc(100% - 26px),rgba(0,0,0,.4) calc(100% - 22px),rgba(0,0,0,.12) calc(100% - 17px),rgba(0,0,0,0) calc(100% - 12px),rgba(0,0,0,0) 100%)!important}
+}
