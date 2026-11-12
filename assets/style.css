@@ -772,3 +772,12 @@ body:not(.home) .top .search>svg,body:not(.home) .top .search kbd{color:#5a7684}
   .car-btn.prev{left:-60px}
   .car-btn.next{right:-60px}
 }
+
+/* v41 : cartes un peu moins larges sur grand écran (310 px), flèches centrées dans la marge */
+@media(min-width:1240px){
+  .car-wrap{max-width:966px;margin:0 auto}
+  .car-btn,.car-btn.prev,.car-btn.next{width:96px}
+  .car-btn.prev{left:-96px}
+  .car-btn.next{right:-96px}
+}
+@media(min-width:1240px){section:has(.car-wrap)>.sec-head{max-width:966px;margin-left:auto;margin-right:auto}}
