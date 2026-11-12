@@ -781,3 +781,7 @@ body:not(.home) .top .search>svg,body:not(.home) .top .search kbd{color:#5a7684}
   .car-btn.next{right:-96px}
 }
 @media(min-width:1240px){section:has(.car-wrap)>.sec-head{max-width:966px;margin-left:auto;margin-right:auto}}
+
+/* v42 : contour des cartes identique à celui du cadre (la bordure translucide laissait voir le fond sombre dessous) */
+.pcard{background-clip:padding-box!important;border:1.5px solid rgba(123,186,201,.9)!important}
+.pcard:hover{border-color:#5aaabd!important}
