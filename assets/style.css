@@ -1130,3 +1130,10 @@ body:not(.home) .top{position:relative!important}
 .grid.posters .pcard.portrait:hover .pc-name,.grid.posters .pcard.portrait:hover .pc-meta,.grid.posters .pcard.portrait:hover .pc-date,.grid.posters .pcard.portrait:hover .pc-hover,.grid.posters .pcard.portrait:hover .pc-body{color:#1f2d3a!important;text-shadow:none!important}
 .grid.posters .pcard.portrait:hover .pc-tags span{background:rgba(255,255,255,.7)!important;border-color:rgba(123,160,185,.7)!important;color:#1f2d3a!important}
 .grid.posters .pcard.portrait .pc-name,.grid.posters .pcard.portrait .pc-meta,.grid.posters .pcard.portrait .pc-hover{transition:color .25s ease}
+
+/* v89 : voile à la couleur dominante de l'image (60 %), cadre net et opaque */
+.grid.posters .pcard.portrait::before{background:hsl(var(--h) max(var(--s),35%) 30%/.6)!important}
+.grid.posters .pcard.portrait:hover .pc-name,.grid.posters .pcard.portrait:hover .pc-meta,.grid.posters .pcard.portrait:hover .pc-date,.grid.posters .pcard.portrait:hover .pc-hover,.grid.posters .pcard.portrait:hover .pc-body{color:#fff!important;text-shadow:0 1px 6px rgba(0,0,0,.45)!important}
+.grid.posters .pcard.portrait:hover .pc-tags span{background:rgba(255,255,255,.18)!important;border-color:rgba(255,255,255,.4)!important;color:#fff!important}
+.grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover{border:2px solid hsl(var(--h) max(var(--s),35%) 46%)!important;background-color:hsl(var(--h) var(--s) 16%)!important;background-clip:border-box!important}
+.grid.posters .pcard.portrait:hover{border-color:hsl(var(--h) max(var(--s),35%) 56%)!important}
