@@ -1146,3 +1146,11 @@ body:not(.home) .top{position:relative!important}
 .pcard.portrait:hover .pc-img{transform:none!important}
 .grid.posters .pcard.portrait:hover{transform:translateY(-8px) scale(1.02)!important}
 .podium .gpod:hover{transform:translateY(-6px) scale(1.02)!important}
+
+/* v92 : éditeur/développeur identiques fusionnés ; noms longs qui passent à la ligne sans déborder, tuiles de même hauteur */
+.game .facts.split .fl{align-items:stretch}
+.game .facts .f dd{overflow-wrap:anywhere;hyphens:auto}
+
+/* v93 : cadre 1px partout sur les cards portrait (séries, podium, avis) ; série sélectionnée = cadre un peu plus marqué sans gros contour */
+.pcard.portrait,.pcard.portrait.stile,.podium .gpod,.podium .gpod.gp1{border:1px solid #c2e0e7!important}
+.stile.pcard.on,.stile.pcard.on:hover{box-shadow:0 14px 24px -12px rgba(35,75,115,.6)!important;border-color:#5aaabd!important;transform:translateY(-4px)}

@@ -325,7 +325,11 @@
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
     if (!full) add('Genre', genreTxt, 'wide');
     if (!full) add('Série', esc(seriesOf(g)));
-    if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre'); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); add('Année', esc(g.release_year)); }
+    if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre');
+      const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
+      if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Développeur', esc(pub), 'genre');
+      else { add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
+      add('Année', esc(g.release_year)); }
     else { add('Année', esc(g.release_year)); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
     if (full) { add('Mode', esc(g.mode)); add('Plateforme', esc(toList(g.platform).join(', '))); }
     else { add('Plateforme', esc(toList(g.platform).join(', '))); add('Mode', esc(g.mode)); }
