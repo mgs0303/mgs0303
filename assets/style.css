@@ -1137,3 +1137,7 @@ body:not(.home) .top{position:relative!important}
 .grid.posters .pcard.portrait:hover .pc-tags span{background:rgba(255,255,255,.18)!important;border-color:rgba(255,255,255,.4)!important;color:#fff!important}
 .grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover{border:2px solid hsl(var(--h) max(var(--s),35%) 46%)!important;background-color:hsl(var(--h) var(--s) 16%)!important;background-clip:border-box!important}
 .grid.posters .pcard.portrait:hover{border-color:hsl(var(--h) max(var(--s),35%) 56%)!important}
+
+/* v90 : cadre des cards Avis = 1px #c2e0e7 (couleur du cadre du panneau), sans scale au survol pour éviter les bords qui bavent */
+.grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover{border:1px solid #c2e0e7!important;background-clip:padding-box!important;background-color:transparent!important;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.grid.posters .pcard.portrait:hover{transform:translateY(-8px)!important}
