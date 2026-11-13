@@ -8,7 +8,8 @@ end_date: 2026-11-13
 no_end_date: false
 release_year: 2015
 genre:
-  - Action / Aventure
+  - Action
+  - Aventure
 series: METAL GEAR
 hide_series: false
 publisher: KONAMI
