@@ -101,7 +101,7 @@
     return `<button class="pcard${imgs ? '' : ' noart'}" data-open="${esc(g.slug)}">
       ${imgs}
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div>
-        ${mode === 'note' ? `<div class="pc-row">${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : '<span></span>'}${hasNote(g) ? `<span class="pc-note">★ ${esc(noteText(g))} / 10</span>` : ''}</div>` : `${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+        ${mode === 'note' ? `<div class="pc-row">${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : '<span></span>'}${hasNote(g) ? `<span class="pc-note">${esc(noteText(g))} / 10</span>` : ''}</div>` : `${tags.length ? `<div class="pc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
         ${mode === 'bar' ? `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>` : ''}`}</div>
     </button>`;
   }
@@ -166,7 +166,7 @@
     const tags = toList(g.genre).slice(0, 2);
     const gold = hasNote(g) && Number(g.note) >= 9.5;
     return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}" style="--i:${Number.isInteger(i) ? i : 0}">
-      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}</span>
+      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? ' / 10' : ''}</span>
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
         <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go">Lire l’avis ›</span></div></div>
     </a>`;
@@ -535,7 +535,7 @@
       const r = top[i], t = info(r);
       const art = r.g && (r.g.cover || r.g.banner);
       return wrap(r, `pcard portrait gpod gp${i + 1}`, `${art ? img(art, 'pc-img', t.title) : ''}
-          ${t.score ? `<span class="pc-pct">${esc(t.score)}</span>` : ''}
+          ${t.score ? `<span class="pc-pct">${esc(t.score)}${/^[\d.,]+$/.test(String(t.score)) ? ' / 10' : ''}</span>` : ''}
         <div class="pc-body"><div class="pc-name"><span class="gp-rank">#${i + 1}</span> ${esc(t.title)}</div>${t.meta ? `<div class="pc-meta">${esc(t.meta)}</div>` : ''}
         ${i === 0 && r.comment ? `<p class="gp-comment">${esc(r.comment)}</p>` : ''}</div>`);
     }).join('');

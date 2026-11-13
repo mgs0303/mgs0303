@@ -1154,3 +1154,9 @@ body:not(.home) .top{position:relative!important}
 /* v93 : cadre 1px partout sur les cards portrait (séries, podium, avis) ; série sélectionnée = cadre un peu plus marqué sans gros contour */
 .pcard.portrait,.pcard.portrait.stile,.podium .gpod,.podium .gpod.gp1{border:1px solid #c2e0e7!important}
 .stile.pcard.on,.stile.pcard.on:hover{box-shadow:0 14px 24px -12px rgba(35,75,115,.6)!important;border-color:#5aaabd!important;transform:translateY(-4px)}
+
+/* v95 : notes "7 / 10" en pastille un peu plus large ; ombre des séries = ombre des avis */
+.grid.posters .pcard.portrait .pc-pct,.grid.posters .pcard.portrait .pc-pct.gold,.podium .gpod .pc-pct{padding:2px 10px!important;font-size:.74rem!important;white-space:nowrap}
+.stile.pcard.portrait{box-shadow:0 14px 22px -14px rgba(35,75,115,.55)!important}
+.stile.pcard.portrait:hover{box-shadow:0 24px 34px -16px rgba(35,75,115,.65)!important}
+.stile.pcard.on,.stile.pcard.on:hover{box-shadow:0 24px 34px -16px rgba(35,75,115,.65)!important}
