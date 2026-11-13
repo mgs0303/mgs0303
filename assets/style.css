@@ -1141,3 +1141,8 @@ body:not(.home) .top{position:relative!important}
 /* v90 : cadre des cards Avis = 1px #c2e0e7 (couleur du cadre du panneau), sans scale au survol pour éviter les bords qui bavent */
 .grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover{border:1px solid #c2e0e7!important;background-clip:padding-box!important;background-color:transparent!important;-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .grid.posters .pcard.portrait:hover{transform:translateY(-8px)!important}
+
+/* v91 : la card grandit au survol (Avis, GOTY, séries) mais l'image à l'intérieur ne zoome plus */
+.pcard.portrait:hover .pc-img{transform:none!important}
+.grid.posters .pcard.portrait:hover{transform:translateY(-8px) scale(1.02)!important}
+.podium .gpod:hover{transform:translateY(-6px) scale(1.02)!important}
