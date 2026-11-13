@@ -10,6 +10,7 @@ release_year: 2010
 genre:
   - Visual Novel
   - Aventure
+hide_series: false
 publisher: Spike Chunsoft
 developer: Spike Chunsoft
 note: 9
@@ -18,5 +19,5 @@ platform: Steam PC
 mode: Solo
 playtime: 32.6
 banner: /assets/images/capsule_616x353 (1)-1.jpg
-cover: /assets/images/Sampuldanganronpa-1.jpg
+cover: /assets/images/0936f10f43128fe83dec931fa8934f16.jpg
 ---
