@@ -11,6 +11,7 @@ genre:
   - Action
   - Aventure
 series: METAL GEAR
+hide_series: false
 publisher: KONAMI
 developer: KONAMI
 note: 7
@@ -18,5 +19,5 @@ completion: Main Story
 platform: Steam PC
 mode: Solo
 banner: /assets/images/metal-gear-solid-v-ground-zeroes-pc-jeu-steam-cover.jpg
-cover: /assets/images/3d5cbcad747c5477f33557043b62bbeb.png
+cover: /assets/images/METAL GEAR/078c1993dcaa199add4a1b83be1a0c04.jpg
 ---
