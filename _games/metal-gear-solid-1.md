@@ -11,6 +11,7 @@ genre:
   - Action
   - Aventure
 series: METAL GEAR
+hide_series: false
 publisher: KONAMI
 developer: KONAMI
 note: 10
@@ -19,5 +20,5 @@ platform: Duckstation
 mode: Solo
 playtime: 17
 banner: /assets/images/87eb9d4eaa03cf39630cf48a920d1920.png
-cover: /assets/images/3ac4511ba0302570efea191ea1a2d0b4.jpg
+cover: /assets/images/METAL GEAR/16e1de2b621c3598f7f3463cf43449c6.png
 ---
