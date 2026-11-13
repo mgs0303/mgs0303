@@ -455,7 +455,7 @@
       const art = cg && (cg.cover || cg.banner);
       gr.sorted = gs;
       return `<button class="pcard portrait stile" data-series="${i}" aria-expanded="false">
-        ${art ? img(art, 'pc-img', gr.name) : ''}<span class="pc-pct">${gs.length} jeux</span>
+        ${art ? img(art, 'pc-img', gr.name) : ''}
         <span class="pc-body"><span class="pc-name">${esc(gr.name)}</span>${m !== null ? `<span class="pc-meta">note moyenne ${fmt1(m)}</span>` : ''}</span></button>`;
     }).join('') + '</div>';
     window.__series = groups;
