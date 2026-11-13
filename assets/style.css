@@ -1117,3 +1117,10 @@ body:not(.home) .top{position:relative!important}
 .grid.posters .pcard.portrait:hover{border-color:rgba(110,120,132,.6)!important;box-shadow:0 24px 34px -16px rgba(35,75,115,.65)!important}
 .grid.posters .pcard.portrait .pc-pct,.grid.posters .pcard.portrait .pc-pct.gold{top:9px;right:9px;padding:2px 9px;font-size:.74rem;background:rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.85)!important;color:#2b3a46!important;box-shadow:0 4px 12px rgba(40,70,100,.25)!important;text-shadow:none!important}
 .gpod .gp-rank,.gp1 .gp-rank,.gp3 .gp-rank{position:static!important;display:inline!important;width:auto!important;height:auto!important;background:none!important;border:0!important;box-shadow:none!important;color:rgba(255,255,255,.75)!important;font-size:.85em;font-weight:700;margin-right:2px}
+
+/* v87 : au survol des cards Avis le dégradé monte sur toute l'image ; cadre à la couleur de l'image */
+.grid.posters .pcard.portrait{border:1.5px solid hsl(var(--h) max(var(--s),30%) 52%/.85)!important}
+.grid.posters .pcard.portrait:hover{border-color:hsl(var(--h) max(var(--s),30%) 58%)!important}
+.grid.posters .pcard.portrait::before{display:block!important;content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .3s ease;background:linear-gradient(to top,hsl(var(--h) var(--s) 14%/.97) 0,hsl(var(--h) var(--s) 17%/.9) 45%,hsl(var(--h) var(--s) 20%/.78) 100%)}
+.grid.posters .pcard.portrait:hover::before,.grid.posters .pcard.portrait:focus-visible::before{opacity:1}
+.grid.posters .pcard.portrait .pc-body,.grid.posters .pcard.portrait .pc-pct{z-index:3}
