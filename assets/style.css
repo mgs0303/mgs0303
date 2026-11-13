@@ -1124,3 +1124,9 @@ body:not(.home) .top{position:relative!important}
 .grid.posters .pcard.portrait::before{display:block!important;content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .3s ease;background:linear-gradient(to top,hsl(var(--h) var(--s) 14%/.97) 0,hsl(var(--h) var(--s) 17%/.9) 45%,hsl(var(--h) var(--s) 20%/.78) 100%)}
 .grid.posters .pcard.portrait:hover::before,.grid.posters .pcard.portrait:focus-visible::before{opacity:1}
 .grid.posters .pcard.portrait .pc-body,.grid.posters .pcard.portrait .pc-pct{z-index:3}
+
+/* v88 : au survol des cards Avis, voile blanc 60 % sur toute l'image, textes foncés */
+.grid.posters .pcard.portrait::before{background:rgba(255,255,255,.6)!important}
+.grid.posters .pcard.portrait:hover .pc-name,.grid.posters .pcard.portrait:hover .pc-meta,.grid.posters .pcard.portrait:hover .pc-date,.grid.posters .pcard.portrait:hover .pc-hover,.grid.posters .pcard.portrait:hover .pc-body{color:#1f2d3a!important;text-shadow:none!important}
+.grid.posters .pcard.portrait:hover .pc-tags span{background:rgba(255,255,255,.7)!important;border-color:rgba(123,160,185,.7)!important;color:#1f2d3a!important}
+.grid.posters .pcard.portrait .pc-name,.grid.posters .pcard.portrait .pc-meta,.grid.posters .pcard.portrait .pc-hover{transition:color .25s ease}
