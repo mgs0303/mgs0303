@@ -1160,3 +1160,10 @@ body:not(.home) .top{position:relative!important}
 .stile.pcard.portrait{box-shadow:0 14px 22px -14px rgba(35,75,115,.55)!important}
 .stile.pcard.portrait:hover{box-shadow:0 24px 34px -16px rgba(35,75,115,.65)!important}
 .stile.pcard.on,.stile.pcard.on:hover{box-shadow:0 24px 34px -16px rgba(35,75,115,.65)!important}
+
+/* v96 : note en texte "7 / 10" en bas à droite des cards (comme sur les jeux complétés), plus de pastille */
+.pcard.portrait .pc-pct,.pcard.portrait .pc-pct.gold,.grid.posters .pcard.portrait .pc-pct,.grid.posters .pcard.portrait .pc-pct.gold{top:auto!important;right:14px!important;bottom:12px!important;left:auto!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;color:#fff!important;font-size:.9rem!important;font-weight:700!important;text-shadow:0 1px 6px rgba(0,0,0,.4)!important;transition:opacity .2s ease}
+.pcard.portrait:hover .pc-pct{opacity:0}
+.gp-line{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.gp-line .pc-meta{min-width:0}
+.gp-score{flex:none;font-weight:700;font-size:.9rem;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.4)}

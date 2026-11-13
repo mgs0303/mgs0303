@@ -535,8 +535,7 @@
       const r = top[i], t = info(r);
       const art = r.g && (r.g.cover || r.g.banner);
       return wrap(r, `pcard portrait gpod gp${i + 1}`, `${art ? img(art, 'pc-img', t.title) : ''}
-          ${t.score ? `<span class="pc-pct">${esc(t.score)}${/^[\d.,]+$/.test(String(t.score)) ? ' / 10' : ''}</span>` : ''}
-        <div class="pc-body"><div class="pc-name"><span class="gp-rank">#${i + 1}</span> ${esc(t.title)}</div>${t.meta ? `<div class="pc-meta">${esc(t.meta)}</div>` : ''}
+        <div class="pc-body"><div class="pc-name"><span class="gp-rank">#${i + 1}</span> ${esc(t.title)}</div>${(t.meta || t.score) ? `<div class="gp-line"><span class="pc-meta">${esc(t.meta || '')}</span>${t.score ? `<span class="gp-score">${esc(t.score)}${/^[\d.,]+$/.test(String(t.score)) ? ' / 10' : ''}</span>` : ''}</div>` : ''}
         ${i === 0 && r.comment ? `<p class="gp-comment">${esc(r.comment)}</p>` : ''}</div>`);
     }).join('');
     const list = rest.map((r, i) => {
