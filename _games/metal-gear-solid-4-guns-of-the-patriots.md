@@ -11,6 +11,7 @@ genre:
   - Action
   - Aventure
 series: METAL GEAR
+hide_series: false
 publisher: KONAMI
 developer: KONAMI
 note: 8
@@ -19,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 29.3
 banner: /assets/images/metal-gear-solid-4-guns-of-the-patriots-master-collection-version-pc-steam-cover.jpg
-cover: /assets/images/cd784a63f7741fc9606f1caa1ee5e62b.jpg
+cover: /assets/images/METAL GEAR/a634d1d7af940834c11c37d693c4784e.jpg
 ---
