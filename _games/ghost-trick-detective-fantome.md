@@ -10,6 +10,7 @@ release_year: 2023
 genre:
   - Puzzle
   - Narratif
+hide_series: false
 publisher: Capcom
 developer: Capcom
 note: 7
@@ -18,5 +19,5 @@ platform: Steam PC
 mode: Solo
 playtime: 13
 banner: /assets/images/995b2ea418d9d74e602e5614afe5731dff287c7423c49310d57ab2fc54a74998.avif
-cover: /assets/images/71Tijf5eYML.jpg
+cover: /assets/images/1dbcbdaa196026e26e999387e7bc1725.png
 ---
