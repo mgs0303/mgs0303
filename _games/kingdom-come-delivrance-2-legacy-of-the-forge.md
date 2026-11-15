@@ -1,5 +1,5 @@
 ---
-title: Kingdom Come Delivrance 2 Legacy of the Forge
+title: Kingdom Come Deliverance 2 Legacy of the Forge
 status: Complété
 progress: 100
 start_date: 2025-11-10
