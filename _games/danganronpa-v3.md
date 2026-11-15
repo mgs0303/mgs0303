@@ -10,6 +10,7 @@ release_year: 2016
 genre:
   - Visual Novel
   - Aventure
+hide_series: false
 publisher: Spike Chunsoft
 developer: Spike Chunsoft
 note: 5
@@ -18,5 +19,5 @@ platform: Steam PC
 mode: Solo
 playtime: 38.6
 banner: /assets/images/capsule_616x353 (2).jpg
-cover: /assets/images/s-l1200.jpg
+cover: /assets/images/5a0ad63fba93394a1f07db160174d378.png
 ---
