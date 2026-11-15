@@ -12,6 +12,7 @@ genre:
   - Narratif
   - Indépendant
   - Aventure
+hide_series: false
 publisher: ENA Team
 developer: ENA Team
 note: 9
@@ -20,5 +21,5 @@ platform: Steam PC
 mode: Solo
 playtime: 7.5
 banner: /assets/images/capsule_616x353 (2)-1.jpg
-cover: /assets/images/co62ei.jpg
+cover: /assets/images/7849c13259ba5fd1edc0b6fc79afa218.jpg
 ---
