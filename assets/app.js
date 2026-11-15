@@ -255,7 +255,7 @@
     const empty = groups ? '' : `<p class="empty">${homeStatus === 'Tous' ? 'Aucun jeu dans ces statuts pour l\'instant.' : 'Aucun jeu avec ce statut pour l\'instant.'}</p>`;
     const chips = ['Tous', ...tabs].map((st) => {
       const n = st === 'Tous' ? 0 : of(st).length;
-      return `<button class="chip${st === homeStatus ? ' on' : ''}" data-filter="home-status" data-value="${esc(st)}">${esc(st)}${n ? ` <span class="chip-n">${n}</span>` : ''}</button>`;
+      return `<button class="chip${st === homeStatus ? ' on' : ''}" style="--sc:${st === 'Tous' ? '#7bbac9' : color(st)}" data-filter="home-status" data-value="${esc(st)}">${esc(st)}${n ? ` <span class="chip-n">${n}</span>` : ''}</button>`;
     }).join('');
     html += `<section class="statut"><div class="sec-head"><h2>Par statut</h2>${fold(homeStatus, chips)}</div><div class="filters desk-only">${chips}</div>${groups}${empty}</section>`;
 

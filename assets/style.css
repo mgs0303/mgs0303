@@ -1187,3 +1187,24 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v104 : survol des cards Avis = reflet de lumière sur une vitre (sans flou), qui balaie la card */
 #avis-grid .pcard.portrait::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background-image:linear-gradient(115deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 34%,rgba(255,255,255,.42) 41%,rgba(255,255,255,.1) 47%,rgba(255,255,255,0) 52%,rgba(255,255,255,.2) 60%,rgba(255,255,255,0) 68%,rgba(255,255,255,0) 100%),linear-gradient(160deg,rgba(255,255,255,.28) 0,rgba(255,255,255,0) 40%)!important;background-size:260% 100%,100% 100%!important;background-position:110% 0,0 0!important;background-repeat:no-repeat!important;background-color:transparent!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),inset 0 1px 0 rgba(255,255,255,.8)!important;transition:opacity .3s ease,background-position .9s ease!important}
 #avis-grid .pcard.portrait:hover::before{background-position:-10% 0,0 0!important}
+
+/* v105 : plus de dégradé sur les cards (texte renforcé par une ombre de texte) */
+.pcard::after,.pcard.portrait::after,.grid.posters .pcard.portrait::after{background:none!important}
+.pcard .pc-name,.pcard .pc-meta,.pcard .pc-date,.pcard .pc-note,.pcard .pc-pct,.pcard .pc-prog,.pcard .pc-tags span,.pcard .pc-hover{text-shadow:0 1px 3px rgba(0,0,0,.75),0 0 12px rgba(0,0,0,.55)!important}
+
+/* v105 : bug du bas des cards Avis (bande vide) : l'image remplit toute la card */
+.pcard.portrait{background-color:#1b2330!important;overflow:hidden}
+.pcard.portrait .pc-img{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover}
+
+/* v105 : menus déroulants en verre givré (frost) */
+.fold-list{background:rgba(255,255,255,.55)!important;-webkit-backdrop-filter:blur(22px) saturate(1.7)!important;backdrop-filter:blur(22px) saturate(1.7)!important;border:1px solid rgba(255,255,255,.7)!important;box-shadow:0 18px 40px -12px rgba(30,60,90,.35),inset 0 1px 0 rgba(255,255,255,.8)!important}
+.fold-list .op,.fold-list .chip{background:transparent!important;box-shadow:none!important}
+.fold-list .op:hover,.fold-list .chip:hover{background:rgba(255,255,255,.55)!important}
+.fold-list .op.on,.fold-list .chip.on,.fold-list [aria-checked=true]{background:rgba(160,215,235,.65)!important}
+
+/* v105 : cadre bleu autour de la card Dernier avis */
+.lr-card{border:1px solid rgba(123,186,201,.7)!important}
+
+/* v105 : pastille de statut choisie = couleur du statut (fond, contour et ombre assortis) */
+.statut .chip{--sc:#7bbac9}
+.statut .chip.on{background:color-mix(in srgb,var(--sc) 20%,#fff)!important;border-color:var(--sc)!important;color:color-mix(in srgb,var(--sc) 55%,#1c2733)!important;box-shadow:0 6px 18px color-mix(in srgb,var(--sc) 38%,transparent)!important}
