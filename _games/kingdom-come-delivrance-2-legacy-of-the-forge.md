@@ -9,6 +9,7 @@ no_end_date: false
 release_year: 2025
 genre:
   - DLC
+hide_series: false
 publisher: Warhorse Studios
 developer: Warhorse Studios
 note: 9
@@ -16,5 +17,5 @@ completion: 100%
 platform: Steam PC
 mode: Solo
 banner: /assets/images/capsule_616x353-3.jpg
-cover: /assets/images/Capture d'écran 2026-11-11 004118.png
+cover: /assets/images/174327_Kingdom_Come_Deliverance_II_-_Legacy_of_the_Forge.jpg_width=760-1.png
 ---
