@@ -1175,3 +1175,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .stile.pcard,.stile.pcard:hover,.stile.pcard.portrait,.stile.pcard.portrait:hover,.stile.pcard.on,.stile.pcard.on:hover,
 .podium .gpod,.podium .gpod.gp1,.podium .gpod:hover,.podium .gpod.gp1:hover,.game .facts .f,.game .facts .f:hover{box-shadow:none!important}
 .podium::before{display:none!important}
+
+/* v102 : plus de cadres bleus sur les cards et images */
+.pcard,.pcard:hover,.pcard.portrait,.pcard.portrait:hover,.grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover,.stile.pcard,.stile.pcard:hover,.stile.pcard.on,.stile.pcard.on:hover,.stile.pcard.portrait,.podium .gpod,.podium .gpod.gp1,.podium .gpod:hover,.podium .gpod.gp1:hover,
+.card,.card:hover,.lr-card,.lr-card:hover,.ycard,.ycard:hover,.st-art,.pod,.pod.p1,.game .cover,.game .art,.game img.cover,.lr-art,.lr-card img{border:0!important;outline:0!important}
