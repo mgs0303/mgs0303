@@ -1167,3 +1167,12 @@ body:not(.home) .top{position:relative!important}
 .gp-line{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
 .gp-line .pc-meta{min-width:0}
 .gp-score{flex:none;font-weight:700;font-size:.9rem;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+
+/* v97 : page Avis = cards "inner shadow" (enfoncées), sans aucun effet au survol */
+#avis-grid .pcard.portrait,#avis-grid .pcard.portrait:hover{transform:none!important;transition:none!important;border:1px solid rgba(150,175,190,.35)!important;box-shadow:0 1px 0 rgba(255,255,255,.95)!important}
+#avis-grid .pcard.portrait .pc-img,#avis-grid .pcard.portrait:hover .pc-img{transform:none!important;transition:none!important}
+#avis-grid .pcard.portrait::before,#avis-grid .pcard.portrait:hover::before{display:block!important;content:""!important;position:absolute;inset:0;z-index:2;pointer-events:none;opacity:1!important;transition:none!important;border-radius:inherit;background:none!important;box-shadow:inset 0 5px 14px rgba(15,30,45,.55),inset 0 -3px 10px rgba(15,30,45,.3),inset 3px 0 10px rgba(15,30,45,.22),inset -3px 0 10px rgba(15,30,45,.22)!important}
+#avis-grid .pcard.portrait .pc-body,#avis-grid .pcard.portrait .pc-pct{z-index:3}
+#avis-grid .pcard.portrait:hover .pc-pct{opacity:1!important}
+#avis-grid .pcard.portrait .pc-hover,#avis-grid .pcard.portrait:hover .pc-hover{display:none!important;max-height:0!important}
+#avis-grid .pcard.portrait:hover .pc-name,#avis-grid .pcard.portrait:hover .pc-meta,#avis-grid .pcard.portrait:hover .pc-date{color:#fff!important}
