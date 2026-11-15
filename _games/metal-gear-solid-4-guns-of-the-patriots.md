@@ -20,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 29.3
 banner: /assets/images/metal-gear-solid-4-guns-of-the-patriots-master-collection-version-pc-steam-cover.jpg
-cover: /assets/images/METAL GEAR/a634d1d7af940834c11c37d693c4784e.jpg
+cover: /assets/images/0f8a218d7f39957f7a6901ddadfaed21.png
 ---
