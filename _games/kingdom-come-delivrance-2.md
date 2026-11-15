@@ -1,5 +1,5 @@
 ---
-title: Kingdom Come Delivrance 2
+title: Kingdom Come Deliverance 2
 status: Complété
 progress: 100
 start_date: 2025-08-31
