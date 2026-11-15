@@ -11,6 +11,7 @@ genre:
   - Narratif
   - Aventure
 series: Telltale Series
+hide_series: false
 publisher: Telltale
 developer: Telltale
 note: 7
@@ -19,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 11
 banner: /assets/images/u13ArMFXakq8zD6GjMkmfJr3TTwNxm-1.avif
-cover: /assets/images/batman-telltale-series.jpg
+cover: /assets/images/e7a8db7c810c992a1e04accb20a96d8d.jpg
 ---
