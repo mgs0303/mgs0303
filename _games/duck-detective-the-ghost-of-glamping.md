@@ -20,5 +20,5 @@ completion: 100%
 platform: Steam PC
 mode: Solo
 banner: /assets/images/50f96a604dc8072584f35e9b1affcfcc2fecfd3c87c1cd0b73e352043a6db04d.avif
-cover: /assets/images/Capture d'écran 2026-11-10 223001.png
+cover: /assets/images/0b465a5fd2826d57713b94dc92931ed6.png
 ---
