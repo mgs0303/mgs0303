@@ -11,6 +11,7 @@ genre:
   - Action
   - Aventure
 series: METAL GEAR
+hide_series: false
 publisher: KONAMI
 developer: KONAMI
 note: 8
@@ -19,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 24.2
 banner: /assets/images/883be88bb2eed5e62ec494ef362a86b8.png
-cover: /assets/images/6b79a0215c73e76af87c36f6a8a8ee7e.jpg
+cover: /assets/images/e081a744d57449a7ea5b84935e1adb9c.png
 ---
