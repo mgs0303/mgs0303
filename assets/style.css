@@ -1176,3 +1176,6 @@ body:not(.home) .top{position:relative!important}
 #avis-grid .pcard.portrait:hover .pc-pct{opacity:1!important}
 #avis-grid .pcard.portrait .pc-hover,#avis-grid .pcard.portrait:hover .pc-hover{display:none!important;max-height:0!important}
 #avis-grid .pcard.portrait:hover .pc-name,#avis-grid .pcard.portrait:hover .pc-meta,#avis-grid .pcard.portrait:hover .pc-date{color:#fff!important}
+
+/* v98 : effet "inner shadow" sur les grands blocs blancs */
+section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev,section.statut,section.avis-panel,.content{box-shadow:inset 0 4px 14px rgba(70,115,145,.2),inset 0 -2px 8px rgba(255,255,255,.85),inset 2px 0 8px rgba(70,115,145,.08),inset -2px 0 8px rgba(70,115,145,.08),0 1px 0 rgba(255,255,255,.9)!important}
