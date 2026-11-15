@@ -1208,3 +1208,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v105 : pastille de statut choisie = couleur du statut (fond, contour et ombre assortis) */
 .statut .chip{--sc:#7bbac9}
 .statut .chip.on{background:color-mix(in srgb,var(--sc) 20%,#fff)!important;border-color:var(--sc)!important;color:color-mix(in srgb,var(--sc) 55%,#1c2733)!important;box-shadow:0 6px 18px color-mix(in srgb,var(--sc) 38%,transparent)!important}
+
+/* v106 : cards Avis = dégradé de ton test : couleur de la partie basse de l'image, qui ne démarre qu'à mi-hauteur (le haut de l'image reste intact) */
+#avis-grid .pcard.portrait{border-radius:28px!important}
+#avis-grid .pcard.portrait::after{content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none!important;border-radius:inherit;background:linear-gradient(to top,hsl(var(--h) max(var(--s),38%) 17%/.97) 0,hsl(var(--h) max(var(--s),38%) 20%/.9) 24%,hsl(var(--h) max(var(--s),38%) 24%/.5) 42%,hsl(var(--h) max(var(--s),38%) 26%/0) 62%)!important}
