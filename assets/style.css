@@ -1215,3 +1215,6 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .pcard:not(.portrait)::after{background:linear-gradient(to top,hsl(var(--gh) var(--gs) var(--gl)/calc(.97*var(--ga))) 0,hsl(var(--gh) var(--gs) calc(var(--gl) + 3%)/calc(.85*var(--ga))) 30%,hsl(var(--gh) var(--gs) calc(var(--gl) + 8%)/0) 62%),linear-gradient(to bottom,hsl(var(--gh) var(--gs) var(--gl)/calc(.6*var(--ga))) 0,hsl(var(--gh) var(--gs) var(--gl)/0) 38%)!important}
 #avis-grid .pcard.portrait{border-radius:28px!important}
 .pcard .pc-body,.pcard .pc-row,.pcard .pc-pct,.pcard .pc-name,.pcard .pc-top,.pcard .pc-bottom{z-index:3}
+
+/* v109 : page Séries, jeux d'une série ouverte : pas de date sous le titre */
+.spanel .pc-date,.spanel .pc-meta{display:none!important}
