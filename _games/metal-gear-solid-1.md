@@ -20,5 +20,5 @@ platform: Duckstation
 mode: Solo
 playtime: 17
 banner: /assets/images/87eb9d4eaa03cf39630cf48a920d1920.png
-cover: /assets/images/1c7ba416a2c71594708644281c053c12.png
+cover: /assets/images/7f403e32bd9687f837715e419a9dfebe.png
 ---
