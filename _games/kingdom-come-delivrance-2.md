@@ -11,6 +11,7 @@ genre:
   - RPG
   - Aventure
   - Action
+hide_series: false
 publisher: Warhorse Studios
 developer: Warhorse Studios
 note: 10
@@ -19,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 250.2
 banner: /assets/images/kingdom-come-deliverance-ii-pc-jeu-steam-latin-america-cover.jpg
-cover: /assets/images/kingdom-come-deliverance-2_xgxq.jpg
+cover: /assets/images/4a90495261e6034c3397e98a12b2b58d.png
 ---
