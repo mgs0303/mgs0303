@@ -1218,3 +1218,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 
 /* v109 : page Séries, jeux d'une série ouverte : pas de date sous le titre */
 .spanel .pc-date,.spanel .pc-meta{display:none!important}
+
+/* v110 : séries -> titre sur une seule ligne avec "…" (ne passe pas sous la note) ; au survol, juste une flèche à la place de "Lire l'avis" */
+.spanel .pc-name{white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;display:block!important;padding-right:46px;-webkit-line-clamp:unset!important}
+.pc-hover .ph-go{font-size:1.4rem;line-height:1;font-weight:700}
