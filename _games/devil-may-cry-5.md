@@ -12,6 +12,7 @@ genre:
   - Action
   - Aventure
 series: Devil May Cry
+hide_series: false
 publisher: Capcom
 developer: Capcom
 note: 7
@@ -20,5 +21,5 @@ platform: Steam PC
 mode: Solo
 playtime: 12.5
 banner: /assets/images/capsule_616x353-2.jpg
-cover: /assets/images/Devil_May_Cry_5.jpg
+cover: /assets/images/de30360a34ecc20c9d85196165b85aa2.png
 ---
