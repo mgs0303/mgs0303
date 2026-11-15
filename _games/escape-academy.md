@@ -10,6 +10,7 @@ release_year: 2022
 genre:
   - Puzzle
   - Narratif
+hide_series: false
 publisher: Iam8bit
 developer: Coin Crew Games
 note: 7
@@ -18,5 +19,5 @@ platform: Steam PC
 mode: Multi
 playtime: 9.8
 banner: /assets/images/capsule_616x353 (3).jpg
-cover: /assets/images/images.jpg
+cover: /assets/images/c2576c3015fc393072784bc83e499ec5.jpg
 ---
