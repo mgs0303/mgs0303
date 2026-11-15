@@ -1179,3 +1179,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v102 : plus de cadres bleus sur les cards et images */
 .pcard,.pcard:hover,.pcard.portrait,.pcard.portrait:hover,.grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover,.stile.pcard,.stile.pcard:hover,.stile.pcard.on,.stile.pcard.on:hover,.stile.pcard.portrait,.podium .gpod,.podium .gpod.gp1,.podium .gpod:hover,.podium .gpod.gp1:hover,
 .card,.card:hover,.lr-card,.lr-card:hover,.ycard,.ycard:hover,.st-art,.pod,.pod.p1,.game .cover,.game .art,.game img.cover,.lr-art,.lr-card img{border:0!important;outline:0!important}
+
+/* v103 : survol des cards Avis = effet verre (glass effect) au lieu du voile coloré */
+#avis-grid .pcard.portrait::before{background:linear-gradient(135deg,rgba(255,255,255,.38) 0,rgba(255,255,255,.12) 45%,rgba(255,255,255,.28) 100%)!important;-webkit-backdrop-filter:blur(9px) saturate(1.25);backdrop-filter:blur(9px) saturate(1.25);box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),inset 0 1px 0 rgba(255,255,255,.8)!important;border-radius:inherit}
+#avis-grid .pcard.portrait:hover .pc-name,#avis-grid .pcard.portrait:hover .pc-meta,#avis-grid .pcard.portrait:hover .pc-date,#avis-grid .pcard.portrait:hover .pc-hover,#avis-grid .pcard.portrait:hover .pc-body{color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.55)!important}
