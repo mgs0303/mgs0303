@@ -12,11 +12,12 @@ genre:
   - Visual Novel
   - Indépendant
   - DLC
+hide_series: false
 publisher: Two and a Half Studios
 note: 9
 completion: 100%
 platform: Steam PC
 mode: Solo
 banner: /assets/images/header (1).jpg
-cover: /assets/images/141985_A_Date_with_Death.webp
+cover: /assets/images/43e6c02aadc384551d748dcecadb2486.png
 ---
