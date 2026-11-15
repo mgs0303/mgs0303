@@ -17,5 +17,5 @@ completion: 100%
 platform: Steam PC
 mode: Solo
 banner: /assets/images/capsule_616x353-3.jpg
-cover: /assets/images/174327_Kingdom_Come_Deliverance_II_-_Legacy_of_the_Forge.jpg_width=760-1.png
+cover: /assets/images/apps.25668.14529786763402446.333e44b3-4ba9-4cd7-877b-294388ed48fa.jpg
 ---
