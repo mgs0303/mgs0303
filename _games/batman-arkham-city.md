@@ -12,6 +12,7 @@ genre:
   - Action
   - Aventure
 series: Batman Arkham
+hide_series: false
 publisher: WB Games
 developer: Rocksteady Studios
 note: 7
@@ -20,5 +21,5 @@ platform: Steam PC
 mode: Solo
 playtime: 28.1
 banner: /assets/images/bc90570730494cfa1ee0ab09820ac4669818b61afb6aaa26def9f4600e2706ea.avif
-cover: /assets/images/Batman_Arkham_City_Game_Cover.jpg
+cover: /assets/images/4ac4f06ae0776841dc5f49e894b04359.jpg
 ---
