@@ -10,6 +10,7 @@ release_year: 2021
 genre:
   - Visual Novel
   - BL
+hide_series: false
 publisher: NITRO CHiRAL
 developer: NITRO CHiRAL
 note: 10
@@ -17,5 +18,5 @@ completion: 100%
 platform: Steam PC
 mode: Solo
 banner: /assets/images/6-1-905921-52.jpg
-cover: /assets/images/Slow_Damage_cover.jpg
+cover: /assets/images/954a55fb84eb370f3f9b9df18944bb5a.png
 ---
