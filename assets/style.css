@@ -1167,3 +1167,11 @@ body:not(.home) .top{position:relative!important}
 .gp-line{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
 .gp-line .pc-meta{min-width:0}
 .gp-score{flex:none;font-weight:700;font-size:.9rem;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+
+/* v101 : plus d'ombres portées partout, sauf sur les boutons / pastilles / menus */
+section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev,section.statut,section.avis-panel,.avis-bar,.avis-panel .avis-bar,.content,
+.card,.card:hover,.pod,.pod.p1,.podium .pod,.podium .p1,.toprow,.spanel,.lr-card,.lr-card:hover,.ycard,.ycard:hover,.st-art,.pf-av,
+.pcard,.pcard:hover,.pcard.portrait,.pcard.portrait:hover,.grid.posters .pcard.portrait,.grid.posters .pcard.portrait:hover,
+.stile.pcard,.stile.pcard:hover,.stile.pcard.portrait,.stile.pcard.portrait:hover,.stile.pcard.on,.stile.pcard.on:hover,
+.podium .gpod,.podium .gpod.gp1,.podium .gpod:hover,.podium .gpod.gp1:hover,.game .facts .f,.game .facts .f:hover{box-shadow:none!important}
+.podium::before{display:none!important}
