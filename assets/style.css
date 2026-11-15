@@ -1226,3 +1226,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v111 : dégradés plus contrastés (bas plus sombre, milieu plus coloré et plus saturé) */
 .pcard::after,.pcard.portrait::after,.grid.posters .pcard.portrait::after,#avis-grid .pcard.portrait::after{background:linear-gradient(to top,hsl(var(--gh) var(--gs) calc(var(--gl) * .5)/calc(.98*var(--ga))) 0,hsl(var(--gh) var(--gs) calc(var(--gl) * .75)/calc(.92*var(--ga))) 22%,hsl(var(--gh) var(--gs) calc(var(--gl) + 6%)/calc(.62*var(--ga))) 42%,hsl(var(--gh) var(--gs) calc(var(--gl) + 10%)/0) 64%)!important}
 .pcard:not(.portrait)::after{background:linear-gradient(to top,hsl(var(--gh) var(--gs) calc(var(--gl) * .5)/calc(.98*var(--ga))) 0,hsl(var(--gh) var(--gs) calc(var(--gl) * .8)/calc(.88*var(--ga))) 30%,hsl(var(--gh) var(--gs) calc(var(--gl) + 10%)/0) 64%),linear-gradient(to bottom,hsl(var(--gh) var(--gs) calc(var(--gl) * .6)/calc(.6*var(--ga))) 0,hsl(var(--gh) var(--gs) var(--gl)/0) 38%)!important}
+
+/* v112 : card Dernier avis : le cadre bleu reste aussi au survol (il disparaissait), effet de survol simplifié */
+.lr-card,.lr-card:hover,.lr-card:focus-visible{border:1px solid rgba(123,186,201,.7)!important;transform:none!important;transition:border-color .2s ease,background-color .2s ease!important}
+.lr-card:hover{border-color:#5aaabd!important;background:#fff!important}
