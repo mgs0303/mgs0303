@@ -22,7 +22,7 @@ playtime: 143
 replays: 2
 replay_reason: Faire le 100%
 banner: /assets/images/persona-5-royal-pc-jeu-steam-europe-cover (1)-1.jpg
-cover: /assets/images/78b22a52a1e53b0d2e27e6b40569793a.png
+cover: /assets/images/87883345025cdac97c0f89dceb6a5f53.png
 blocks:
   - type: titre
     text: Mon avis
