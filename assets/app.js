@@ -105,36 +105,30 @@
         ${mode === 'bar' ? `<div class="pc-prog"><span class="pc-n">${pc} %</span><div class="pc-bar"><i style="width:${pc}%"></i></div></div>` : ''}`}</div>
     </button>`;
   }
+  // jeux dont le dégradé doit être forcé en bleu (couleur de l'image mal détectée) : ajouter le nom du fichier du jeu (slug)
+  const GRAD_BLEU = ['baldur-s-gate-3', 'metal-gear-solid-2-sons-of-the-liberty'];
   function tintCards() {
     document.querySelectorAll('.pcard:not([data-t]) .pc-img, .pod:not([data-t]) .pod-art img, .toprow:not([data-t]) .tr-art img').forEach((im) => {
       const go = () => {
         const c = im.closest('.pcard, .pod, .toprow'); if (!c || c.dataset.t) return;
         c.dataset.t = '1';
         try {
-          const cv = document.createElement('canvas'); cv.width = cv.height = 32;
-          const x = cv.getContext('2d'); x.drawImage(im, 0, 0, 32, 32);
-          const d = x.getImageData(0, 0, 32, 32).data;
-          const hist = new Array(36).fill(0); let chromaSum = 0, cn = 0, bl = 0, bn = 0, br = 0, bg = 0, bb = 0;
-          for (let i = 0; i < d.length; i += 4) {
-            const r = d[i] / 255, g = d[i + 1] / 255, b2 = d[i + 2] / 255, py = Math.floor(i / 4 / 32);
-            const mx = Math.max(r, g, b2), mn = Math.min(r, g, b2), dl = mx - mn;
-            if (py >= 16) { bl += (mx + mn) / 2; br += r; bg += g; bb += b2; bn++; }
-            chromaSum += dl; cn++;
-            if (dl > 0.08 && mx > 0.18) {
-              let h = mx === r ? ((g - b2) / dl) % 6 : mx === g ? (b2 - r) / dl + 2 : (r - g) / dl + 4; h = h * 60; if (h < 0) h += 360;
-              hist[Math.floor(h / 10) % 36] += dl * mx;
-            }
-          }
-          let best = 0, bv = -1;
-          for (let k = 0; k < 36; k++) { const v = hist[k] * 2 + hist[(k + 35) % 36] + hist[(k + 1) % 36]; if (v > bv) { bv = v; best = k; } }
-          const hue = best * 10 + 5, colorful = chromaSum / cn, botL = bl / bn;
-          // bas de l'image quasi noir : pas besoin de dégradé
-          const dark = botL < 0.1;
-          const sat = Math.min(0.6, Math.max(0.08, colorful * 2.4)) * (botL < 0.25 ? 0.6 : 1);
-          const lig = Math.min(0.2, Math.max(0.08, botL * 0.9));
-          c.style.setProperty('--gh', hue); c.style.setProperty('--gs', Math.round(sat * 100) + '%');
-          c.style.setProperty('--gl', Math.round(lig * 100) + '%'); c.style.setProperty('--ga', dark ? 0 : 1);
-          c.style.setProperty('--h', hue); c.style.setProperty('--s', Math.round(Math.min(0.85, Math.max(0.25, sat * 1.15)) * 100) + '%');
+          const cv = document.createElement('canvas'); cv.width = cv.height = 24;
+          const x = cv.getContext('2d'); x.drawImage(im, 0, 0, 24, 24);
+          const d = x.getImageData(0, 12, 24, 12).data; let r = 0, g = 0, b = 0, n = 0;
+          for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
+          r /= n * 255; g /= n * 255; b /= n * 255;
+          const mx = Math.max(r, g, b), mn = Math.min(r, g, b), dl = mx - mn;
+          let h = 0;
+          if (dl) { h = mx === r ? ((g - b) / dl) % 6 : mx === g ? (b - r) / dl + 2 : (r - g) / dl + 4; h = Math.round(h * 60); if (h < 0) h += 360; }
+          const l = (mx + mn) / 2, sat = dl ? dl / (1 - Math.abs(2 * l - 1)) : 0;
+          c.style.setProperty('--h', h); c.style.setProperty('--s', Math.round(Math.min(0.85, Math.max(0.25, sat * 1.15)) * 100) + '%');
+          // dégradé : couleur de la moitié basse ; gris si l'image est peu colorée ; aucun dégradé si le bas est déjà noir
+          let gh = h, gs = Math.min(0.6, sat * 1.1) * (l < 0.25 ? 0.55 : 1), gl = Math.min(0.2, Math.max(0.08, l * 0.9)), ga = l < 0.1 ? 0 : 1;
+          const slug = c.dataset.open || (c.querySelector('[data-open]') || {}).dataset && c.querySelector('[data-open]').dataset.open;
+          if (GRAD_BLEU.includes(slug)) { gh = 214; gs = 0.55; gl = 0.17; ga = 1; }
+          c.style.setProperty('--gh', gh); c.style.setProperty('--gs', Math.round(gs * 100) + '%');
+          c.style.setProperty('--gl', Math.round(gl * 100) + '%'); c.style.setProperty('--ga', ga);
         } catch (e) { /* couleurs par défaut */ }
       };
       if (im.complete && im.naturalWidth) go(); else im.addEventListener('load', go, { once: true });
