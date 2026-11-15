@@ -9,6 +9,7 @@ no_end_date: false
 release_year: 2025
 genre:
   - DLC
+hide_series: false
 publisher: Warhorse Studios
 developer: Warhorse Studios
 note: 7
@@ -16,5 +17,5 @@ completion: 100%
 platform: Steam PC
 mode: Solo
 banner: /assets/images/kingdom-come-deliverance-ii-brushes-with-death-pc-jeu-steam-europe-us-canada-cover.jpg
-cover: /assets/images/kingdom_come-_deliverance_ii_brushes_with_death_cdkeys.webp
+cover: /assets/images/168597_Kingdom_Come_Deliverance_II_-_Brushes_with_Death.webp
 ---
