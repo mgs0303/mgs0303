@@ -10,6 +10,7 @@ release_year: 2026
 genre:
   - Puzzle
   - Indépendant
+hide_series: false
 publisher: ArtRising
 developer: ArtRising
 note: 7
@@ -18,5 +19,5 @@ platform: Steam PC
 mode: Solo
 playtime: 8.4
 banner: /assets/images/capsule_616x353 (1)-3.jpg
-cover: /assets/images/0ff6978171ce13c6cb11e881c589dbec.png
+cover: /assets/images/3aee025c3f52c0c1524536a350819cd5.png
 ---
