@@ -1,5 +1,5 @@
 ---
-title: Kingdom Come Delivrance 2 Brushes with Death
+title: Kingdom Come Deliverance 2 Brushes with Death
 status: Complété
 progress: 100
 start_date: 2025-11-08
