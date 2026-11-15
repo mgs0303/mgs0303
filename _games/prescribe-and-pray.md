@@ -10,6 +10,7 @@ release_year: 2025
 genre:
   - Puzzle
   - Indépendant
+hide_series: false
 publisher: Nuclear Rabbits
 developer: Nuclear Rabbits
 note: 7
@@ -18,5 +19,5 @@ platform: Steam PC
 mode: Solo
 playtime: 5.6
 banner: /assets/images/header (2).jpg
-cover: /assets/images/w540.jpg
+cover: /assets/images/coaayo.jpg
 ---
