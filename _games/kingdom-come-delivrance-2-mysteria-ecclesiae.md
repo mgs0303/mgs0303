@@ -1,5 +1,5 @@
 ---
-title: Kingdom Come Delivrance 2 Mysteria Ecclesiae
+title: Kingdom Come Deliverance 2 Mysteria Ecclesiae
 status: Complété
 progress: 100
 start_date: 2025-11-10
