@@ -11,12 +11,13 @@ genre:
   - Visual Novel
   - Otome
   - Indépendant
+hide_series: false
 publisher: " Two and a Half Studios"
 note: 9
 completion: 100%
 platform: Steam PC
 mode: Solo
 playtime: 13.5
-banner: /assets/images/HWokqy.png
-cover: /assets/images/141985_A_Date_with_Death.webp
+banner: /assets/images/0f1a41a56560cb147c3fee0355e448a1.png
+cover: /assets/images/43e6c02aadc384551d748dcecadb2486.png
 ---
