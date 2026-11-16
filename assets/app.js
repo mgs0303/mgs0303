@@ -327,7 +327,7 @@
 
   function facts(g, full) {
     const rows = [], L = [], R = [];
-    const mk = (k, v, cls) => `<div class="f${cls ? ' ' + cls : ''}"><dt>${k}</dt><dd>${v}</dd></div>`;
+    const mk = (k, v, cls) => { const plain = String(v).replace(/<[^>]*>/g, ''); return `<div class="f${cls ? ' ' + cls : ''}${plain.length > 13 ? ' long' : ''}"><dt>${k}</dt><dd title="${plain.replace(/"/g, '&quot;')}">${v}</dd></div>`; };
     const add = (k, v, cls, side) => { if (v !== null && v !== undefined && v !== '') (full && side === 'R' ? R : full ? L : rows).push(mk(k, v, cls)); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
@@ -485,7 +485,7 @@
     const end = Math.min(tiles.length - 1, (Math.floor(openSeriesIdx / cols) + 1) * cols - 1);
     const panel = document.createElement('section');
     panel.className = 'spanel';
-    panel.innerHTML = `<div class="sp-head"><h3>${esc(gr.name)}</h3><span class="v-meta">${gr.sorted.length} jeux</span><button class="chip" data-series-close>Fermer</button></div>
+    panel.innerHTML = `<div class="sp-head"><h3>${esc(gr.name)}</h3><span class="v-meta">${gr.sorted.length} jeux</span><button class="x-btn" data-series-close aria-label="Fermer" title="Fermer">×</button></div>
       <div class="grid posters compact">${gr.sorted.map(poster).join('')}</div>`;
     tiles[end].after(panel);
     if (userClick) {
@@ -499,7 +499,13 @@
   /* ---------- GOTY ---------- */
   function gameByRef(ref) {
     const k = norm(ref);
-    return games.find((g) => norm(g.title) === k || g.slug === ref || norm(g.slug) === k);
+    const exact = games.find((g) => norm(g.title) === k || g.slug === ref || norm(g.slug) === k);
+    if (exact || !k) return exact;
+    // titre modifié depuis (faute corrigée…) : on retrouve le jeu le plus proche
+    const bi = (t) => { const a = new Set(); for (let i = 0; i < t.length - 1; i++) a.add(t.slice(i, i + 2)); return a; };
+    const cl = (t) => norm(t).replace(/[^a-z0-9]/g, ''); const A = bi(cl(ref)); let best = null, bs = 0;
+    games.forEach((g) => { const B = bi(cl(g.title)); let c = 0; A.forEach((x) => { if (B.has(x)) c++; }); const sc = (2 * c) / ((A.size + B.size) || 1); if (sc > bs) { bs = sc; best = g; } });
+    return bs >= 0.75 ? best : undefined;
   }
   function gotyYears() {
     const set = new Set(gotyData.map((x) => String(x.annee || x.year || '')));

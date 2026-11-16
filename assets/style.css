@@ -1230,3 +1230,17 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v112 : card Dernier avis : le cadre bleu reste aussi au survol (il disparaissait), effet de survol simplifié */
 .lr-card,.lr-card:hover,.lr-card:focus-visible{border:1px solid rgba(123,186,201,.7)!important;transform:none!important;transition:border-color .2s ease,background-color .2s ease!important}
 .lr-card:hover{border-color:#5aaabd!important;background:#fff!important}
+
+/* v113 : bannières (cards en largeur) : dégradé plus bas, rien en haut */
+.pcard:not(.portrait)::after{background:linear-gradient(to top,hsl(var(--gh) var(--gs) calc(var(--gl) * .5)/calc(.96*var(--ga))) 0,hsl(var(--gh) var(--gs) calc(var(--gl) * .8)/calc(.8*var(--ga))) 22%,hsl(var(--gh) var(--gs) calc(var(--gl) + 10%)/0) 46%)!important}
+
+/* v113 : bouton "Avis" de la fenêtre d'un jeu : blanc */
+.sheet .btn,.sheet a.btn{background:#fff!important;border:1px solid #d5e4ea!important;color:#2b3a46!important;box-shadow:0 4px 12px rgba(40,70,100,.12)}
+
+/* v113 : "Fermer" des séries = croix */
+.x-btn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(123,186,201,.6);background:rgba(255,255,255,.8);color:#2b3a46;font-size:1.3rem;line-height:1;cursor:pointer;padding:0;box-shadow:0 4px 12px rgba(80,170,190,.25);transition:background .15s ease}
+.x-btn:hover{background:#fff}
+
+/* v113 : noms trop longs (éditeur, développeur…) : une seule ligne, police réduite, "…" si besoin ; la page ne bouge plus */
+.game .facts .f dd{white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal!important}
+.game .facts .f.long dd{font-size:.86rem!important}
