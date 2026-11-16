@@ -1473,3 +1473,4 @@ body{background-color:#0b1626!important;color:#f1f5fb;background-image:radial-gr
 .suggest{background:rgba(12,24,42,.97)!important;border:1px solid rgba(150,185,255,.28)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 .sug-t small,.sug.more,.sug.none{color:#a4b8d2!important}
 .sug:hover,.sug.active{background:rgba(120,165,255,.16)!important}
+.hero3 .hbg{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 30%,rgba(0,0,0,.94) 40%,rgba(0,0,0,.8) 50%,rgba(0,0,0,.6) 60%,rgba(0,0,0,.4) 70%,rgba(0,0,0,.22) 80%,rgba(0,0,0,.08) 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,#000 0%,#000 30%,rgba(0,0,0,.94) 40%,rgba(0,0,0,.8) 50%,rgba(0,0,0,.6) 60%,rgba(0,0,0,.4) 70%,rgba(0,0,0,.22) 80%,rgba(0,0,0,.08) 90%,transparent 100%)!important}
