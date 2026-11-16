@@ -327,7 +327,7 @@
 
   function facts(g, full) {
     const rows = [], L = [], R = [];
-    const mk = (k, v, cls) => { const plain = String(v).replace(/<[^>]*>/g, '').trim(); return `<div class="f${cls ? ' ' + cls : ''}"><dt>${k}</dt><dd><span class="mq">${v}</span></dd></div>`; };
+    const mk = (k, v, cls) => { const plain = String(v).replace(/<[^>]*>/g, '').trim(); const rj = cls === 'rj' && String(g.replay_reason || '').trim(); return `<div class="f${cls ? ' ' + cls : ''}"${rj ? ` data-replay="${esc(String(g.replay_reason).trim())}" role="button" tabindex="0" title="Voir la raison du rejeu"` : ''}><dt>${k}</dt><dd><span class="mq">${v}</span></dd></div>`; };
     const add = (k, v, cls, side) => { if (v !== null && v !== undefined && v !== '') (full && side === 'R' ? R : full ? L : rows).push(mk(k, v, cls)); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
@@ -365,18 +365,18 @@
       add('Début', dStart); add('Fin', dEnd);
     }
     const n = Number(g.replays);
-    if (n > 0) add('Rejoué', `${n} fois`);
+    if (n > 0) add('Rejoué', `${n} fois`, full && String(g.replay_reason || '').trim() ? 'rj' : '');
     if (!full) add('Raison du rejeu', esc(g.replay_reason));
     if (full) {
-      const head = L.filter((x) => x.includes('f genre')), pairs = L.filter((x) => !x.includes('f genre'));
-      const cap = Math.max(2, (4 - head.length) * 2);
+      const items = L.map((x) => x.replace(' genre"', '"')); // tout est recalculé ci-dessous
       const moved = [];
-      while (pairs.length > cap && moved.length < 2) moved.unshift(pairs.pop().replace('class="f"', 'class="f extra"'));
+      while (items.length > 6 && moved.length < 2) moved.unshift(items.pop().replace('class="f"', 'class="f extra"'));
       const row1 = R.filter((x) => !x.includes('wide2')).length;
       if (moved.length) R.splice(row1, 0, ...moved);
       const rc = row1 + moved.length;
-      if (pairs.length % 2 === 1) pairs[pairs.length - 1] = pairs[pairs.length - 1].replace('class="f"', 'class="f genre"');
-      return `<dl class="facts split"><div class="fl">${head.concat(pairs).join('')}</div><div class="fr${rc >= 4 ? ' r4' : rc === 3 ? ' r3' : ''}">${R.join('')}</div></dl>`;
+      const N = items.length, full = N >= 4 ? 8 - N : N; // rangées pleine largeur pour obtenir 4 rangées exactement
+      const out = items.map((x, k) => (k < full ? x.replace('class="f"', 'class="f genre"') : x));
+      return `<dl class="facts split"><div class="fl">${out.join('')}</div><div class="fr${rc >= 4 ? ' r4' : rc === 3 ? ' r3' : ''}">${R.join('')}</div></dl>`;
     }
     return `<dl class="facts">${rows.join('')}</dl>`;
   }
@@ -391,6 +391,24 @@
     if (window.marked) return window.marked.parse(t, { breaks: true });
     return t.split(/\n{2,}/).map((para) => `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
   }
+  function closeReplay() { const m = document.querySelector('.rj-modal'); if (!m) return; m.classList.remove('on'); setTimeout(() => m.remove(), 200); }
+  function openReplay(text) {
+    closeReplay();
+    const m = document.createElement('div');
+    m.className = 'rj-modal';
+    m.innerHTML = `<div class="rj-box" role="dialog" aria-modal="true" aria-label="Raison du rejeu"><button class="x-btn rj-x" type="button" aria-label="Fermer" title="Fermer">×</button><h3>Raison du rejeu</h3><p>${esc(text)}</p></div>`;
+    document.body.appendChild(m);
+    requestAnimationFrame(() => m.classList.add('on'));
+  }
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest && e.target.closest('.f[data-replay]');
+    if (t) { openReplay(t.getAttribute('data-replay')); return; }
+    if (e.target.closest && (e.target.closest('.rj-x') || e.target.classList.contains('rj-modal'))) closeReplay();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeReplay();
+    else if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.f[data-replay]')) { e.preventDefault(); openReplay(e.target.getAttribute('data-replay')); }
+  });
   function renderBlocks(blocks, reason) {
     if (!Array.isArray(blocks)) blocks = [];
     const rs = String(reason || '').trim();
@@ -418,11 +436,11 @@
         <div class="ginfo">
           <h1>${esc(g.title)}</h1>
           <div class="row">${badge(g.status)}<span class="big-note">${esc(noteText(g))}${hasNote(g) ? '<small> / 10</small>' : ''}</span></div>
-          ${showBar ? progressBar(g) : '<div style="height:16px"></div>'}
+          ${showBar ? progressBar(g) : '<div class="progress ghost" style="visibility:hidden"><span class="pct">0 %</span><div class="bar"></div></div>'}
           ${facts(g, true)}
         </div>
       </article>
-      ${renderBlocks(g.blocks, g.replay_reason)}`;
+      ${renderBlocks(g.blocks)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
     fitCover();
   }
