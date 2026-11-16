@@ -1,9 +1,7 @@
 ---
 title: "The Witcher 3: Wild Hunt"
 status: Priorité backlog
-start_date: 2026-11-12
 no_start_date: true
-end_date: 2026-11-12
 no_end_date: true
 release_year: 2015
 genre:
