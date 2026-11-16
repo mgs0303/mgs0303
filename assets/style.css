@@ -1419,3 +1419,21 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .chip:hover,.fold-toggle:hover,.backbtn:hover,.btn:hover,.select:hover,.see-all:hover{box-shadow:0 2px 6px rgba(80,160,185,.14)!important}
 .statut .chip.on,.avis-panel .chip.on{box-shadow:0 2px 6px color-mix(in srgb,var(--sc) 20%,transparent)!important}
 .avis-panel .avis-years .chip.on{box-shadow:0 1px 4px rgba(80,160,185,.1)!important}
+
+/* v143 : bas de fiche = même série + jeu plus récent / plus ancien */
+.gseries{margin-top:34px}
+.gnav{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px}
+.gnav .gn{display:flex;flex-direction:column;gap:3px;min-width:0;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);color:#1f2a37;text-decoration:none;transition:transform .15s ease,border-color .15s ease}
+.gnav .gn small{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:#4a6272}
+.gnav .gn b{font-size:1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gnav .gn.next{text-align:right}
+.gnav .gn:hover{transform:translateY(-2px);border-color:#7bbac9}
+.gnav .gn.ghost{visibility:hidden}
+@media (max-width:720px){.gnav{grid-template-columns:1fr}}
+
+/* v143 : bouton haut de page (ordinateur) */
+.totop{position:fixed;right:28px;bottom:28px;z-index:60;width:46px;height:46px;border-radius:50%;border:1px solid rgba(123,186,201,.6);background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease,visibility .2s;box-shadow:0 2px 8px rgba(80,160,185,.14);padding:0}
+.totop.show{opacity:1;visibility:visible;transform:none}
+.totop:hover{background:#fff;border-color:#3f9dbd}
+.totop span{width:10px;height:10px;border-left:2.5px solid #2d6f95;border-top:2.5px solid #2d6f95;transform:rotate(45deg);margin-top:5px}
+@media (max-width:720px){.totop{display:none}}

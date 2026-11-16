@@ -452,6 +452,16 @@
     return html.trim() ? `<div class="content">${html}</div>` : '';
   }
 
+  function gameNav(g) {
+    const done = games.filter((x) => x.status === 'Complété' || x.status === 'Dropped').sort(SORTS.recent.fn);
+    const i = done.findIndex((x) => x.slug === g.slug);
+    const link = (x, dir) => x ? `<a class="gn ${dir}" href="#/jeu/${encodeURIComponent(x.slug)}"><small>${dir === 'prev' ? '‹ Plus récent' : 'Plus ancien ›'}</small><b>${esc(x.title)}</b></a>` : '<span class="gn ghost"></span>';
+    const nav = i >= 0 ? `<nav class="gnav">${link(done[i - 1], 'prev')}${link(done[i + 1], 'next')}</nav>` : '';
+    const ser = seriesOf(g);
+    const sib = ser ? games.filter((x) => x.slug !== g.slug && seriesOf(x) === ser) : [];
+    const sibHtml = sib.length ? `<section class="gseries"><div class="sec-head"><h2>Dans la même série</h2><span class="count">${sib.length}</span></div><div class="grid small">${sib.map((x) => card(x, false)).join('')}</div></section>` : '';
+    return sibHtml + nav;
+  }
   function renderGame(slug) {
     const g = games.find((x) => x.slug === slug);
     if (!g) { app.innerHTML = backBtn('#/', 'Accueil') + '<p class="empty">Ce jeu n\'existe pas.</p>'; return; }
@@ -467,7 +477,7 @@
           ${facts(g, true)}
         </div>
       </article>
-      ${renderBlocks(g.blocks)}`;
+      ${renderBlocks(g.blocks)}${gameNav(g)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
     fitCover();
   }
@@ -646,7 +656,7 @@
     const drop = sel.filter((g) => g.status === 'Dropped');
     const noted = sel.filter(hasNote);
     const m = avg(noted.map((g) => g.note));
-    const timed = sel.filter((g) => typeof g.playtime === 'number' && g.playtime > 0);
+    const timed = (year === 'Tous' ? games : sel).filter((g) => typeof g.playtime === 'number' && g.playtime > 0);
     const hours = timed.reduce((a, g) => a + g.playtime, 0);
     const replays = sel.reduce((a, g) => a + (Number(g.replays) > 0 ? Number(g.replays) : 0), 0);
 
@@ -681,17 +691,24 @@
 
     const longest = timed.slice().sort((a, b) => b.playtime - a.playtime).slice(0, 5);
     const best = noted.filter((g) => g.note >= 10).length;
+    const topNotes = noted.slice().sort((a, b) => b.note - a.note || String(b.end_date || '').localeCompare(String(a.end_date || ''))).slice(0, 5);
+    const pc = new Map();
+    sel.forEach((g) => toList(g.platform).forEach((x) => pc.set(x, (pc.get(x) || 0) + 1)));
+    const plats = [...pc.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 6);
+    const perYear = year === 'Tous' && years.length ? Math.round(comp.length / years.length) : 0;
 
     app.innerHTML = `<div class="sec-head"><h2>Statistiques</h2></div>
       <div class="filters">${chips}</div>
       ${sel.length ? `<div class="tiles">${tiles}</div>
       <div class="panels">
-        <div class="panel"><h3>${time.title}</h3>${time.html}</div>
+        <div class="panel"><h3>${time.title}</h3>${time.html}${perYear ? `<p class="hint">En moyenne ${perYear} jeux terminés par an</p>` : ''}</div>
         <div class="panel"><h3>Répartition des notes</h3>${noted.length ? hrows(dist, distMax) : '<p class="empty">Aucune note.</p>'}
           ${best ? `<p class="hint">${best} jeu${best > 1 ? 'x' : ''} noté${best > 1 ? 's' : ''} 10 / 10</p>` : ''}</div>
         <div class="panel"><h3>Genres les plus joués</h3>${genres.length ? hrows(genres, genres[0][1]) : '<p class="empty">Aucun genre renseigné.</p>'}</div>
         <div class="panel"><h3>Les plus longs</h3>${longest.length ? `<ol class="rank-list">${longest.map((g) => `<li><a href="#/jeu/${encodeURIComponent(g.slug)}">${esc(g.title)}</a><span>${esc(String(g.playtime).replace('.', ','))} h</span></li>`).join('')}</ol>` : '<p class="empty">Aucune durée renseignée.</p>'}
           ${solo + multi ? `<p class="hint">Solo : ${solo} · Multi : ${multi}</p>` : ''}</div>
+        <div class="panel"><h3>Les mieux notés</h3>${topNotes.length ? `<ol class="rank-list">${topNotes.map((g) => `<li><a href="#/jeu/${encodeURIComponent(g.slug)}">${esc(g.title)}</a><span>${esc(noteText(g))} / 10</span></li>`).join('')}</ol>` : '<p class="empty">Aucune note.</p>'}</div>
+        <div class="panel"><h3>Plateformes</h3>${plats.length ? hrows(plats, plats[0][1]) : '<p class="empty">Aucune plateforme renseignée.</p>'}</div>
       </div>` : '<p class="empty">Aucun jeu terminé pour cette période.</p>'}`;
   }
 
@@ -880,6 +897,13 @@
     suggest.hidden = false;
     sugIdx = -1;
   }
+  const toTop = document.createElement('button');
+  toTop.type = 'button'; toTop.className = 'totop'; toTop.setAttribute('aria-label', 'Haut de page'); toTop.innerHTML = '<span aria-hidden="true"></span>';
+  document.body.appendChild(toTop);
+  const syncTop = () => toTop.classList.toggle('show', window.scrollY > 700 && /^#\/(avis|goty|series|stats)?/.test(location.hash) && !/^#\/jeu\//.test(location.hash));
+  window.addEventListener('scroll', syncTop, { passive: true });
+  window.addEventListener('hashchange', syncTop);
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   searchInput.addEventListener('input', showSuggest);
   searchInput.addEventListener('focus', showSuggest);
   searchInput.addEventListener('keydown', (e) => {
