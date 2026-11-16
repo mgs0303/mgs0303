@@ -30,7 +30,6 @@
   let avisGenre = 'Tous';
   let avisYear = 'Tous';
   let avisExpanded = false;
-  let avisHeroSlug = null;
   let avisMin = 0;
   let avisMax = 10;
   let gotyData = [];
@@ -176,7 +175,7 @@
     const tags = toList(g.genre).slice(0, 2);
     const gold = hasNote(g) && Number(g.note) >= 9.5;
     return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}" style="--i:${Number.isInteger(i) ? i : 0}">
-      ${art ? img(art, 'pc-img', g.title) : ''}<i class="sb-shine" aria-hidden="true"></i><span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
+      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
         <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go" aria-label="Lire l’avis">›</span></div></div>
     </a>`;
@@ -303,33 +302,7 @@
     } else {
       box.innerHTML = `<div id="avis-grid">${grid(shown)}</div>`;
     }
-    if (list.length > LIM) box.insertAdjacentHTML('beforeend', `<div class="avis-more"><button class="btn-more" type="button" data-avis-more>${avisExpanded ? 'Voir moins ⌃' : `Voir les ${list.length - LIM} autres jeux ⌄`}</button></div>`);
-  }
-
-  // Bannière « à la une » : on ne garde qu'une vraie image paysage (jamais une jaquette portrait)
-  function heroHtml(g) {
-    const tags = toList(g.genre).slice(0, 3).join(' / ');
-    return `<a class="avis-hero" href="#/jeu/${encodeURIComponent(g.slug)}">${img(g.banner, 'ah-img', g.title)}<span class="ah-shade"></span>
-      <span class="ah-txt"><span class="ah-kick">À la une · coup de cœur</span><span class="ah-title">${esc(g.title)}</span><span class="ah-meta">${esc(tags)}${tags && hasNote(g) ? ' · ' : ''}${hasNote(g) ? esc(noteText(g)) + '/10' : ''}</span><span class="ah-btn">Lire l’avis ›</span></span></a>`;
-  }
-  function fillHero(base) {
-    const slot = document.getElementById('avis-hero-slot');
-    if (!slot) return;
-    const shuffle = (l) => l.map((g) => [Math.random(), g]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
-    const pool = (min) => shuffle(base.filter((g) => g.status === 'Complété' && hasNote(g) && g.note >= min && g.banner));
-    const seen = new Set();
-    const cached = avisHeroSlug && base.find((g) => g.slug === avisHeroSlug && g.banner);
-    const cands = [...(cached ? [cached] : []), ...pool(10), ...pool(9), ...shuffle(base.filter((g) => g.banner))].filter((g) => !seen.has(g.slug) && seen.add(g.slug)).slice(0, 14);
-    let k = 0;
-    const next = () => {
-      if (!document.getElementById('avis-hero-slot') || k >= cands.length) { if (slot.parentNode && !slot.innerHTML) slot.remove(); return; }
-      const g = cands[k++];
-      const im = new Image();
-      im.onload = () => { if (im.naturalWidth >= im.naturalHeight * 1.5 && document.getElementById('avis-hero-slot')) { avisHeroSlug = g.slug; slot.innerHTML = heroHtml(g); } else next(); };
-      im.onerror = next;
-      im.src = path(g.banner);
-    };
-    next();
+    if (list.length > LIM) box.insertAdjacentHTML('beforeend', `<div class="avis-more"><button class="btn-more" type="button" data-avis-more>${avisExpanded ? 'Voir moins' : `Voir les ${list.length - LIM} autres jeux`}<span class="mc${avisExpanded ? ' up' : ''}" aria-hidden="true"></span></button></div>`);
   }
 
   function renderAvis() {
@@ -339,7 +312,7 @@
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
-    app.innerHTML = `<section class="avis-panel"><div id="avis-hero-slot"></div><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
+    app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
@@ -348,7 +321,6 @@
             <input type="range" min="0" max="10" step="0.5" value="${avisMax}" data-range="max" aria-label="Note maximale"></div></div></div></div>
       <div id="avis-results"></div></section>`;
     updateAvisResults();
-    fillHero(base);
   }
 
   const toList = (v) => (Array.isArray(v) ? v : v ? [v] : []).filter(Boolean);
@@ -434,13 +406,6 @@
     if (window.marked) return window.marked.parse(t, { breaks: true });
     return t.split(/\n{2,}/).map((para) => `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
   }
-  document.addEventListener('pointermove', (e) => {
-    const c = e.target.closest && e.target.closest('#avis-grid .pcard.portrait');
-    if (!c) return;
-    const r = c.getBoundingClientRect();
-    c.style.setProperty('--sx', `${Math.round((1 - (e.clientX - r.left) / r.width) * 100)}%`);
-    c.style.setProperty('--sy', `${Math.round(((e.clientY - r.top) / r.height) * 100)}%`);
-  }, { passive: true });
   function closeReplay() { const m = document.querySelector('.rj-modal'); if (!m) return; m.classList.remove('on'); setTimeout(() => m.remove(), 200); }
   function openReplay(text) {
     closeReplay();
@@ -808,7 +773,7 @@
     document.body.classList.toggle('home', !/^#\/(jeu|avis|goty|series|stats|recherche)/.test(h));
     if (document.activeElement !== searchInput && searchInput.value) searchInput.value = '';
     if (h.startsWith('#/jeu/')) renderGame(decodeURIComponent(h.slice(6)));
-    else if (h.startsWith('#/avis')) { avisHeroSlug = null; avisExpanded = false; renderAvis(); }
+    else if (h.startsWith('#/avis')) { avisExpanded = false; renderAvis(); }
     else if (h.startsWith('#/goty')) { const gy = decodeURIComponent(h.slice(7)); if (gy) renderGoty(gy); else renderGotyIndex(); }
     else if (h.startsWith('#/series')) renderSeries();
     else if (h.startsWith('#/stats')) renderStats(decodeURIComponent(h.slice(8)) || 'Tous');
