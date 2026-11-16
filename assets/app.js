@@ -355,13 +355,18 @@
       if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Dév.', esc(pub));
       else { add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
       add('Année', esc(g.release_year)); }
-    else { nl.push(['Année', esc(g.release_year)], ['Éditeur', esc(g.publisher)], ['Développeur', esc(g.developer)]); }
+    else {
+      const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
+      nl.push(['Année', esc(g.release_year)], ['Plateforme', esc(toList(g.platform).join(', '))], ['Mode', esc(g.mode)]);
+      if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) nl.push(['Éditeur / Dév.', esc(pub)]); else nl.push(['Éditeur', esc(g.publisher)], ['Développeur', esc(g.developer)]);
+    }
     if (full) { add('Mode', esc(g.mode)); add('Plateforme', esc(toList(g.platform).join(', '))); }
-    else { nl.push(['Plateforme', esc(toList(g.platform).join(', '))], ['Mode', esc(g.mode)]); }
+
     const notStarted = ['Pas lancé', 'En attente de sortie', 'Priorité backlog'].includes(g.status);
     const hours = Number(g.playtime);
     let dStart = '', dEnd = '';
-    if (g.start_date) dStart = esc(fmtDate(g.start_date));
+    if (g.status === 'Priorité backlog') dStart = '';
+    else if (g.start_date) dStart = esc(fmtDate(g.start_date));
     else if (g.no_start_date && !notStarted) dStart = 'N/A';
     if (finished) {
       if (g.end_date) dEnd = esc(fmtDate(g.end_date));
@@ -386,6 +391,7 @@
       if (String(g.replay_reason || '').trim()) nr.push(['Raison du rejeu', esc(g.replay_reason)]);
       const lf = nl.filter((x) => x[1]), rg = nr.filter((x) => x[1]);
       while (lf.length > rg.length) rg.unshift(lf.pop());
+      if (lf.length && rg.length && lf[lf.length - 1][0] === 'Éditeur' && rg[0][0] === 'Développeur') rg.unshift(lf.pop());
       for (let k = 0; k < Math.max(lf.length, rg.length); k++) { if (lf[k]) add(lf[k][0], lf[k][1], 'cl'); if (rg[k]) add(rg[k][0], rg[k][1], 'cr'); }
     }
     if (full) {
