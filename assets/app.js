@@ -369,10 +369,14 @@
     if (!full) add('Raison du rejeu', esc(g.replay_reason));
     if (full) {
       const head = L.filter((x) => x.includes('f genre')), pairs = L.filter((x) => !x.includes('f genre'));
-      let extra = false;
-      if (pairs.length % 2 === 1 && R.length >= 2 && !R[0].includes('wide2') && !R[1].includes('wide2')) { R.splice(2, 0, pairs.pop().replace('class="f"', 'class="f extra"')); extra = true; }
-      const n = head.length + Math.ceil(pairs.length / 2);
-      return `<dl class="facts split" style="--n:${n}"><div class="fl">${head.concat(pairs).join('')}</div><div class="fr${extra ? ' has-extra' : ''}">${R.join('')}</div></dl>`;
+      const cap = Math.max(2, (4 - head.length) * 2);
+      const moved = [];
+      while (pairs.length > cap && moved.length < 2) moved.unshift(pairs.pop().replace('class="f"', 'class="f extra"'));
+      const row1 = R.filter((x) => !x.includes('wide2')).length;
+      if (moved.length) R.splice(row1, 0, ...moved);
+      const rc = row1 + moved.length;
+      if (pairs.length % 2 === 1) pairs[pairs.length - 1] = pairs[pairs.length - 1].replace('class="f"', 'class="f genre"');
+      return `<dl class="facts split"><div class="fl">${head.concat(pairs).join('')}</div><div class="fr${rc >= 4 ? ' r4' : rc === 3 ? ' r3' : ''}">${R.join('')}</div></dl>`;
     }
     return `<dl class="facts">${rows.join('')}</dl>`;
   }
@@ -428,7 +432,6 @@
     if (!info) return;
     const h1 = info.querySelector('h1');
     if (h1) { h1.style.fontSize = ''; h1.style.height = ''; if (window.innerWidth > 720) { const h0 = h1.offsetHeight; let fs = parseFloat(getComputedStyle(h1).fontSize); const mn = fs * 0.55; while (h1.scrollWidth > h1.clientWidth + 1 && fs > mn) { fs -= 1; h1.style.fontSize = fs + 'px'; } h1.style.height = h0 + 'px'; } }
-    const fl = info.querySelector('.fl'); if (fl) { const n = Number(getComputedStyle(info.querySelector('.facts')).getPropertyValue('--n')) || fl.children.length; const rows = Math.ceil(fl.querySelectorAll('.f').length ? Number((info.querySelector('.facts').style.getPropertyValue('--n'))) || 5 : 5); fl.classList.toggle('spread', rows >= 4); }
     art.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'), m = f.querySelector('.mq'); const o = d && m ? Math.ceil(m.offsetWidth - d.clientWidth) : 0; f.classList.toggle('trunc', o > 1); f.style.setProperty('--o', Math.max(o, 0)); });
     if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
     const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));

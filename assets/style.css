@@ -1304,3 +1304,13 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 @media (min-width:721px){
   .game .facts.split{grid-template-rows:minmax(0,1fr)!important;grid-auto-rows:minmax(0,1fr)}
 }
+
+/* v122 : écarts toujours identiques (12px), tuiles toujours 76px ; bloc d'infos = 4 rangées fixes => jaquette même taille partout et alignée avec le bas de la colonne de gauche */
+@media (min-width:721px){
+  .game .facts.split{height:auto!important;min-height:340px!important;grid-template-rows:auto!important;grid-auto-rows:auto}
+  .game .facts.split .fl,.game .facts.split .fr{height:auto!important;align-content:start!important}
+  .game .facts.split .fl.spread{align-content:start!important}
+  .game .facts.split .fr.r3{grid-template-columns:1.6fr 1.6fr .8fr}
+  .game .facts.split .fr.r4{grid-template-columns:1.5fr 1.5fr .95fr .95fr}
+  .game .facts.split .fr.r3 .f.wide2,.game .facts.split .fr.r4 .f.wide2{grid-column:1/-1}
+}
