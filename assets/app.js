@@ -460,7 +460,7 @@
     const ser = seriesOf(g);
     const sib = ser ? games.filter((x) => x.slug !== g.slug && seriesOf(x) === ser) : [];
     const sibHtml = sib.length ? `<div class="gser"><span>Même série</span>${sib.map((x) => `<a href="#/jeu/${encodeURIComponent(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : '';
-    return `<div class="gfoot">${nav}${sibHtml}</div>`;
+    return sibHtml ? `<div class="gfoot">${sibHtml}</div>` : '';
   }
   function renderGame(slug) {
     const g = games.find((x) => x.slug === slug);
