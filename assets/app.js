@@ -277,7 +277,7 @@
   const rangeFill = () => `left:${avisMin * 10}%;width:${(avisMax - avisMin) * 10}%`;
 
   function avisFiltered() {
-    return games
+    return games.filter((g) => g.status === 'Complété' || g.status === 'Dropped')
       .filter((g) => avisStatus === 'Tous' || g.status === avisStatus)
       .filter((g) => avisGenre === 'Tous' || toList(g.genre).includes(avisGenre))
       .filter((g) => avisYear === 'Tous' || (g.end_date || '').slice(0, 4) === avisYear)
@@ -304,13 +304,12 @@
   }
 
   function renderAvis() {
-    const base = games;
+    const base = games.filter((g) => g.status === 'Complété' || g.status === 'Dropped');
     const genres = [...new Set(base.flatMap((g) => toList(g.genre)))].sort((a, b) => a.localeCompare(b));
     const years = [...new Set(base.filter((g) => g.end_date).map((g) => g.end_date.slice(0, 4)))].sort().reverse();
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
-    const order = Object.keys(STATUS_COLORS).reverse();
-    const sts = [...new Set(games.map((g) => g.status).filter(Boolean))].sort((a, b) => (order.indexOf(a) + 99) % 99 - (order.indexOf(b) + 99) % 99);
+    const sts = ['Complété', 'Dropped'];
     const chips = ['Tous', ...sts].map((f) => `<button class="chip${f === avisStatus ? ' on' : ''}" style="--sc:${f === 'Tous' ? '#7bbac9' : color(f)}" data-filter="avis-status" data-value="${esc(f)}">${f === 'Tous' ? '' : '<i class="sdot"></i>'}${esc(f)}</button>`).join('');
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
