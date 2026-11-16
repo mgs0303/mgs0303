@@ -1,5 +1,5 @@
 ---
-title: Metal Gear Solid 1
+title: Metal Gear Solid (1998)
 status: Complété
 progress: 100
 start_date: 2026-05-14
