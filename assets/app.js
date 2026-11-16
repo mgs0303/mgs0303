@@ -339,6 +339,9 @@
       ${list.length ? `<div class="grid small">${list.map((g) => card(g, false)).join('')}</div>` : `<p class="empty">Aucun jeu trouvé pour « ${esc(q)} ».</p>`}`;
   }
 
+  function markTrunc(root) {
+    root.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'), m = f.querySelector('.mq'); const o = d && m ? Math.ceil(m.offsetWidth - d.clientWidth) : 0; f.classList.toggle('trunc', o > 1); f.style.setProperty('--o', Math.max(o, 0)); if (o > 1 && m && !m.querySelector('.mq2')) { f.style.setProperty('--w', m.offsetWidth + 36); m.insertAdjacentHTML('beforeend', '<span class="mq2" aria-hidden="true">' + m.innerHTML + '</span>'); } });
+  }
   function facts(g, full) {
     const rows = [], L = [], R = [];
     const mk = (k, v, cls) => { const plain = String(v).replace(/<[^>]*>/g, '').trim(); const rj = cls === 'rj' && String(g.replay_reason || '').trim(); return `<div class="f${cls ? ' ' + cls : ''}"${rj ? ` data-replay="${esc(String(g.replay_reason).trim())}" role="button" tabindex="0" title="Voir la raison du rejeu"` : ''}><dt>${k}</dt><dd><span class="mq">${v}</span></dd></div>`; };
@@ -383,6 +386,7 @@
       if (n > 0) nr.push(['Rejoué', `${n} fois`]);
       if (String(g.replay_reason || '').trim()) nr.push(['Raison du rejeu', esc(g.replay_reason)]);
       const lf = nl.filter((x) => x[1]), rg = nr.filter((x) => x[1]);
+      while (lf.length > rg.length + 1) rg.unshift(lf.pop());
       for (let k = 0; k < Math.max(lf.length, rg.length); k++) { if (lf[k]) add(lf[k][0], lf[k][1], 'cl'); if (rg[k]) add(rg[k][0], rg[k][1], 'cr'); }
     }
     if (full) {
@@ -468,7 +472,7 @@
     if (!info) return;
     const h1 = info.querySelector('h1');
     if (h1) { h1.style.fontSize = ''; h1.style.height = ''; if (window.innerWidth > 720) { const h0 = h1.offsetHeight; let fs = parseFloat(getComputedStyle(h1).fontSize); const mn = fs * 0.55; while (h1.scrollWidth > h1.clientWidth + 1 && fs > mn) { fs -= 1; h1.style.fontSize = fs + 'px'; } h1.style.height = h0 + 'px'; } }
-    art.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'), m = f.querySelector('.mq'); const o = d && m ? Math.ceil(m.offsetWidth - d.clientWidth) : 0; f.classList.toggle('trunc', o > 1); f.style.setProperty('--o', Math.max(o, 0)); if (o > 1 && m && !m.querySelector('.mq2')) { f.style.setProperty('--w', m.offsetWidth + 36); m.insertAdjacentHTML('beforeend', '<span class="mq2" aria-hidden="true">' + m.innerHTML + '</span>'); } });
+    markTrunc(art);
     if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
     const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));
     art.style.gridTemplateColumns = `${w}px minmax(0,1fr)`;
@@ -703,6 +707,7 @@
       </div></div>`;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
+    markTrunc(modal);
     modal.querySelector('.close').focus();
   }
   function closeModal() { modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; }

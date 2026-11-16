@@ -1387,3 +1387,13 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
   .game .facts .f.trunc:hover .mq2{display:inline}
   .game .facts .f.trunc:hover .mq{transform:none;transition:none;animation:mqscroll calc(var(--w,0) * 11ms) linear infinite}
 }
+
+/* v135 : dans la fenêtre aussi, texte long sur une ligne ; au survol il défile en boucle */
+@media (min-width:721px){
+  .sheet .facts dd{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal}
+  .sheet .facts .f dd .mq{display:inline-block;white-space:nowrap}
+  .sheet .facts .f .mq2{display:none;padding-left:36px}
+  .sheet .facts .f.trunc:hover dd{text-overflow:clip}
+  .sheet .facts .f.trunc:hover .mq2{display:inline}
+  .sheet .facts .f.trunc:hover .mq{animation:mqscroll calc(var(--w,0) * 11ms) linear infinite}
+}
