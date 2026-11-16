@@ -277,7 +277,7 @@
   const rangeFill = () => `left:${avisMin * 10}%;width:${(avisMax - avisMin) * 10}%`;
 
   function avisFiltered() {
-    return games.filter((g) => g.status === 'Complété' || g.status === 'Dropped')
+    return games
       .filter((g) => avisStatus === 'Tous' || g.status === avisStatus)
       .filter((g) => avisGenre === 'Tous' || toList(g.genre).includes(avisGenre))
       .filter((g) => avisYear === 'Tous' || (g.end_date || '').slice(0, 4) === avisYear)
@@ -290,8 +290,7 @@
     if (!box) return;
     document.getElementById('avis-count').textContent = list.length;
     if (!list.length) { box.innerHTML = '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>'; return; }
-    const LIM = 12;
-    const shown = avisExpanded ? list : list.slice(0, LIM);
+    const shown = list;
     let n = 0;
     const grid = (gs) => `<div class="grid posters size-${avisSize}">${gs.map((g) => poster(g, n++)).join('')}</div>`;
     if (avisSort === 'recent' || avisSort === 'ancien') {
@@ -302,16 +301,17 @@
     } else {
       box.innerHTML = `<div id="avis-grid">${grid(shown)}</div>`;
     }
-    if (list.length > LIM) box.insertAdjacentHTML('beforeend', `<div class="avis-more"><button class="btn-more" type="button" data-avis-more>${avisExpanded ? 'Voir moins' : `Voir les ${list.length - LIM} autres jeux`}<span class="mc${avisExpanded ? ' up' : ''}" aria-hidden="true"></span></button></div>`);
   }
 
   function renderAvis() {
-    const base = games.filter((g) => g.status === 'Complété' || g.status === 'Dropped');
+    const base = games;
     const genres = [...new Set(base.flatMap((g) => toList(g.genre)))].sort((a, b) => a.localeCompare(b));
     const years = [...new Set(base.filter((g) => g.end_date).map((g) => g.end_date.slice(0, 4)))].sort().reverse();
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
-    const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
+    const order = Object.keys(STATUS_COLORS).reverse();
+    const sts = [...new Set(games.map((g) => g.status).filter(Boolean))].sort((a, b) => (order.indexOf(a) + 99) % 99 - (order.indexOf(b) + 99) % 99);
+    const chips = ['Tous', ...sts].map((f) => `<button class="chip${f === avisStatus ? ' on' : ''}" style="--sc:${f === 'Tous' ? '#7bbac9' : color(f)}" data-filter="avis-status" data-value="${esc(f)}">${f === 'Tous' ? '' : '<i class="sdot"></i>'}${esc(f)}</button>`).join('');
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}

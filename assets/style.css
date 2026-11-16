@@ -1356,3 +1356,9 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 
 .btn-more .mc{display:inline-block;width:7px;height:7px;margin:0 0 3px 10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);vertical-align:middle;transition:transform .2s ease}
 .btn-more .mc.up{transform:rotate(-135deg);margin-bottom:-2px}
+
+/* v131 : page Jeux = tous les jeux, pastilles de tous les statuts avec leur couleur */
+.avis-panel .chip{--sc:#7bbac9}
+.avis-panel .chip .sdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-right:7px;vertical-align:middle;position:relative;top:-1px}
+.avis-panel .chip.on{background:color-mix(in srgb,var(--sc) 20%,#fff)!important;border-color:var(--sc)!important;color:color-mix(in srgb,var(--sc) 55%,#1c2733)!important;box-shadow:0 6px 18px color-mix(in srgb,var(--sc) 38%,transparent)!important}
+.avis-panel .avis-years .chip.on{background:#d3ebf6!important;border-color:#3f9dbd!important;color:inherit!important;box-shadow:none!important}
