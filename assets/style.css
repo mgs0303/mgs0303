@@ -1455,3 +1455,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v145 : stats — les 3 colonnes finissent à la même hauteur (les cartes se partagent l'écart) */
 .panels{align-items:stretch!important}
 .panels .pcol .panel{flex:1 1 auto}
+
+/* v147 : plus de contour bleu foncé au survol des tuiles et des boutons « même série » */
+.game .facts .f:hover,.game .facts .f.trunc:hover{border-color:rgba(123,186,201,.45)!important}
+.gser a:hover{border-color:rgba(123,186,201,.45)}
