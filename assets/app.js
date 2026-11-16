@@ -348,9 +348,8 @@
     const add = (k, v, cls, side) => { if (v !== null && v !== undefined && v !== '') (full && side === 'R' ? R : full ? L : rows).push(mk(k, v, cls)); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
-    if (!full) add('Genre', genreTxt, 'wide');
     const nl = [], nr = [];
-    if (!full) nl.push(['Série', esc(seriesOf(g))]);
+    if (!full) nl.push(['Genre', genreTxt], ['Série', esc(seriesOf(g))]);
     if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre');
       const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
       if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Dév.', esc(pub));
