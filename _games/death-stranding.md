@@ -1,9 +1,14 @@
 ---
 title: Death Stranding
 status: Priorité backlog
+start_date: 2026-11-16
+no_start_date: true
+end_date: 2026-11-16
+no_end_date: true
 release_year: 2019
 genre:
   - Action
+hide_series: false
 developer: Kojima Productions
 completion: N/A
 platform: Steam PC
