@@ -386,7 +386,7 @@
       if (n > 0) nr.push(['Rejoué', `${n} fois`]);
       if (String(g.replay_reason || '').trim()) nr.push(['Raison du rejeu', esc(g.replay_reason)]);
       const lf = nl.filter((x) => x[1]), rg = nr.filter((x) => x[1]);
-      while (lf.length > rg.length + 1) rg.unshift(lf.pop());
+      while (lf.length > rg.length) rg.unshift(lf.pop());
       for (let k = 0; k < Math.max(lf.length, rg.length); k++) { if (lf[k]) add(lf[k][0], lf[k][1], 'cl'); if (rg[k]) add(rg[k][0], rg[k][1], 'cr'); }
     }
     if (full) {
