@@ -1413,3 +1413,9 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .sheet .progress,.sheet .progress *,.sheet .pbar,.sheet .pbar *{color:#1d2a36}
 .sheet .badge{color:color-mix(in srgb,var(--c) 45%,#101820)!important;background:color-mix(in srgb,var(--c) 26%,rgba(255,255,255,.7))!important}
 .sheet .progress .bar{background:rgba(20,40,60,.14)!important}
+
+/* v142 : ombre des pastilles/boutons beaucoup plus discrète */
+.chip,.fold-toggle,.backbtn,.btn,.select,.see-all,.search input,.pf-pills span,.top nav a.on{box-shadow:0 1px 4px rgba(80,160,185,.1)!important}
+.chip:hover,.fold-toggle:hover,.backbtn:hover,.btn:hover,.select:hover,.see-all:hover{box-shadow:0 2px 6px rgba(80,160,185,.14)!important}
+.statut .chip.on,.avis-panel .chip.on{box-shadow:0 2px 6px color-mix(in srgb,var(--sc) 20%,transparent)!important}
+.avis-panel .avis-years .chip.on{box-shadow:0 1px 4px rgba(80,160,185,.1)!important}
