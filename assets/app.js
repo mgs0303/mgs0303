@@ -459,8 +459,8 @@
     const nav = i >= 0 ? `<nav class="gnav">${link(done[i - 1], 'prev')}${link(done[i + 1], 'next')}</nav>` : '';
     const ser = seriesOf(g);
     const sib = ser ? games.filter((x) => x.slug !== g.slug && seriesOf(x) === ser) : [];
-    const sibHtml = sib.length ? `<section class="gseries"><div class="sec-head"><h2>Dans la même série</h2><span class="count">${sib.length}</span></div><div class="grid small">${sib.map((x) => card(x, false)).join('')}</div></section>` : '';
-    return sibHtml + nav;
+    const sibHtml = sib.length ? `<div class="gser"><span>Même série</span>${sib.map((x) => `<a href="#/jeu/${encodeURIComponent(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : '';
+    return `<div class="gfoot">${nav}${sibHtml}</div>`;
   }
   function renderGame(slug) {
     const g = games.find((x) => x.slug === slug);
@@ -701,14 +701,18 @@
       <div class="filters">${chips}</div>
       ${sel.length ? `<div class="tiles">${tiles}</div>
       <div class="panels">
+        <div class="pcol">
         <div class="panel"><h3>${time.title}</h3>${time.html}${perYear ? `<p class="hint">En moyenne ${perYear} jeux terminés par an</p>` : ''}</div>
-        <div class="panel"><h3>Répartition des notes</h3>${noted.length ? hrows(dist, distMax) : '<p class="empty">Aucune note.</p>'}
-          ${best ? `<p class="hint">${best} jeu${best > 1 ? 'x' : ''} noté${best > 1 ? 's' : ''} 10 / 10</p>` : ''}</div>
-        <div class="panel"><h3>Genres les plus joués</h3>${genres.length ? hrows(genres, genres[0][1]) : '<p class="empty">Aucun genre renseigné.</p>'}</div>
         <div class="panel"><h3>Les plus longs</h3>${longest.length ? `<ol class="rank-list">${longest.map((g) => `<li><a href="#/jeu/${encodeURIComponent(g.slug)}">${esc(g.title)}</a><span>${esc(String(g.playtime).replace('.', ','))} h</span></li>`).join('')}</ol>` : '<p class="empty">Aucune durée renseignée.</p>'}
           ${solo + multi ? `<p class="hint">Solo : ${solo} · Multi : ${multi}</p>` : ''}</div>
-        <div class="panel"><h3>Les mieux notés</h3>${topNotes.length ? `<ol class="rank-list">${topNotes.map((g) => `<li><a href="#/jeu/${encodeURIComponent(g.slug)}">${esc(g.title)}</a><span>${esc(noteText(g))} / 10</span></li>`).join('')}</ol>` : '<p class="empty">Aucune note.</p>'}</div>
+        </div><div class="pcol">
+        <div class="panel"><h3>Répartition des notes</h3>${noted.length ? hrows(dist, distMax) : '<p class="empty">Aucune note.</p>'}
+          ${best ? `<p class="hint">${best} jeu${best > 1 ? 'x' : ''} noté${best > 1 ? 's' : ''} 10 / 10</p>` : ''}</div>
         <div class="panel"><h3>Plateformes</h3>${plats.length ? hrows(plats, plats[0][1]) : '<p class="empty">Aucune plateforme renseignée.</p>'}</div>
+        </div><div class="pcol">
+        <div class="panel"><h3>Genres les plus joués</h3>${genres.length ? hrows(genres, genres[0][1]) : '<p class="empty">Aucun genre renseigné.</p>'}</div>
+        <div class="panel"><h3>Les mieux notés</h3>${topNotes.length ? `<ol class="rank-list">${topNotes.map((g) => `<li><a href="#/jeu/${encodeURIComponent(g.slug)}">${esc(g.title)}</a><span>${esc(noteText(g))} / 10</span></li>`).join('')}</ol>` : '<p class="empty">Aucune note.</p>'}</div>
+        </div>
       </div>` : '<p class="empty">Aucun jeu terminé pour cette période.</p>'}`;
   }
 

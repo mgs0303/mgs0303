@@ -1437,3 +1437,17 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .totop:hover{background:#fff;border-color:#3f9dbd}
 .totop span{width:10px;height:10px;border-left:2.5px solid #2d6f95;border-top:2.5px solid #2d6f95;transform:rotate(45deg);margin-top:5px}
 @media (max-width:720px){.totop{display:none}}
+
+/* v144 : stats en 3 colonnes sans grands vides ; bas de fiche discret */
+.tiles{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important}
+.panels{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.panels .pcol{display:flex;flex-direction:column;gap:16px;min-width:0}
+@media (max-width:980px){.panels{grid-template-columns:1fr}}
+.gfoot{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.gfoot .gnav{margin-top:0;gap:10px}
+.gnav .gn{padding:8px 16px;border-radius:14px}
+.gnav .gn b{font-size:.92rem}
+.gser{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.84rem}
+.gser span{color:#4a6272;text-transform:uppercase;letter-spacing:.06em;font-size:.72rem;margin-right:4px}
+.gser a{padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);color:#2b3a46;text-decoration:none;transition:border-color .15s ease}
+.gser a:hover{border-color:#3f9dbd}
