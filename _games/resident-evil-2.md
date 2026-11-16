@@ -11,11 +11,12 @@ genre:
   - Action
   - FPS
 series: RESIDENT EVIL
+hide_series: false
 publisher: Capcom
 developer: Capcom
 completion: N/A
 platform: Steam PC
 mode: Solo
-banner: /assets/images/header (3).jpg
+banner: /assets/images/a24d57d11385a49e2598d5a6b91cd598.png
 cover: /assets/images/fb5b3b5d234aa718062e3b4f6c826e23.png
 ---
