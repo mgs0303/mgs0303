@@ -1252,3 +1252,20 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
   .game .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 }
 .game .facts .f dt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em}
+
+/* v115 : fiche jeu — tuiles toutes de même taille, polices identiques, bulle au survol pour les noms longs, fusion Éditeur/Développeur si identiques */
+@media (min-width:721px){
+  .game .facts.split .fl,.game .facts.split .fr{grid-auto-rows:76px}
+  .game .facts.split .fl{align-items:stretch!important}
+  .game .facts .f{position:relative;box-sizing:border-box;height:100%;display:flex!important;flex-direction:column;justify-content:center;gap:4px;padding:8px 16px!important}
+  .game .facts .f.genre{grid-column:1/-1}
+  .game .facts.split{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)!important}
+}
+.game .facts .f dt{font-size:.68rem!important;line-height:1.2;margin:0!important}
+.game .facts .f dd,.game .facts .f.long dd,.game .facts .f.genre dd,.game .facts .f.wide2 dd{font-size:.95rem!important;line-height:1.3!important;margin:0!important;font-weight:600}
+.game .facts .f .tip{position:absolute;left:0;top:calc(100% + 6px);z-index:40;min-width:100%;max-width:340px;width:max-content;box-sizing:border-box;padding:8px 14px;border-radius:12px;background:#fff;border:1px solid #7bbac9;font-size:.95rem;font-weight:600;line-height:1.3;color:#1f2a37;white-space:normal;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease}
+.game .facts .f.trunc:hover{z-index:20}
+.game .facts .f.trunc:hover .tip{opacity:1;visibility:visible}
+.content .replay-reason{margin:0 0 18px}
+.content .replay-reason p{margin:0}
+@media (max-width:720px){.game .facts .f .tip{display:none}.game .facts .f dd{white-space:normal!important}}

@@ -327,14 +327,16 @@
 
   function facts(g, full) {
     const rows = [], L = [], R = [];
-    const mk = (k, v, cls) => { const plain = String(v).replace(/<[^>]*>/g, ''); return `<div class="f${cls ? ' ' + cls : ''}${plain.length > 13 ? ' long' : ''}"><dt>${k}</dt><dd title="${plain.replace(/"/g, '&quot;')}">${v}</dd></div>`; };
+    const mk = (k, v, cls) => { const plain = String(v).replace(/<[^>]*>/g, '').trim(); return `<div class="f${cls ? ' ' + cls : ''}"><dt>${k}</dt><dd>${v}</dd><span class="tip" aria-hidden="true">${esc(plain)}</span></div>`; };
     const add = (k, v, cls, side) => { if (v !== null && v !== undefined && v !== '') (full && side === 'R' ? R : full ? L : rows).push(mk(k, v, cls)); };
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
     if (!full) add('Genre', genreTxt, 'wide');
     if (!full) add('Série', esc(seriesOf(g)));
     if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre');
-      add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer));
+      const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
+      if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Développeur', esc(pub));
+      else { add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
       add('Année', esc(g.release_year)); }
     else { add('Année', esc(g.release_year)); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
     if (full) { add('Mode', esc(g.mode)); add('Plateforme', esc(toList(g.platform).join(', '))); }
@@ -365,7 +367,7 @@
     }
     const n = Number(g.replays);
     if (n > 0) add('Rejoué', `${n} fois`);
-    add('Raison du rejeu', esc(g.replay_reason));
+    if (!full) add('Raison du rejeu', esc(g.replay_reason));
     if (full) return `<dl class="facts split"><div class="fl">${L.join('')}</div><div class="fr">${R.join('')}</div></dl>`;
     return `<dl class="facts">${rows.join('')}</dl>`;
   }
@@ -380,9 +382,11 @@
     if (window.marked) return window.marked.parse(t, { breaks: true });
     return t.split(/\n{2,}/).map((para) => `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
   }
-  function renderBlocks(blocks) {
-    if (!Array.isArray(blocks) || !blocks.length) return '';
-    const html = blocks.map((b) => {
+  function renderBlocks(blocks, reason) {
+    if (!Array.isArray(blocks)) blocks = [];
+    const rs = String(reason || '').trim();
+    if (!blocks.length && !rs) return '';
+    const html = (rs ? `<div class="replay-reason"><p><strong>Raison du rejeu :</strong> ${esc(rs)}</p></div>` : '') + blocks.map((b) => {
       const type = b.type || b._block;
       if (type === 'titre') return b.text ? `<h2>${esc(b.text)}</h2>` : '';
       if (type === 'texte') return b.text ? `<div>${renderMarkdown(b.text)}</div>` : '';
@@ -409,7 +413,7 @@
           ${facts(g, true)}
         </div>
       </article>
-      ${renderBlocks(g.blocks)}`;
+      ${renderBlocks(g.blocks, g.replay_reason)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
     fitCover();
   }
@@ -417,6 +421,7 @@
     const art = document.querySelector('.game');
     const info = art && art.querySelector('.ginfo');
     if (!info) return;
+    art.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'); f.classList.toggle('trunc', !!d && d.scrollWidth > d.clientWidth + 1); });
     if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
     const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));
     art.style.gridTemplateColumns = `${w}px 1fr`;
