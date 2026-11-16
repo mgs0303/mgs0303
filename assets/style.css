@@ -1451,3 +1451,7 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .gser span{color:#4a6272;text-transform:uppercase;letter-spacing:.06em;font-size:.72rem;margin-right:4px}
 .gser a{padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.62);border:1px solid rgba(123,186,201,.45);color:#2b3a46;text-decoration:none;transition:border-color .15s ease}
 .gser a:hover{border-color:#3f9dbd}
+
+/* v145 : stats — les 3 colonnes finissent à la même hauteur (les cartes se partagent l'écart) */
+.panels{align-items:stretch!important}
+.panels .pcol .panel{flex:1 1 auto}
