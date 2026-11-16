@@ -4,8 +4,7 @@ status: Dropped
 progress: 15
 start_date: 2026-11-11
 no_start_date: false
-end_date: 2026-11-15
-no_end_date: true
+no_end_date: false
 release_year: 2018
 genre:
   - Combat
