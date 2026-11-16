@@ -4,7 +4,7 @@
     'En attente de sortie': '#d2b252',
     'Accès Anticipé': '#47b5ad',
     'Demo': '#4a8fb3',
-    'Priorité backlog': '#9e84d8',
+    'Priorité backlog': '#8fa8ea',
     'Relancé': '#e07fa8',
     'Pause': '#e3a05a',
     'Partie en cours': '#5f9bd8',

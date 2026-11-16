@@ -1474,3 +1474,21 @@ body{background-color:#0b1626!important;color:#f1f5fb;background-image:radial-gr
 .sug-t small,.sug.more,.sug.none{color:#a4b8d2!important}
 .sug:hover,.sug.active{background:rgba(120,165,255,.16)!important}
 .hero3 .hbg{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 30%,rgba(0,0,0,.94) 40%,rgba(0,0,0,.8) 50%,rgba(0,0,0,.6) 60%,rgba(0,0,0,.4) 70%,rgba(0,0,0,.22) 80%,rgba(0,0,0,.08) 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,#000 0%,#000 30%,rgba(0,0,0,.94) 40%,rgba(0,0,0,.8) 50%,rgba(0,0,0,.6) 60%,rgba(0,0,0,.4) 70%,rgba(0,0,0,.22) 80%,rgba(0,0,0,.08) 90%,transparent 100%)!important}
+
+/* v150 : palette bleu nuit cohérente partout */
+:root{--tint:12,24,44;--tintl:150,185,235}
+/* cadres sans contour */
+section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev,section.statut,section.avis-panel,.avis-bar,.avis-panel .avis-bar,.content,.panel,.spanel,.toprow,.pod,.ycard,.st-art,.lr-card,.card,.tile,.game .facts .f,.fold-list,.top nav,body.home .top nav{border-color:transparent!important;border-width:0!important;box-shadow:none!important}
+section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev,section.statut,section.avis-panel,.avis-bar,.panel,.spanel{background:rgba(120,165,255,.1)!important}
+/* pas de flou imbriqué dans les carrousels (bloc clair parasite) */
+section:has(.car-wrap),section:has(>.grid.carousel),.pcard,.pc-pct,.pc-tags span,.car-wrap *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.pc-pct,.pc-tags span{background:rgba(10,20,38,.55)!important}
+/* fenêtre d'aperçu : verre bleu nuit, pas violet */
+.sheet{background:rgba(14,26,48,.86)!important;-webkit-backdrop-filter:blur(30px)!important;backdrop-filter:blur(30px)!important;border:0!important}
+.sheet dt,.sheet .facts dt{color:#9fb6d6!important}
+.sheet dd,.sheet .facts dd{color:#eef4ff!important}
+.sheet .btn,.sheet a.btn{background:transparent!important;border:0!important;box-shadow:none!important}
+/* curseurs de la note */
+.range input::-webkit-slider-thumb{background:#8db4ff!important;border:2px solid #dbe8ff!important;box-shadow:none!important}
+.range input::-moz-range-thumb{background:#8db4ff!important;border:2px solid #dbe8ff!important;box-shadow:none!important}
+.range .track{border:0!important;background:rgba(150,185,255,.25)!important}
