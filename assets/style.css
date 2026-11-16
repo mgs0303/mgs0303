@@ -1280,3 +1280,9 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
   .game .facts .f.trunc:hover dd{text-overflow:clip}
   .game .facts .f.trunc:hover .mq{transform:translateX(calc(var(--o,0) * -1px));transition:transform calc(var(--o,0) * 22ms) linear .15s}
 }
+
+/* v119 : plus de tuile Note (déjà affichée en haut) ; bloc d'infos de hauteur constante (5 rangées) => même taille de jaquette pour tous les jeux */
+@media (min-width:721px){
+  .game .facts.split{min-height:428px;align-content:start}
+  .game .facts.split .fl,.game .facts.split .fr{align-content:start}
+}

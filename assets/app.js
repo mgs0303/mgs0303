@@ -356,7 +356,6 @@
     if (g.playtime !== null && g.playtime !== undefined && g.playtime !== '' && !isNaN(hours)) hrs = `${esc(String(hours).replace('.', ','))} h`;
     else if (g.status === 'Complété') hrs = 'N/A';
     if (full) {
-      add('Note', noteV);
       add('Début', dStart, '', 'R'); add('Fin', dEnd, '', 'R');
       add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '', 'wide2', 'R');
       add('Temps de jeu', hrs, 'wide2', 'R');
