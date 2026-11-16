@@ -310,7 +310,7 @@
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const sts = ['Complété', 'Dropped'];
-    const chips = ['Tous', ...sts].map((f) => `<button class="chip${f === avisStatus ? ' on' : ''}" style="--sc:${f === 'Tous' ? '#7bbac9' : color(f)}" data-filter="avis-status" data-value="${esc(f)}">${f === 'Tous' ? '' : '<i class="sdot"></i>'}${esc(f)}</button>`).join('');
+    const chips = ['Tous', ...sts].map((f) => `<button class="chip${f === avisStatus ? ' on' : ''}" style="--sc:${f === 'Tous' ? '#7bbac9' : color(f)}" data-filter="avis-status" data-value="${esc(f)}">${esc(f)}</button>`).join('');
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
@@ -346,15 +346,16 @@
     const finished = g.status === 'Complété' || g.status === 'Dropped';
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
     if (!full) add('Genre', genreTxt, 'wide');
-    if (!full) add('Série', esc(seriesOf(g)));
+    const nl = [], nr = [];
+    if (!full) nl.push(['Série', esc(seriesOf(g))]);
     if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre');
       const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
       if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Dév.', esc(pub));
       else { add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
       add('Année', esc(g.release_year)); }
-    else { add('Année', esc(g.release_year)); add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
+    else { nl.push(['Année', esc(g.release_year)], ['Éditeur', esc(g.publisher)], ['Développeur', esc(g.developer)]); }
     if (full) { add('Mode', esc(g.mode)); add('Plateforme', esc(toList(g.platform).join(', '))); }
-    else { add('Plateforme', esc(toList(g.platform).join(', '))); add('Mode', esc(g.mode)); }
+    else { nl.push(['Plateforme', esc(toList(g.platform).join(', '))], ['Mode', esc(g.mode)]); }
     const notStarted = ['Pas lancé', 'En attente de sortie', 'Priorité backlog'].includes(g.status);
     const hours = Number(g.playtime);
     let dStart = '', dEnd = '';
@@ -374,13 +375,16 @@
       add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '', 'wide2', 'R');
       add('Temps de jeu', hrs, 'wide2', 'R');
     } else {
-      const lft = [['Temps de jeu', hrs], ['Note', noteV], ['Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '']].filter((x) => x[1]);
-      const rgt = [['Début', dStart], ['Fin', dEnd]].filter((x) => x[1]);
-      for (let k = 0; k < Math.max(lft.length, rgt.length); k++) { if (lft[k]) add(lft[k][0], lft[k][1], 'cl'); if (rgt[k]) add(rgt[k][0], rgt[k][1], 'cr'); }
+      nr.push(['Temps de jeu', hrs], ['Note', noteV], ['Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : ''], ['Début', dStart], ['Fin', dEnd]);
     }
     const n = Number(g.replays);
-    if (n > 0) add('Rejoué', `${n} fois`, full && String(g.replay_reason || '').trim() ? 'rj' : '');
-    if (!full) add('Raison du rejeu', esc(g.replay_reason));
+    if (n > 0 && full) add('Rejoué', `${n} fois`, String(g.replay_reason || '').trim() ? 'rj' : '');
+    if (!full) {
+      if (n > 0) nr.push(['Rejoué', `${n} fois`]);
+      if (String(g.replay_reason || '').trim()) nr.push(['Raison du rejeu', esc(g.replay_reason)]);
+      const lf = nl.filter((x) => x[1]), rg = nr.filter((x) => x[1]);
+      for (let k = 0; k < Math.max(lf.length, rg.length); k++) { if (lf[k]) add(lf[k][0], lf[k][1], 'cl'); if (rg[k]) add(rg[k][0], rg[k][1], 'cr'); }
+    }
     if (full) {
       const items = L.map((x) => x.replace(' genre"', '"')); // tout est recalculé ci-dessous
       const moved = [];
@@ -464,7 +468,7 @@
     if (!info) return;
     const h1 = info.querySelector('h1');
     if (h1) { h1.style.fontSize = ''; h1.style.height = ''; if (window.innerWidth > 720) { const h0 = h1.offsetHeight; let fs = parseFloat(getComputedStyle(h1).fontSize); const mn = fs * 0.55; while (h1.scrollWidth > h1.clientWidth + 1 && fs > mn) { fs -= 1; h1.style.fontSize = fs + 'px'; } h1.style.height = h0 + 'px'; } }
-    art.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'), m = f.querySelector('.mq'); const o = d && m ? Math.ceil(m.offsetWidth - d.clientWidth) : 0; f.classList.toggle('trunc', o > 1); f.style.setProperty('--o', Math.max(o, 0)); });
+    art.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'), m = f.querySelector('.mq'); const o = d && m ? Math.ceil(m.offsetWidth - d.clientWidth) : 0; f.classList.toggle('trunc', o > 1); f.style.setProperty('--o', Math.max(o, 0)); if (o > 1 && m && !m.querySelector('.mq2')) { f.style.setProperty('--w', m.offsetWidth + 36); m.insertAdjacentHTML('beforeend', '<span class="mq2" aria-hidden="true">' + m.innerHTML + '</span>'); } });
     if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
     const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));
     art.style.gridTemplateColumns = `${w}px minmax(0,1fr)`;
@@ -693,7 +697,7 @@
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
       <div class="inner">
         <div class="m-head"><div><h2>${esc(g.title)}</h2>${badge(g.status)}</div>
-          <a class="m-link" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir l'avis<span class="mc" aria-hidden="true"></span></a></div>
+          <a class="m-link" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir l'avis ›</a></div>
         ${showBar ? progressBar(g) : '<div style="height:14px"></div>'}
         ${facts(g, false)}
       </div></div>`;
