@@ -1362,3 +1362,15 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .avis-panel .chip .sdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-right:7px;vertical-align:middle;position:relative;top:-1px}
 .avis-panel .chip.on{background:color-mix(in srgb,var(--sc) 20%,#fff)!important;border-color:var(--sc)!important;color:color-mix(in srgb,var(--sc) 55%,#1c2733)!important;box-shadow:0 6px 18px color-mix(in srgb,var(--sc) 38%,transparent)!important}
 .avis-panel .avis-years .chip.on{background:#d3ebf6!important;border-color:#3f9dbd!important;color:inherit!important;box-shadow:none!important}
+
+/* v133 : carrousel sans dégradé de bord ; lien « Voir l'avis » sans bulle ; Début au-dessus de Fin dans la fenêtre */
+.grid.carousel,.grid.carousel.moving{-webkit-mask-image:none!important;mask-image:none!important}
+.sheet .m-head .m-link{display:inline-flex;align-items:center;gap:8px;margin-top:4px;white-space:nowrap;font-weight:600;font-size:.95rem;color:#2f86a8;text-decoration:none;border-bottom:1.5px solid transparent;padding-bottom:2px;transition:border-color .15s ease,color .15s ease}
+.sheet .m-head .m-link:hover{color:#1f6f90;border-bottom-color:currentColor}
+.sheet .m-head .m-link .mc{display:inline-block;width:7px;height:7px;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(45deg);transition:transform .15s ease}
+.sheet .m-head .m-link:hover .mc{transform:translateX(3px) rotate(45deg)}
+.sheet .facts .f.cl>dt{grid-column:1}
+.sheet .facts .f.cl>dd{grid-column:2}
+.sheet .facts .f.cr>dt{grid-column:3}
+.sheet .facts .f.cr>dd{grid-column:4}
+@media (max-width:720px){.sheet .facts .f.cr>dt,.sheet .facts .f.cl>dt{grid-column:1}.sheet .facts .f.cr>dd,.sheet .facts .f.cl>dd{grid-column:2}}

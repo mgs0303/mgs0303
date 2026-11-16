@@ -374,9 +374,9 @@
       add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '', 'wide2', 'R');
       add('Temps de jeu', hrs, 'wide2', 'R');
     } else {
-      add('Temps de jeu', hrs); add('Note', noteV);
-      add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '');
-      add('Début', dStart); add('Fin', dEnd);
+      const lft = [['Temps de jeu', hrs], ['Note', noteV], ['Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '']].filter((x) => x[1]);
+      const rgt = [['Début', dStart], ['Fin', dEnd]].filter((x) => x[1]);
+      for (let k = 0; k < Math.max(lft.length, rgt.length); k++) { if (lft[k]) add(lft[k][0], lft[k][1], 'cl'); if (rgt[k]) add(rgt[k][0], rgt[k][1], 'cr'); }
     }
     const n = Number(g.replays);
     if (n > 0) add('Rejoué', `${n} fois`, full && String(g.replay_reason || '').trim() ? 'rj' : '');
@@ -693,7 +693,7 @@
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
       <div class="inner">
         <div class="m-head"><div><h2>${esc(g.title)}</h2>${badge(g.status)}</div>
-          <a class="btn" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Avis</a></div>
+          <a class="m-link" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir l'avis<span class="mc" aria-hidden="true"></span></a></div>
         ${showBar ? progressBar(g) : '<div style="height:14px"></div>'}
         ${facts(g, false)}
       </div></div>`;
