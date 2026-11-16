@@ -1,5 +1,5 @@
 ---
-title: "METAL GEAR SOLID V: THE PHANTOM PAIN"
+title: "Metal Gear Solid V: THE PHANTOM PAIN"
 status: Partie en cours
 progress: 5
 start_date: 2026-11-06
