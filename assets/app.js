@@ -727,7 +727,7 @@
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
       <div class="inner">
         <div class="m-head"><div><h2>${esc(g.title)}</h2>${badge(g.status)}</div>
-          <a class="m-link" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>Voir l'avis ›</a></div>
+          <a class="m-link" href="#/jeu/${encodeURIComponent(g.slug)}" data-close>${(Array.isArray(g.blocks) && g.blocks.length) ? 'Voir l’avis' : 'Détails'} ›</a></div>
         ${showBar ? progressBar(g) : '<div style="height:14px"></div>'}
         ${facts(g, false)}
       </div></div>`;
