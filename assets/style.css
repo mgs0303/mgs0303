@@ -1286,3 +1286,21 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
   .game .facts.split{min-height:428px;align-content:start}
   .game .facts.split .fl,.game .facts.split .fr{align-content:start}
 }
+
+/* v120 : titre sur une seule ligne (police réduite si trop long) + bloc d'infos de hauteur FIXE = hauteur de la jaquette, identique pour tous les jeux ; colonne de gauche répartie sur toute la hauteur de l'image */
+@media (min-width:721px){
+  .game .ginfo h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .game .facts.split{height:428px!important;min-height:428px!important}
+  .game .facts.split .fl{align-content:start!important}
+  .game .facts.split .fl.spread{align-content:space-between!important}
+  .game .facts.split .fr{align-content:start!important}
+}
+@media (min-width:721px){
+  .game .facts.split .fl,.game .facts.split .fr{height:100%}
+}
+@media (min-width:721px){
+  .game .facts.split{align-items:stretch!important}
+}
+@media (min-width:721px){
+  .game .facts.split{grid-template-rows:minmax(0,1fr)!important;grid-auto-rows:minmax(0,1fr)}
+}
