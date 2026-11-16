@@ -174,7 +174,7 @@
     const tags = toList(g.genre).slice(0, 2);
     const gold = hasNote(g) && Number(g.note) >= 9.5;
     return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}" style="--i:${Number.isInteger(i) ? i : 0}">
-      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
+      ${art ? img(art, 'pc-img', g.title) : ''}<i class="sb-shine" aria-hidden="true"></i><span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
         <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go" aria-label="Lire l’avis">›</span></div></div>
     </a>`;
@@ -288,7 +288,27 @@
     const box = document.getElementById('avis-results');
     if (!box) return;
     document.getElementById('avis-count').textContent = list.length;
-    box.innerHTML = list.length ? `<div class="grid posters size-${avisSize}" id="avis-grid">${list.map(poster).join('')}</div>` : '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>';
+    if (!list.length) { box.innerHTML = '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>'; return; }
+    let n = 0;
+    const grid = (gs) => `<div class="grid posters size-${avisSize}">${gs.map((g) => poster(g, n++)).join('')}</div>`;
+    if (avisSort === 'recent' || avisSort === 'ancien') {
+      const monthName = (k) => { if (!/^\d{4}-\d{2}/.test(k)) return 'Sans date'; const s = new Date(Number(k.slice(0, 4)), Number(k.slice(5, 7)) - 1, 1).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }); return s.charAt(0).toUpperCase() + s.slice(1); };
+      const groups = []; const idx = {};
+      list.forEach((g) => { const k = (g.end_date || '').slice(0, 7) || 'x'; if (!(k in idx)) { idx[k] = groups.length; groups.push({ k, gs: [] }); } groups[idx[k]].gs.push(g); });
+      box.innerHTML = `<div id="avis-grid" class="mgroups">${groups.map((gr) => `<section class="mgroup"><h3 class="mhead">${esc(monthName(gr.k))}<span>${gr.gs.length} jeu${gr.gs.length > 1 ? 'x' : ''}</span></h3>${grid(gr.gs)}</section>`).join('')}</div>`;
+    } else {
+      box.innerHTML = `<div id="avis-grid">${grid(list)}</div>`;
+    }
+  }
+
+  function avisHero(base) {
+    const pool = (min) => base.filter((g) => g.status === 'Complété' && hasNote(g) && g.note >= min && g.banner);
+    const p = pool(10).length ? pool(10) : pool(9).length ? pool(9) : base.filter((g) => g.banner);
+    const g = p[Math.floor(Math.random() * p.length)];
+    if (!g) return '';
+    const tags = toList(g.genre).slice(0, 3).join(' / ');
+    return `<a class="avis-hero" href="#/jeu/${encodeURIComponent(g.slug)}">${img(g.banner, 'ah-img', g.title)}<span class="ah-shade"></span>
+      <span class="ah-txt"><span class="ah-kick">À la une · coup de cœur</span><span class="ah-title">${esc(g.title)}</span><span class="ah-meta">${esc(tags)}${tags && hasNote(g) ? ' · ' : ''}${hasNote(g) ? esc(noteText(g)) + '/10' : ''}</span><span class="ah-btn">Lire l’avis ›</span></span></a>`;
   }
 
   function renderAvis() {
@@ -298,7 +318,7 @@
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const chips = ['Tous', 'Complété', 'Dropped'].map((f) => chip('avis-status', f, f === avisStatus)).join('');
-    app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
+    app.innerHTML = `<section class="avis-panel">${avisHero(base)}<div class="avis-bar"><div class="sec-head"><h2>Avis</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}${filterSelect('year', 'Toutes les années', years, avisYear, 'Année')}
         <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
           <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
@@ -391,6 +411,13 @@
     if (window.marked) return window.marked.parse(t, { breaks: true });
     return t.split(/\n{2,}/).map((para) => `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
   }
+  document.addEventListener('pointermove', (e) => {
+    const c = e.target.closest && e.target.closest('#avis-grid .pcard.portrait');
+    if (!c) return;
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--sx', `${Math.round((1 - (e.clientX - r.left) / r.width) * 100)}%`);
+    c.style.setProperty('--sy', `${Math.round(((e.clientY - r.top) / r.height) * 100)}%`);
+  }, { passive: true });
   function closeReplay() { const m = document.querySelector('.rj-modal'); if (!m) return; m.classList.remove('on'); setTimeout(() => m.remove(), 200); }
   function openReplay(text) {
     closeReplay();

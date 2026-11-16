@@ -1339,3 +1339,21 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .game .facts .f.rj::after{content:'';border:0!important;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f2a37' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 9l7 7 7-7'/%3E%3C/svg%3E") center/contain no-repeat!important;width:16px;height:16px;right:14px;bottom:14px;top:auto;padding:0;opacity:.75;transition:transform .15s ease,opacity .15s ease}
 .game .facts .f.rj:hover::after{opacity:1;transform:translateY(2px)}
 @media (min-width:721px){.game .facts.split .fr.r4{grid-template-columns:1.15fr 1.15fr .95fr 1.6fr}.game .facts.split .fr.r3{grid-template-columns:1.4fr 1.4fr 1.2fr}}
+
+/* v126 : page Avis — jeu à la une, regroupement par mois, jaquettes en steelbook (cadre métal, dos rainuré, tranche, reflet irisé qui suit la souris) */
+.avis-hero{position:relative;display:block;height:clamp(210px,24vw,320px);border-radius:22px;overflow:hidden;margin:0 0 22px;border:1px solid #c2e0e7;color:#fff;text-decoration:none;background:#1b2330}
+.avis-hero .ah-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.avis-hero:hover .ah-img{transform:scale(1.03)}
+.avis-hero .ah-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,14,24,.78) 0,rgba(10,14,24,.34) 42%,transparent 72%)}
+.avis-hero .ah-txt{position:absolute;left:clamp(18px,3vw,40px);bottom:clamp(18px,3vw,34px);max-width:min(520px,80%);display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.avis-hero .ah-kick{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.avis-hero .ah-title{font-size:clamp(1.4rem,3vw,2.3rem);font-weight:800;line-height:1.1}
+.avis-hero .ah-meta{opacity:.92;font-size:.95rem}
+.avis-hero .ah-btn{margin-top:6px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.9);color:#1f2a37;font-weight:600;font-size:.9rem;text-shadow:none;border:1px solid rgba(123,186,201,.7)}
+.mgroup{margin:0 0 30px}
+.mhead{display:flex;align-items:baseline;gap:10px;margin:0 0 14px;font-size:1.2rem}
+.mhead span{font-size:.82rem;font-weight:500;color:#5b6b7a}
+
+/* effet verre : reflet brillant + trait de lumière qui suit la souris (cartes d'origine conservées) */
+#avis-grid .pcard.portrait .sb-shine{position:absolute;inset:0;border-radius:inherit;z-index:2;pointer-events:none;background:radial-gradient(130% 55% at 18% -8%,rgba(255,255,255,.6),rgba(255,255,255,.12) 55%,transparent 70%),linear-gradient(112deg,transparent 38%,rgba(255,255,255,.38) 50%,transparent 62%) var(--sx,30%) 0/250% 100% no-repeat,linear-gradient(135deg,rgba(255,255,255,.18),transparent 45%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.65),inset 0 0 24px rgba(255,255,255,.22);transition:opacity .25s ease}
+@media (max-width:720px){.avis-hero{height:200px;border-radius:18px}.mhead{font-size:1.05rem}}
