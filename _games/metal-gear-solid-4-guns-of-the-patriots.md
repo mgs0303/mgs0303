@@ -19,6 +19,6 @@ completion: Main Story
 platform: Steam PC
 mode: Solo
 playtime: 29.3
-banner: /assets/images/metal-gear-solid-4-guns-of-the-patriots-master-collection-version-pc-steam-cover.jpg
+banner: /assets/images/26d1f5c69a9314ef29e950f84b78864a.png
 cover: /assets/images/0f8a218d7f39957f7a6901ddadfaed21.png
 ---
