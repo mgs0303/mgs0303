@@ -1270,27 +1270,13 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 .content .replay-reason p{margin:0}
 @media (max-width:720px){.game .facts .f .tip{display:none}.game .facts .f dd{white-space:normal!important}}
 
-/* v116 : fiche jeu — hauteur du bloc d'infos fixe (jaquette toujours de même taille), tuile seule placée à côté des dates, grandes tuiles étirées ; survol = le texte coulisse (plus de bulle) */
-.game .facts .f .tip{display:none!important}
-.game .facts .f .mq{display:inline-block;white-space:nowrap}
+/* v118 : retour aux tuiles de taille normale (76px, jamais étirées) ; tuile seule à côté des dates ; survol = le texte coulisse */
+.game .facts .f .mq{display:inline-block;white-space:nowrap;transition:transform .2s ease}
 @media (min-width:721px){
-  .game .facts.split{height:440px;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important;align-items:stretch!important}
-  .game .facts.split .fl{grid-template-rows:repeat(var(--n,5),minmax(0,1fr))!important;grid-auto-rows:auto!important;height:100%}
-  .game .facts.split .fr{grid-template-rows:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1.4fr)!important;grid-auto-rows:auto!important;height:100%}
+  .game .facts.split{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important}
   .game .facts.split .fr.has-extra{grid-template-columns:1.6fr 1.6fr .8fr}
   .game .facts.split .fr.has-extra .f.wide2{grid-column:1/-1}
   .game .facts .f{padding:8px 14px!important}
   .game .facts .f.trunc:hover dd{text-overflow:clip}
   .game .facts .f.trunc:hover .mq{transform:translateX(calc(var(--o,0) * -1px));transition:transform calc(var(--o,0) * 22ms) linear .15s}
-  .game .facts .f .mq{transition:transform .2s ease}
-}
-
-/* v117 : fiche jeu PC — géométrie 100 % CSS (plus de calcul JS) : jaquette 2/3 de largeur fixe, bloc d'infos de même hauteur, bas aligné */
-@media (min-width:721px){
-  .game{--cw:clamp(300px,31vw,400px);grid-template-columns:var(--cw) minmax(0,1fr)!important;align-items:stretch!important}
-  .game .cover{aspect-ratio:2/3!important;height:auto!important;width:var(--cw)!important;align-self:start}
-  .game .ginfo{display:flex;flex-direction:column;min-height:calc(var(--cw) * 1.5)}
-  .game .facts.split{flex:1 1 auto;height:auto!important;min-height:0}
-  .game .facts.split .fl{grid-template-rows:repeat(var(--n,5),minmax(50px,1fr))!important}
-  .game .facts.split .fr{grid-template-rows:minmax(50px,1fr) minmax(50px,1.4fr) minmax(50px,1.4fr)!important}
 }

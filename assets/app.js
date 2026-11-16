@@ -428,7 +428,9 @@
     const info = art && art.querySelector('.ginfo');
     if (!info) return;
     art.querySelectorAll('.facts .f').forEach((f) => { const d = f.querySelector('dd'), m = f.querySelector('.mq'); const o = d && m ? Math.ceil(m.offsetWidth - d.clientWidth) : 0; f.classList.toggle('trunc', o > 1); f.style.setProperty('--o', Math.max(o, 0)); });
-    art.style.gridTemplateColumns = '';
+    if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
+    const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));
+    art.style.gridTemplateColumns = `${w}px 1fr`;
   }
   window.addEventListener('resize', fitCover);
   if (window.ResizeObserver) { let ro; const watch = () => { const i = document.querySelector('.game .ginfo'); if (ro) ro.disconnect(); if (i) { ro = new ResizeObserver(() => fitCover()); ro.observe(i); } }; new MutationObserver(watch).observe(document.getElementById('app'), { childList: true }); }
