@@ -1357,3 +1357,10 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* effet verre : reflet brillant + trait de lumière qui suit la souris (cartes d'origine conservées) */
 #avis-grid .pcard.portrait .sb-shine{position:absolute;inset:0;border-radius:inherit;z-index:2;pointer-events:none;background:radial-gradient(130% 55% at 18% -8%,rgba(255,255,255,.6),rgba(255,255,255,.12) 55%,transparent 70%),linear-gradient(112deg,transparent 38%,rgba(255,255,255,.38) 50%,transparent 62%) var(--sx,30%) 0/250% 100% no-repeat,linear-gradient(135deg,rgba(255,255,255,.18),transparent 45%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.65),inset 0 0 24px rgba(255,255,255,.22);transition:opacity .25s ease}
 @media (max-width:720px){.avis-hero{height:200px;border-radius:18px}.mhead{font-size:1.05rem}}
+
+/* v129 : page « Jeux » — pastilles d'année (Récents / 2026 / 2025…), 12 jeux visibles puis « Voir les N autres jeux » */
+.avis-years{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.avis-more{display:flex;justify-content:center;margin:8px 0 6px}
+.btn-more{font:inherit;font-weight:600;font-size:.92rem;color:#1f2a37;padding:10px 24px;border-radius:999px;cursor:pointer;border:1px solid rgba(123,186,201,.7);background:rgba(255,255,255,.85);transition:background .15s ease}
+.btn-more:hover{background:#fff}
+@media (max-width:720px){.avis-years{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.avis-years .chip{flex:0 0 auto}}
