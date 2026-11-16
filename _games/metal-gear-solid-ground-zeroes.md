@@ -18,6 +18,6 @@ note: 7
 completion: Main Story
 platform: Steam PC
 mode: Solo
-banner: /assets/images/metal-gear-solid-v-ground-zeroes-pc-jeu-steam-cover.jpg
+banner: /assets/images/e7955be5a2fd697f447015de2e11681e.png
 cover: /assets/images/METAL GEAR/078c1993dcaa199add4a1b83be1a0c04.jpg
 ---
