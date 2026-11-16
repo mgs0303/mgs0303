@@ -1244,3 +1244,11 @@ section:has(.car-wrap),section:has(>.grid.carousel),section.wish,section.lastrev
 /* v113 : noms trop longs (éditeur, développeur…) : une seule ligne, police réduite, "…" si besoin ; la page ne bouge plus */
 .game .facts .f dd{white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal!important}
 .game .facts .f.long dd{font-size:.86rem!important}
+
+/* v114 : fiche jeu PC — la jaquette suit exactement la hauteur du bloc d'infos (haut et bas alignés) ; libellés et valeurs sur une seule ligne : plus de grands vides dans les tuiles */
+@media (min-width:721px){
+  .game{align-items:stretch!important}
+  .game .cover{aspect-ratio:auto!important;height:100%}
+  .game .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+}
+.game .facts .f dt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em}
