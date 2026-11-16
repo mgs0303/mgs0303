@@ -16,6 +16,6 @@ publisher: KONAMI
 developer: KONAMI
 completion: N/A
 platform: Steam
-banner: /assets/images/capsule_616x353.jpg
+banner: /assets/images/034ead906ae8e07b04f1373e6ed12667.png
 cover: /assets/images/METAL GEAR/727d89c97ccaa39b9f2b848bdce6aca5.jpg
 ---
