@@ -1540,3 +1540,7 @@ body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px s
 /* v158 : liseré blanc des cartes = reflet "verre" posé en bordure ; supprimé (c'était la vraie cause) */
 #avis-grid .pcard.portrait::before,.grid.posters .pcard.portrait::before{box-shadow:none!important;border:0!important;outline:0!important;background:none!important;background-image:none!important}
 .podium .gpod.gp1{box-shadow:0 22px 36px -14px rgba(0,0,0,.4)!important}
+
+/* v160 : bord des cartes — l'image s'arrête 1px avant le bord ; le liseré est du fond de page en haut et du même dégradé sombre que le bas de la carte, donc invisible */
+.pcard:not(.noart){background:linear-gradient(to top,hsl(var(--h) var(--s) 15%/.97) 0,hsl(var(--h) var(--s) 19%/.88) 30%,hsl(var(--h) var(--s) 22%/.35) 52%,transparent 68%)!important}
+.pcard:not(.noart) .pc-img{clip-path:inset(1px round 19px)}
