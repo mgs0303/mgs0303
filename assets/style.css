@@ -1592,3 +1592,6 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 .mhead::after{content:"";flex:1;height:2px;border-radius:2px;background:rgba(150,185,255,.3);align-self:center;margin-left:8px}
 /* vignettes de série : aucun dégradé */
 :is(#app,body) .pcard.mini.mini::before,:is(#app,body) .pcard.mini.mini::after{display:none!important;background:none!important;background-image:none!important}
+
+/* v185 : pastilles et boutons sans flou d'arrière-plan (évite le bloc clair qui apparaissait sur « Récents ») */
+.chip,.fold-toggle,.select,.backbtn,.avis-years .chip,.avis-row .chip{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
