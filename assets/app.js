@@ -521,7 +521,7 @@
     const g = games.find((x) => x.slug === slug);
     if (!g) { app.innerHTML = backBtn('#/', 'Accueil') + '<p class="empty">Ce jeu n\'existe pas.</p>'; return; }
     const art = g.cover || g.banner;
-    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie';
+    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie' && g.completion !== 'Endless';
     app.innerHTML = `${backBtn('#/avis', 'Retour', true)}
       <article class="game">
         <div class="cover">${art ? img(art, 'cv-main', g.title) : `<div class="ph">${esc(g.title)}</div>`}${g.banner ? img(g.banner, 'cv-alt', g.title) : ''}</div>
@@ -793,7 +793,7 @@
     const g = games.find((x) => x.slug === slug);
     if (!g) return;
     const banner = g.banner || g.cover;
-    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie';
+    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie' && g.completion !== 'Endless';
     modal.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(g.title)}">
       <button class="close" data-close aria-label="Fermer">×</button>
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}
