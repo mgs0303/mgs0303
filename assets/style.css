@@ -1658,3 +1658,9 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 html::-webkit-scrollbar-track{background:#0b1626;border-radius:0}
 .grid.carousel::-webkit-scrollbar,.avis-years::-webkit-scrollbar{display:none}
 @supports not selector(::-webkit-scrollbar){*{scrollbar-width:thin;scrollbar-color:#3f6196 transparent}html{scrollbar-color:#3f6196 #0b1626}}
+
+/* v207 : barre des menus déroulants décollée du bord arrondi */
+.fold-list::-webkit-scrollbar{width:16px}
+.fold-list::-webkit-scrollbar-track{background:transparent;margin:14px 0}
+.fold-list::-webkit-scrollbar-thumb{border:5px solid transparent;background-clip:content-box;background-color:#3f6196}
+.fold-list::-webkit-scrollbar-thumb:hover{background-color:#5a82c0}
