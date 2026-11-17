@@ -20,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 250.2
 banner: /assets/images/kingdom-come-deliverance-ii-pc-jeu-steam-latin-america-cover.jpg
-cover: /assets/images/4a90495261e6034c3397e98a12b2b58d.png
+cover: /assets/images/a22ac143a650fe3e9c9bc8497a7a2b03.png
 ---
