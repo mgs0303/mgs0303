@@ -20,5 +20,5 @@ platform: Steam PC
 mode: Solo
 playtime: 24.2
 banner: /assets/images/883be88bb2eed5e62ec494ef362a86b8.png
-cover: /assets/images/e081a744d57449a7ea5b84935e1adb9c.png
+cover: /assets/images/d56cee0a10eb9f1a7a969a0fd6937c13.jpg
 ---
