@@ -607,14 +607,18 @@
   window.addEventListener('resize', () => requestAnimationFrame(alignSeriesPanel));
   let openSeriesIdx = -1;
   let openSeriesName = '';
-  function placeSeriesPanel(userClick) {
+  function placeSeriesPanel(userClick, anchorIdx) {
     const wrap = document.getElementById('stiles');
     if (!wrap) return;
+    // la tuile cliquée reste exactement à la même place à l'écran (pas de saut de la page quand un panneau se ferme / s'ouvre)
+    const anchorEl = anchorIdx >= 0 ? wrap.querySelectorAll('.stile')[anchorIdx] : null;
+    const anchorTop = anchorEl ? anchorEl.getBoundingClientRect().top : 0;
+    const fixAnchor = () => { if (anchorEl) { const d = anchorEl.getBoundingClientRect().top - anchorTop; if (Math.abs(d) > 0.5) window.scrollBy(0, d); } };
     wrap.querySelectorAll('.spanel').forEach((n) => n.remove());
     const tiles = [...wrap.querySelectorAll('.stile')];
     openSeriesName = openSeriesIdx >= 0 ? window.__series[openSeriesIdx].name : '';
     tiles.forEach((t, i) => { const on = i === openSeriesIdx; t.classList.toggle('on', on); t.setAttribute('aria-expanded', on); });
-    if (openSeriesIdx < 0) return;
+    if (openSeriesIdx < 0) { fixAnchor(); return; }
     const gr = window.__series[openSeriesIdx];
     const cols = Math.max(1, getComputedStyle(wrap).gridTemplateColumns.split(' ').length);
     const end = Math.min(tiles.length - 1, (Math.floor(openSeriesIdx / cols) + 1) * cols - 1);
@@ -623,9 +627,11 @@
     panel.innerHTML = `<div class="sp-head"><h3>${esc(gr.name)}</h3><span class="v-meta">${gr.sorted.length} jeux</span><button class="x-btn" data-series-close aria-label="Fermer" title="Fermer">×</button></div>
       <div class="grid posters compact">${gr.sorted.map(miniPoster).join('')}</div>`;
     tiles[end].after(panel);
+    fixAnchor();
     if (userClick) {
-      const tr = tiles[openSeriesIdx].getBoundingClientRect();
-      if (panel.getBoundingClientRect().top > window.innerHeight - 120) window.scrollBy({ top: tr.top - 80, behavior: 'smooth' });
+      // jamais de remontée : on descend seulement du minimum si le panneau est hors écran
+      const pt = panel.getBoundingClientRect().top;
+      if (pt > window.innerHeight - 120) window.scrollBy({ top: pt - window.innerHeight * 0.55, behavior: 'smooth' });
     }
   }
 
@@ -902,9 +908,9 @@
     const open = e.target.closest('[data-open]');
     if (open) { openModal(open.dataset.open); return; }
     if (e.target.closest('[data-close]') || e.target === modal) { closeModal(); return; }
-    if (e.target.closest('[data-series-close]')) { openSeriesIdx = -1; placeSeriesPanel(true); return; }
+    if (e.target.closest('[data-series-close]')) { const prev = openSeriesIdx; openSeriesIdx = -1; placeSeriesPanel(true, prev); return; }
     const st = e.target.closest('.stile');
-    if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(true); return; }
+    if (st) { const i = +st.dataset.series; openSeriesIdx = openSeriesIdx === i ? -1 : i; placeSeriesPanel(true, i); return; }
     document.querySelectorAll('.fold.open,.dd.open').forEach((f) => { if (!f.contains(e.target)) f.classList.remove('open'); });
     const opt = e.target.closest('[data-dd]');
     if (opt) {
