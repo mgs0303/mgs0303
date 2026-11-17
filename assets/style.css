@@ -1698,3 +1698,4 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 .pcard.hig{--hg:linear-gradient(to top,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .3)/.99) 0,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .4)/.97) 30%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .6)/.75) 42%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 8%)/0) 58%)}
 .pcard.hig::after,.pcard.portrait.hig::after,#avis-grid .pcard.portrait.hig::after{background:var(--hg)!important}
 .pcard.baked.hig,.pcard.baked.portrait.hig{--ovg:var(--hg)}
+

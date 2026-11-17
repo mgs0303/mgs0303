@@ -613,7 +613,7 @@
     // la tuile cliquée reste exactement à la même place à l'écran (pas de saut de la page quand un panneau se ferme / s'ouvre)
     const anchorEl = anchorIdx >= 0 ? wrap.querySelectorAll('.stile')[anchorIdx] : null;
     const anchorTop = anchorEl ? anchorEl.getBoundingClientRect().top : 0;
-    const fixAnchor = () => { if (anchorEl) { const d = anchorEl.getBoundingClientRect().top - anchorTop; if (Math.abs(d) > 0.5) window.scrollBy(0, d); } };
+    const fixAnchor = () => { if (anchorEl) { const d = anchorEl.getBoundingClientRect().top - anchorTop; if (Math.abs(d) > 0.5) window.scrollBy({ top: d, left: 0, behavior: 'instant' }); } };
     wrap.querySelectorAll('.spanel').forEach((n) => n.remove());
     const tiles = [...wrap.querySelectorAll('.stile')];
     openSeriesName = openSeriesIdx >= 0 ? window.__series[openSeriesIdx].name : '';
