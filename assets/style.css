@@ -1689,3 +1689,7 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 .pcard.portrait:not(:hover):not(:focus-visible) .pc-hover{transition:max-height .8s cubic-bezier(.45,0,.25,1),opacity .6s ease,margin .8s cubic-bezier(.45,0,.25,1)!important}
 .pcard.portrait:not(:hover):not(:focus-visible) .pc-pct{transition:opacity .5s ease .3s!important}
 .pcard.portrait:not(:hover):not(:focus-visible) .pc-img{transition-duration:.7s!important}
+
+/* v216 : toutes les cartes de l'accueil — petite ombre au survol + effet plus rapide */
+:is(#app,body) .pcard:not(.portrait){transition:box-shadow .16s ease,transform .16s ease,border-color .16s ease!important}
+:is(#app,body) .pcard:not(.portrait):hover{box-shadow:0 10px 24px -8px rgba(0,0,0,.4)!important}
