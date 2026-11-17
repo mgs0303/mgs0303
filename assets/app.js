@@ -548,7 +548,7 @@
     const groups = [...map.values()].filter((x) => x.games.length >= 2)
       .sort((a, b) => b.games.length - a.games.length || a.name.localeCompare(b.name));
     if (!groups.length) { app.innerHTML = '<div class="sec-head"><h2>Séries</h2></div><p class="empty">Aucune série avec au moins 2 jeux pour l\'instant.</p>'; return; }
-    app.innerHTML = `<div class="sec-head"><h2>Séries</h2><span class="count">${groups.length}</span></div>
+    app.innerHTML = `<section class="avis-panel ypanel"><div class="sec-head"><h2>Séries</h2><span class="count">${groups.length}</span></div>
       <div class="stiles" id="stiles">` + groups.map((gr, i) => {
       const gs = gr.games.slice().sort((a, b) => gameTime(a).localeCompare(gameTime(b)));
       const m = avg(gs.filter(hasNote).map((g) => g.note));
@@ -558,7 +558,7 @@
       return `<button class="pcard portrait stile" data-series="${i}" aria-expanded="false">
         ${art ? img(art, 'pc-img', gr.name) : ''}
         <span class="pc-body"><span class="pc-name">${esc(gr.name)}</span>${m !== null ? `<span class="pc-meta">note moyenne ${fmt1(m)}</span>` : ''}</span></button>`;
-    }).join('') + '</div>';
+    }).join('') + '</div></section>';
     window.__series = groups;
     openSeriesIdx = openSeriesName ? groups.findIndex((x) => x.name === openSeriesName) : -1;
     if (openSeriesIdx >= 0) placeSeriesPanel(false);
@@ -615,13 +615,13 @@
   function renderGotyIndex() {
     const years = gotyYears();
     if (!years.length) { app.innerHTML = '<div class="sec-head"><h2>GOTY</h2></div><p class="empty">Pas encore de top.</p>'; return; }
-    app.innerHTML = `<div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 de chaque année.</p>
+    app.innerHTML = `<section class="avis-panel ypanel"><div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 de chaque année.</p>
       <div class="ycards">${years.map((y) => {
       const n = gotyRows(y).length;
       const hue = (Number(y) * 47) % 360;
       return `<a class="ycard${n ? '' : ' empty-y'}" href="#/goty/${y}" style="--h:${isNaN(hue) ? 220 : hue}">
         <span class="y-year">${esc(y)}</span><span class="y-label">${n ? 'Top 10' : 'Bientôt'}</span></a>`;
-    }).join('')}</div>`;
+    }).join('')}</div></section>`;
   }
   function renderGoty(year) {
     const years = gotyYears();

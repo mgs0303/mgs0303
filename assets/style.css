@@ -1562,3 +1562,6 @@ body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px s
 .ycard:nth-child(3n+2){--h:219!important}
 .ycard:nth-child(3n){--h:230!important}
 .ycard{background:radial-gradient(120% 80% at 50% 30%,hsl(var(--h) 62% 36%),hsl(calc(var(--h) + 8) 58% 21%))!important}
+
+/* v177 : Séries et GOTY encadrés dans un panneau comme "Currently Playing" */
+section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22px 28px 30px!important}
