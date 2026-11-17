@@ -365,7 +365,7 @@
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
-        <label class="notein dd note">Note : <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="tout" value="${avisMin > 0 ? avisMin : ''}" data-notemin aria-label="Note minimale"> <span class="gt">&gt;</span></label></div></div>
+        <label class="notein dd note">Note : <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="tout" value="${avisMin === avisMax ? avisMin : ''}" data-notemin aria-label="Note"></label></div></div>
       <div id="avis-results"></div></section>`;
     updateAvisResults();
   }
@@ -926,7 +926,7 @@
   });
   document.addEventListener('input', (e) => {
     const nm = e.target.closest('[data-notemin]');
-    if (nm) { const v = parseFloat(String(nm.value).replace(',', '.')); avisMin = isNaN(v) ? 0 : Math.max(0, Math.min(10, v)); avisMax = 10; updateAvisResults(); return; }
+    if (nm) { const v = parseFloat(String(nm.value).replace(',', '.')); if (isNaN(v)) { avisMin = 0; avisMax = 10; } else { avisMin = avisMax = Math.max(0, Math.min(10, v)); } updateAvisResults(); return; }
     const r = e.target.closest('[data-range]');
     if (!r) return;
     const v = Number(r.value);
