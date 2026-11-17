@@ -120,6 +120,7 @@
     if (!src) return;
     // Metal Gear : une jaquette portrait dans une carte large est calée en haut pour que le titre passe ; une bannière large reste normale
     const sl = card.dataset.open || ((card.getAttribute('href') || '').match(/#\/jeu\/([^/?]+)/) || [])[1] || '';
+    card.classList.toggle('hig', /^higurashi/.test(decodeURIComponent(sl)));
     card.classList.toggle('fit', /^metal-gear/.test(decodeURIComponent(sl)) && vis[0].naturalHeight > vis[0].naturalWidth);
     card.style.setProperty('--art', 'url("' + src.replace(/"/g, '%22') + '")');
     card.classList.add('baked');
