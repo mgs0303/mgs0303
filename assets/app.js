@@ -942,23 +942,6 @@
     document.getElementById('twitter-label').textContent = '@' + h;
     a.hidden = false;
   })();
-  // Cartes : image + voile sombre peints sur la carte elle-même (une seule passe) pour éviter le liseré clair au bord arrondi
-  function bakeCards() {
-    document.querySelectorAll('.pcard:not(.baked):not(.noart)').forEach((card) => {
-      const imgs = Array.from(card.querySelectorAll(':scope > .pc-img')).filter((im) => getComputedStyle(im).display !== 'none');
-      if (imgs.length !== 1) return;
-      const src = imgs[0].currentSrc || imgs[0].src;
-      if (!src) return;
-      const ov = getComputedStyle(card, '::after').backgroundImage;
-      if (!ov || ov === 'none') return;
-      card.style.setProperty('--ov', ov);
-      card.style.setProperty('--art', 'url("' + src.replace(/"/g, '%22') + '")');
-      card.classList.add('baked');
-    });
-  }
-  let bakeQueued = false;
-  new MutationObserver(() => { if (bakeQueued) return; bakeQueued = true; requestAnimationFrame(() => { bakeQueued = false; bakeCards(); }); })
-    .observe(document.body, { childList: true, subtree: true });
   window.addEventListener('hashchange', route);
 
   Promise.all([
