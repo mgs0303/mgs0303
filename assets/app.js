@@ -123,6 +123,13 @@
     card.style.setProperty('--art', 'url("' + src.replace(/"/g, '%22') + '")');
     card.classList.add('baked');
   }
+  // filet de sécurité : toute image de carte qui finit de charger déclenche la cuisson de sa carte
+  document.addEventListener('load', (e) => {
+    const im = e.target;
+    if (!im || !im.classList || !im.classList.contains('pc-img')) return;
+    const c = im.closest('.pcard');
+    if (c) setTimeout(() => { if (!c.classList.contains('baked')) bakeCard(c); }, 350);
+  }, true);
   let bakeRz;
   window.addEventListener('resize', () => { clearTimeout(bakeRz); bakeRz = setTimeout(() => document.querySelectorAll('.pcard[data-t]').forEach(bakeCard), 150); });
   function tintCards() {
