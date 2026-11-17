@@ -117,9 +117,6 @@
     if (vis.length !== 1) return;
     const src = vis[0].currentSrc || vis[0].src;
     if (!src) return;
-    const ov = getComputedStyle(card, '::after').backgroundImage;
-    if (!ov || ov === 'none') return;
-    card.style.setProperty('--ov', ov);
     card.style.setProperty('--art', 'url("' + src.replace(/"/g, '%22') + '")');
     card.classList.add('baked');
   }

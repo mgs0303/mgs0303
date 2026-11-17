@@ -1538,7 +1538,9 @@ body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px s
 #avis-grid .pcard.portrait::before,.grid.posters .pcard.portrait::before{box-shadow:none!important;border:0!important;outline:0!important;background:none!important;background-image:none!important}
 .podium .gpod.gp1{box-shadow:0 22px 36px -14px rgba(0,0,0,.4)!important}
 
-/* v165 : cartes "cuites" — image + voile (aux couleurs d'origine de chaque carte) peints en une seule passe : plus de liseré clair au bord arrondi */
-.pcard.baked{background-image:var(--ov),var(--art)!important;background-size:100% 100%,cover!important;background-position:0 0,center!important;background-repeat:no-repeat!important}
+/* v165 : cartes "cuites" — image + dégradé réglé (mêmes formules que .pcard::after, donc mêmes couleurs) peints en une seule passe : plus de liseré clair au bord arrondi */
+.pcard.baked.portrait{--ovg:linear-gradient(to top,hsl(var(--gh) var(--gs) calc(var(--gl) * .5)/calc(.98*var(--ga))) 0,hsl(var(--gh) var(--gs) calc(var(--gl) * .75)/calc(.92*var(--ga))) 22%,hsl(var(--gh) var(--gs) calc(var(--gl) + 6%)/calc(.62*var(--ga))) 42%,hsl(var(--gh) var(--gs) calc(var(--gl) + 10%)/0) 64%)}
+.pcard.baked:not(.portrait){--ovg:linear-gradient(to top,hsl(var(--gh) var(--gs) calc(var(--gl) * .5)/calc(.96*var(--ga))) 0,hsl(var(--gh) var(--gs) calc(var(--gl) * .8)/calc(.8*var(--ga))) 22%,hsl(var(--gh) var(--gs) calc(var(--gl) + 10%)/0) 46%)}
+.pcard.baked{background-image:var(--ovg),var(--art)!important;background-size:100% 100%,cover!important;background-position:0 0,center!important;background-repeat:no-repeat!important}
 .pcard.baked .pc-img{visibility:hidden!important}
-.pcard.baked::after{display:none!important}
+:is(#avis-grid,body) .pcard.baked.baked::after{display:none!important}
