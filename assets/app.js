@@ -420,8 +420,9 @@
     else if (g.status === 'Complété') hrs = 'N/A';
     if (full) {
       add('Début', dStart, '', 'R'); add('Fin', dEnd, '', 'R');
-      add('Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '', 'wide2', 'R');
-      add('Temps de jeu', hrs, 'wide2', 'R');
+      const cTxt = c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '';
+      add('Completion', cTxt, 'wide2' + (String(c || '').length <= 14 ? ' short' : ''), 'R'); // texte court : tuile aussi large que « Début »
+      add('Temps de jeu', hrs, 'wide2' + (String(hrs).length <= 14 ? ' short' : ''), 'R');
     } else {
       nr.push(['Temps de jeu', hrs], ['Note', noteV], ['Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : ''], ['Début', dStart], ['Fin', dEnd]);
     }

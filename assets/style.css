@@ -1595,3 +1595,6 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 
 /* v185 : pastilles et boutons sans flou d'arrière-plan (évite le bloc clair qui apparaissait sur « Récents ») */
 .chip,.fold-toggle,.select,.backbtn,.avis-years .chip,.avis-row .chip{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
+/* v188 : tuiles Complétion / Temps de jeu courtes = même largeur que la tuile « Début » (une colonne) */
+@media(min-width:721px){.game .facts.split .fr .f.wide2.short{grid-column:1/-1!important;width:calc(50% - 6px)}}
