@@ -1,6 +1,6 @@
 ---
 title: The Sims 4
-status: Relancé
+status: Endless
 start_date: 2026-11-17
 no_start_date: false
 end_date: 2026-11-17
