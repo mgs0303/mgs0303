@@ -1565,3 +1565,6 @@ body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px s
 
 /* v177 : Séries et GOTY encadrés dans un panneau comme "Currently Playing" */
 section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22px 28px 30px!important}
+
+/* v179 : le contenu s'étire jusqu'aux bords de la barre du haut (logo à gauche, recherche à droite) */
+main,body.avispage main{max-width:none!important}
