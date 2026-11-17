@@ -1606,3 +1606,6 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 /* v191 : barre de progression des cartes visible (fond clair, remplissage bleu vif) */
 .pc-prog .pc-bar,.pc-bar{background:rgba(255,255,255,.28)!important;height:7px!important;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
 .pc-bar i{background:linear-gradient(90deg,#7bbac9,#8db4ff)!important;min-width:7px}
+
+/* v192 : pastille d'année active (Récents, 2026…) = même couleur que « Tous » */
+.avis-panel .avis-years .chip.on{background:color-mix(in srgb,var(--sc) 42%,rgba(120,165,255,.22))!important;border-color:var(--sc)!important;color:#fff!important;font-weight:600;box-shadow:none!important}
