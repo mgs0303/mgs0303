@@ -1598,3 +1598,7 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 
 /* v188 : tuiles Complétion / Temps de jeu courtes = même largeur que la tuile « Début » (une colonne) */
 @media(min-width:721px){.game .facts.split .fr .f.wide2.short{grid-column:1/-1!important;width:calc(50% - 6px)}}
+
+/* v190 : Dernier avis — léger effet au survol (remonte un peu, fond un peu plus clair, ombre douce) */
+.lr-card,.lr-card:hover,.lr-card:focus-visible{transition:transform .22s ease,background-color .22s ease,box-shadow .22s ease!important}
+.lr-card:hover,.lr-card:focus-visible{transform:translateY(-2px)!important;background:rgba(120,165,255,.18)!important;box-shadow:0 10px 26px -8px rgba(0,0,0,.25)!important}
