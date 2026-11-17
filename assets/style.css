@@ -1620,4 +1620,19 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
   .avis-panel .avis-bar .chips-inline::before,.avis-panel .avis-bar .avis-row>.dd::before,.avis-panel .avis-bar .rangebox::before{content:"";position:absolute;left:0;top:50%;height:26px;width:1px;transform:translateY(-50%);background:rgba(150,185,255,.35)}
   .avis-panel .avis-bar .rangebox{flex:0 0 auto;width:auto!important;gap:10px}
   .avis-panel .avis-bar .rangebox .range{width:130px!important;flex:0 0 130px}
+  /* v194 : « Plus récent » rejoint les autres filtres ; marge sous la ligne de filtres */
+  .avis-panel .avis-bar{padding-bottom:22px!important}
+  .avis-panel .avis-bar>.sec-head{display:contents}
+  .avis-panel .avis-bar>.sec-head>h2,.avis-panel .avis-bar>.sec-head>.count{order:0}
+  .avis-panel .avis-bar::before{content:"";order:1;flex:0 0 100%;height:0}
+  .avis-panel .avis-bar .avis-years{order:2}
+  .avis-panel .avis-bar .chips-inline{order:3}
+  .avis-panel .avis-bar .avis-row>.dd{order:4}
+  .avis-panel .avis-bar .rangebox{order:5}
+  .avis-panel .avis-bar>.sec-head>.dd{order:6;position:relative;margin-left:8px!important;padding-left:17px;margin-top:0!important}
+  .avis-panel .avis-bar>.sec-head>.dd::before{content:"";position:absolute;left:0;top:50%;height:26px;width:1px;transform:translateY(-50%);background:rgba(150,185,255,.35)}
+}
+@media(min-width:1000px){
+  .avis-panel .avis-bar .chips-inline,.avis-panel .avis-bar .avis-row>.dd,.avis-panel .avis-bar .rangebox,.avis-panel .avis-bar>.sec-head>.dd{margin-left:4px!important;padding-left:13px!important}
+  .avis-panel .avis-bar .rangebox .range{width:90px!important;flex:0 0 90px!important}
 }
