@@ -3,11 +3,13 @@ title: Persona 5 The Phantom X
 status: Pause
 start_date: 2025-06-26
 no_start_date: false
+end_date: 2026-11-17
 no_end_date: true
 release_year: 2025
 genre:
   - JRPG
   - Aventure
+  - Gacha
 series: PERSONA
 hide_series: false
 publisher: ATLUS
