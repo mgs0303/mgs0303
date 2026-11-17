@@ -655,7 +655,7 @@
   function renderGotyIndex() {
     const years = gotyYears();
     if (!years.length) { app.innerHTML = '<div class="sec-head"><h2>GOTY</h2></div><p class="empty">Pas encore de top.</p>'; return; }
-    app.innerHTML = `<section class="avis-panel ypanel"><div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 de chaque année.</p>
+    app.innerHTML = `<section class="avis-panel ypanel"><div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 des jeux que j’ai joué chaque année .✦ ݁˖</p>
       <div class="ycards">${years.map((y) => {
       const n = gotyRows(y).length;
       const hue = (Number(y) * 47) % 360;
