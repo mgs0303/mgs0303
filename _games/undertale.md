@@ -17,6 +17,6 @@ completion: N/A
 platform: Steam PC
 mode: Solo
 playtime: 3.6
-banner: /assets/images/308336cb8536ff80fe05f4673687b20e.png
+banner: /assets/images/capsule_616x353 (1)-4.jpg
 cover: /assets/images/1a68f4f8f9bba5102b63861793900b47.png
 ---
