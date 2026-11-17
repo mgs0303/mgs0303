@@ -1582,8 +1582,13 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 .pcard.fit:not(.portrait):not(.baked) .pc-img{object-fit:contain!important;object-position:center top!important;background:#0b1626}
 /* choix actif des filtres (Tous / Complété / Dropped) bien visible */
 .avis-panel .avis-row .chip.on{background:color-mix(in srgb,var(--sc) 42%,rgba(120,165,255,.22))!important;border-color:var(--sc)!important;color:#fff!important;font-weight:600;box-shadow:none!important}
-/* trait fin entre les années */
-.mgroup:not(:first-child){border-top:1px solid rgba(150,185,255,.2);padding-top:22px;margin-top:6px}
 /* vignettes de série : image seule */
 .pcard.mini::before,.pcard.mini::after{display:none!important}
 .pcard.mini .mini-t{position:absolute;inset:auto 8px 8px;font-weight:700;font-size:.8rem}
+
+/* v183 */
+@media(min-width:721px){#mp{width:190px!important}#mp .mp-time{font-size:9.2px!important}}
+/* trait à côté de l'année */
+.mhead::after{content:"";flex:1;height:2px;border-radius:2px;background:rgba(150,185,255,.3);align-self:center;margin-left:8px}
+/* vignettes de série : aucun dégradé */
+:is(#app,body) .pcard.mini.mini::before,:is(#app,body) .pcard.mini.mini::after{display:none!important;background:none!important;background-image:none!important}
