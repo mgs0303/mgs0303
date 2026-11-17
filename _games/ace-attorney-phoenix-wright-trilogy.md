@@ -1,5 +1,5 @@
 ---
-title: Phoenix Wright Ace Attorney Trilogy
+title: "Phoenix Wright : Ace Attorney Trilogy"
 status: Complété
 progress: 100
 start_date: 2023-06-17
