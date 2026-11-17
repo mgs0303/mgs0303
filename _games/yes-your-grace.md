@@ -2,9 +2,7 @@
 title: Yes, Your Grace
 status: Dropped
 progress: 10
-start_date: 2026-03-25
 no_start_date: true
-end_date: 2026-11-17
 no_end_date: true
 release_year: 2020
 genre:
