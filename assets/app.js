@@ -202,7 +202,7 @@
     });
   }
   window.addEventListener('resize', () => requestAnimationFrame(fitFacts));
-  new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); requestAnimationFrame(fitFacts); }).observe(app, { childList: true, subtree: true });
+  new MutationObserver(() => { initLoop(); tintCards(); revealHero(); requestAnimationFrame(syncCar); requestAnimationFrame(fitFacts); }).observe(app, { childList: true, subtree: true });
   window.addEventListener('resize', syncCar);
   function poster(g, i) {
     const art = g.cover || g.banner;
@@ -265,6 +265,17 @@
     };
     im.src = path(src);
   }
+  // bannière du profil : on attend qu'elle soit décodée avant de l'afficher, puis fondu (plus de saut brutal au retour sur l'accueil)
+  const bannerCache = {};
+  function revealHero() {
+    document.querySelectorAll('.hbg.wait').forEach((el) => {
+      const src = el.dataset.src; if (!src) return;
+      let im = bannerCache[src];
+      if (!im) { im = bannerCache[src] = new Image(); im.src = src; }
+      const show = () => { el.style.backgroundImage = `url('${src}')`; requestAnimationFrame(() => el.classList.remove('wait')); };
+      if (im.complete && im.naturalWidth) show(); else if (im.decode) im.decode().then(show, show); else im.onload = show;
+    });
+  }
   function heroHtml() {
     const p = profile || {};
     const done = games.filter((g) => g.status === 'Complété');
@@ -273,7 +284,7 @@
     const avg = notes.length ? (notes.reduce((a, b) => a + b, 0) / notes.length).toFixed(1).replace('.', ',') : '–';
     const name = p.display_name || 'La-Li-Lu-Le-Log';
     const h = (p.twitter || TWITTER || '').trim().replace(/^@/, '');
-    return `<section class="hero3"><div class="hbg${p.banner ? '' : ' def'}"${p.banner ? ` style="background-image:url('${esc(path(p.banner))}')"` : ''}></div></section>
+    return `<section class="hero3"><div class="hbg${p.banner ? ' wait' : ' def'}"${p.banner ? ` data-src="${esc(path(p.banner))}"` : ''}></div></section>
       <div class="pf">${p.avatar ? `<img class="pf-av" src="${esc(path(p.avatar))}" alt="">` : '<div class="pf-av"></div>'}
         <div class="pf-tx"><h1>${esc(name)}</h1>${h ? `<span class="h">@${esc(h)}</span>` : ''}
           <div class="pf-pills"><span><b>${games.length}</b> jeux</span><span><b>${done.length}</b> terminés</span><span><b>${hrs.toLocaleString('fr-FR')}</b> h</span><span><b>${avg}</b> moyenne</span></div></div>

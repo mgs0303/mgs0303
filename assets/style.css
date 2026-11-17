@@ -1645,3 +1645,7 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 .notein input:focus{border-color:#7bbac9;background:rgba(120,165,255,.2)}
 .notein input::-webkit-outer-spin-button,.notein input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .notein .gt{font-weight:700}
+
+/* v200 : bannière du profil — apparition en fondu une fois l'image prête (plus de saut) */
+.hero3 .hbg{transition:opacity .35s ease}
+.hero3 .hbg.wait{opacity:0}
