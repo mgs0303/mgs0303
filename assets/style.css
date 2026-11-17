@@ -1508,3 +1508,16 @@ body.home .top nav a.on,body:not(.home) .top nav a.on,.top nav a.on{background:r
 .pcard::after{background:linear-gradient(to bottom,rgba(8,16,32,.62) 0,rgba(8,16,32,.28) 26%,transparent 44%),linear-gradient(to top,hsl(var(--h) var(--s) 15%/.97) 0,hsl(var(--h) var(--s) 19%/.88) 30%,hsl(var(--h) var(--s) 22%/.35) 52%,transparent 68%)!important}
 .pc-tags span{background:rgba(8,16,32,.6)!important;color:#eaf2ff}
 .fold-list,.dd .fold-list,.avis-bar .fold-list{background:#0b1628!important;opacity:1!important}
+
+/* v152 */
+.fold-list .chip,.fold-list .chip.opt,.fold-list .chip.on,.fold-list .chip:hover{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}
+.top nav,body.home .top nav{background:rgba(10,20,38,.4)!important}
+/* panneaux : pas de flou empilé, teintes plus sombres et plates */
+section.avis-panel,.avis-panel,.content,.panel,.spanel,section.wish,section.lastrev,section.statut,section:has(.car-wrap),section:has(>.grid.carousel),.avis-bar,.avis-panel .avis-bar,.tile,.st-art,.toprow,.pod,.ycard{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+section.avis-panel,.avis-panel{background:rgba(120,165,255,.07)!important}
+.avis-bar,.avis-panel .avis-bar{background:rgba(120,165,255,.1)!important}
+/* cartes : aucun flou dedans (coins nets), pas de liseré clair */
+.pcard,.pcard *,.pcard::before,.pcard::after,.card,.card *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.pcard.portrait,.pcard.portrait.stile,.pod,.podium .pod,.toprow{border:0!important}
+.pcard,.card{isolation:isolate;transform:translateZ(0)}
+.pcard:hover{transform:translateY(-5px) translateZ(0)}
