@@ -1609,3 +1609,15 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 
 /* v192 : pastille d'année active (Récents, 2026…) = même couleur que « Tous » */
 .avis-panel .avis-years .chip.on{background:color-mix(in srgb,var(--sc) 42%,rgba(120,165,255,.22))!important;border-color:var(--sc)!important;color:#fff!important;font-weight:600;box-shadow:none!important}
+
+/* v193 : page Jeux — années, statuts, genre et note sur une seule ligne, séparés par un trait vertical */
+@media(min-width:1000px){
+  .avis-panel .avis-bar{display:flex;flex-wrap:wrap;align-items:center;column-gap:8px;row-gap:12px}
+  .avis-panel .avis-bar>.sec-head{flex:0 0 100%}
+  .avis-panel .avis-bar .avis-years,.avis-panel .avis-bar .avis-row{margin:0!important}
+  .avis-panel .avis-bar .avis-row{display:contents}
+  .avis-panel .avis-bar .chips-inline,.avis-panel .avis-bar .avis-row>.dd,.avis-panel .avis-bar .rangebox{position:relative;margin-left:8px!important;padding-left:17px}
+  .avis-panel .avis-bar .chips-inline::before,.avis-panel .avis-bar .avis-row>.dd::before,.avis-panel .avis-bar .rangebox::before{content:"";position:absolute;left:0;top:50%;height:26px;width:1px;transform:translateY(-50%);background:rgba(150,185,255,.35)}
+  .avis-panel .avis-bar .rangebox{flex:0 0 auto;width:auto!important;gap:10px}
+  .avis-panel .avis-bar .rangebox .range{width:130px!important;flex:0 0 130px}
+}
