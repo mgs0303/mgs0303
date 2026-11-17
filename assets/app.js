@@ -108,6 +108,8 @@
     </button>`;
   }
   // jeux dont le dégradé doit être forcé en bleu (couleur de l'image mal détectée) : ajouter le nom du fichier du jeu (slug)
+  // jeux sans aucun dégradé sur leur carte (ex. bannière logo sur fond noir)
+  const GRAD_NONE = ['undertale'];
   const GRAD_BLEU = ['baldur-s-gate-3', 'metal-gear-solid-2-sons-of-the-liberty'];
   // Cartes : image + voile sombre peints ensemble sur la carte (une seule passe) pour éviter le liseré clair au bord arrondi
   function bakeCard(card) {
@@ -121,6 +123,7 @@
     if (!src) return;
     // Metal Gear : une jaquette portrait dans une carte large est calée en haut pour que le titre passe ; une bannière large reste normale
     const sl = card.dataset.open || ((card.getAttribute('href') || '').match(/#\/jeu\/([^/?]+)/) || [])[1] || '';
+    card.classList.toggle('nograd', GRAD_NONE.includes(decodeURIComponent(sl)));
     card.classList.toggle('hig', /^higurashi/.test(decodeURIComponent(sl)));
     card.classList.toggle('fit', /^metal-gear/.test(decodeURIComponent(sl)) && vis[0].naturalHeight > vis[0].naturalWidth);
     card.style.setProperty('--art', 'url("' + src.replace(/"/g, '%22') + '")');
@@ -155,6 +158,7 @@
           let gh = h, gs = Math.min(0.85, sat * 1.8) * (l < 0.25 ? 0.8 : 1), gl = Math.min(0.26, Math.max(0.1, l * 1.05)), ga = (l < 0.1 || (l < 0.2 && sat < 0.12)) ? 0 : 1;
           const slug = c.dataset.open || ((c.getAttribute('href') || '').match(/#\/jeu\/([^/?]+)/) || [])[1] || '';
           if (GRAD_BLEU.includes(decodeURIComponent(slug))) { gh = 214; gs = 0.8; gl = 0.2; ga = 1; }
+          if (GRAD_NONE.includes(decodeURIComponent(slug))) ga = 0;
           if (/^baldur-s-gate-3/.test(decodeURIComponent(slug))) { gh = 218; gs = 0.38; gl = 0.12; ga = 1; }
           c.style.setProperty('--gh', gh); c.style.setProperty('--gs', Math.round(gs * 100) + '%');
           c.style.setProperty('--gl', Math.round(gl * 100) + '%'); c.style.setProperty('--ga', ga);

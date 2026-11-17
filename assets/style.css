@@ -1699,3 +1699,7 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 .pcard.hig::after,.pcard.portrait.hig::after,#avis-grid .pcard.portrait.hig::after{background:var(--hg)!important}
 .pcard.baked.hig,.pcard.baked.portrait.hig{--ovg:var(--hg)}
 
+
+/* v224 : cartes sans aucun dégradé (Undertale) */
+.pcard.nograd::before,.pcard.nograd::after{background:none!important;opacity:0!important}
+.pcard.baked.nograd{--ovg:linear-gradient(transparent,transparent);background-color:#000!important}
