@@ -1556,3 +1556,9 @@ body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px s
 .pcard:not(.portrait)::after{background:linear-gradient(to top,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .36)/calc(.98*var(--ga))) 0,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .75)/calc(.8*var(--ga))) 15%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 10%)/0) 34%)!important}
 .pcard.baked.portrait{--ovg:linear-gradient(to top,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .36)/calc(.99*var(--ga))) 0,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .7)/calc(.93*var(--ga))) 14%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 8%)/calc(.55*var(--ga))) 28%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 12%)/0) 42%)}
 .pcard.baked:not(.portrait){--ovg:linear-gradient(to top,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .36)/calc(.98*var(--ga))) 0,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .75)/calc(.8*var(--ga))) 15%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 10%)/0) 34%)}
+
+/* v176 : cartes GOTY en nuances de bleu */
+.ycard:nth-child(3n+1){--h:208!important}
+.ycard:nth-child(3n+2){--h:219!important}
+.ycard:nth-child(3n){--h:230!important}
+.ycard{background:radial-gradient(120% 80% at 50% 30%,hsl(var(--h) 62% 36%),hsl(calc(var(--h) + 8) 58% 21%))!important}
