@@ -111,6 +111,7 @@
   // Cartes : image + voile sombre peints ensemble sur la carte (une seule passe) pour éviter le liseré clair au bord arrondi
   function bakeCard(card) {
     if (!card.classList || !card.classList.contains('pcard') || card.classList.contains('noart')) return;
+    if (!card.closest('#avis-grid, section.wish, .car-wrap') || card.closest('.spanel, .podium')) return;
     const all = Array.from(card.querySelectorAll(':scope > .pc-img'));
     card.classList.remove('baked');
     const vis = all.filter((im) => getComputedStyle(im).display !== 'none');
