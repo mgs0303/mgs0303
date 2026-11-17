@@ -190,7 +190,16 @@
       w.dataset.end = c.scrollLeft + c.clientWidth >= c.scrollWidth - 4 ? '1' : '0';
     });
   }
-  new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); }).observe(app, { childList: true, subtree: true });
+  // tuiles de la fiche jeu : si un texte déborde de sa tuile, on réduit un peu la taille (seulement dans ce cas)
+  function fitFacts() {
+    document.querySelectorAll('.game .facts .f dd').forEach((dd) => {
+      dd.style.fontSize = '';
+      let fs = parseFloat(getComputedStyle(dd).fontSize);
+      while (dd.scrollWidth > dd.clientWidth + 1 && fs > 11) { fs -= 0.5; dd.style.fontSize = fs + 'px'; }
+    });
+  }
+  window.addEventListener('resize', () => requestAnimationFrame(fitFacts));
+  new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); requestAnimationFrame(fitFacts); }).observe(app, { childList: true, subtree: true });
   window.addEventListener('resize', syncCar);
   function poster(g, i) {
     const art = g.cover || g.banner;
@@ -376,6 +385,7 @@
     if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre');
       const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
       if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Dév.', esc(pub));
+      else if (dev.length >= 14 && dev.length > pub.length) { add('Développeur', esc(g.developer)); add('Éditeur', esc(g.publisher)); } // le nom le plus long prend la grande tuile
       else { add('Éditeur', esc(g.publisher)); add('Développeur', esc(g.developer)); }
       add('Année', esc(g.release_year)); }
     else {

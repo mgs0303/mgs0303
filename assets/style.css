@@ -1565,3 +1565,7 @@ body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px s
 
 /* v177 : Séries et GOTY encadrés dans un panneau comme "Currently Playing" */
 section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22px 28px 30px!important}
+
+/* v181 : contour de la photo de profil foncé ; ombre du haut des cartes en dégradé doux (plus de bord net) */
+.pf-av{border-color:#0b1626!important}
+.pcard:not(.portrait)::before{background:linear-gradient(to bottom,hsl(var(--h) var(--s) 14%/.78) 0,hsl(var(--h) var(--s) 14%/.69) 6%,hsl(var(--h) var(--s) 15%/.57) 12%,hsl(var(--h) var(--s) 16%/.44) 18%,hsl(var(--h) var(--s) 17%/.32) 24%,hsl(var(--h) var(--s) 18%/.21) 30%,hsl(var(--h) var(--s) 18%/.12) 36%,hsl(var(--h) var(--s) 18%/.05) 41%,hsl(var(--h) var(--s) 18%/0) 46%)!important}
