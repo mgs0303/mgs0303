@@ -108,6 +108,23 @@
   }
   // jeux dont le dégradé doit être forcé en bleu (couleur de l'image mal détectée) : ajouter le nom du fichier du jeu (slug)
   const GRAD_BLEU = ['baldur-s-gate-3', 'metal-gear-solid-2-sons-of-the-liberty'];
+  // Cartes : image + voile sombre peints ensemble sur la carte (une seule passe) pour éviter le liseré clair au bord arrondi
+  function bakeCard(card) {
+    if (!card.classList || !card.classList.contains('pcard') || card.classList.contains('noart')) return;
+    const all = Array.from(card.querySelectorAll(':scope > .pc-img'));
+    card.classList.remove('baked');
+    const vis = all.filter((im) => getComputedStyle(im).display !== 'none');
+    if (vis.length !== 1) return;
+    const src = vis[0].currentSrc || vis[0].src;
+    if (!src) return;
+    const ov = getComputedStyle(card, '::after').backgroundImage;
+    if (!ov || ov === 'none') return;
+    card.style.setProperty('--ov', ov);
+    card.style.setProperty('--art', 'url("' + src.replace(/"/g, '%22') + '")');
+    card.classList.add('baked');
+  }
+  let bakeRz;
+  window.addEventListener('resize', () => { clearTimeout(bakeRz); bakeRz = setTimeout(() => document.querySelectorAll('.pcard[data-t]').forEach(bakeCard), 150); });
   function tintCards() {
     document.querySelectorAll('.pcard:not([data-t]) .pc-img, .pod:not([data-t]) .pod-art img, .toprow:not([data-t]) .tr-art img').forEach((im) => {
       const go = () => {
@@ -131,6 +148,7 @@
           c.style.setProperty('--gh', gh); c.style.setProperty('--gs', Math.round(gs * 100) + '%');
           c.style.setProperty('--gl', Math.round(gl * 100) + '%'); c.style.setProperty('--ga', ga);
         } catch (e) { /* couleurs par défaut */ }
+        bakeCard(c);
       };
       if (im.complete && im.naturalWidth) go(); else im.addEventListener('load', go, { once: true });
     });
