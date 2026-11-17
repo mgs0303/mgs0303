@@ -1672,3 +1672,7 @@ html,body{overflow-x:clip!important}
 .pcard.portrait .pc-hover{transition:max-height .6s cubic-bezier(.3,.6,.3,1),opacity .5s ease .1s,margin .6s cubic-bezier(.3,.6,.3,1)!important}
 .pcard.portrait:hover .pc-hover,.pcard.portrait:focus-visible .pc-hover{max-height:34px!important}
 .pcard.portrait .pc-pct{transition:opacity .3s ease!important}
+
+/* v212 : sur la page Jeux, le lecteur est transparent (net au survol) pour ne pas gêner les cartes */
+body.avispage #mp{opacity:.28!important;transition:opacity .25s ease,transform .12s ease,filter .12s ease!important}
+body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
