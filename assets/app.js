@@ -421,8 +421,8 @@
     if (full) {
       add('Début', dStart, '', 'R'); add('Fin', dEnd, '', 'R');
       const cTxt = c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '';
-      add('Completion', cTxt, 'wide2' + (String(c || '').length <= 14 ? ' short' : ''), 'R'); // texte court : tuile aussi large que « Début »
-      add('Temps de jeu', hrs, 'wide2' + (String(hrs).length <= 14 ? ' short' : ''), 'R');
+      add('Completion', cTxt, 'wide2' + (!dEnd ? ' short' : ''), 'R'); // pas de date de fin : la tuile a la largeur de « Début »
+      add('Temps de jeu', hrs, 'wide2', 'R');
     } else {
       nr.push(['Temps de jeu', hrs], ['Note', noteV], ['Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : ''], ['Début', dStart], ['Fin', dEnd]);
     }
