@@ -1667,3 +1667,8 @@ html::-webkit-scrollbar-track{background:#0b1626;border-radius:0}
 
 /* v209 : plus de barre de défilement horizontale en bas de la page (tout débordement est coupé) */
 html,body{overflow-x:clip!important}
+
+/* v211 : apparition des tags / flèche au survol plus douce (montée progressive du texte, fondu plus lent) */
+.pcard.portrait .pc-hover{transition:max-height .6s cubic-bezier(.3,.6,.3,1),opacity .5s ease .1s,margin .6s cubic-bezier(.3,.6,.3,1)!important}
+.pcard.portrait:hover .pc-hover,.pcard.portrait:focus-visible .pc-hover{max-height:34px!important}
+.pcard.portrait .pc-pct{transition:opacity .3s ease!important}
