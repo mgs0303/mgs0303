@@ -316,11 +316,12 @@
   // filtre de note : menu déroulant à la place du curseur
   const NOTE_OPTS = [
     { v: 'all', l: 'Toutes les notes', min: 0, max: 10 },
-    { v: '10', l: '10 / 10', min: 10, max: 10 },
-    { v: '9', l: '9 et plus', min: 9, max: 10 },
-    { v: '8', l: '8 et plus', min: 8, max: 10 },
-    { v: '7', l: '7 et plus', min: 7, max: 10 },
-    { v: 'low', l: 'Moins de 7', min: 0, max: 6.5 }
+    { v: '10', l: '10', s: 'Note : 10', min: 10, max: 10 },
+    { v: '9', l: '9 >', s: 'Note : 9 >', min: 9, max: 10 },
+    { v: '8', l: '8 >', s: 'Note : 8 >', min: 8, max: 10 },
+    { v: '7', l: '7 >', s: 'Note : 7 >', min: 7, max: 10 },
+    { v: '6', l: '6 >', s: 'Note : 6 >', min: 6, max: 10 },
+    { v: '5', l: '5 >', s: 'Note : 5 >', min: 5, max: 10 }
   ];
   const noteCur = () => (NOTE_OPTS.find((o) => o.min === avisMin && o.max === avisMax) || NOTE_OPTS[0]).v;
   const rangeLabel = () => (avisMin <= 0 && avisMax >= 10 ? 'toutes' : avisMin === avisMax ? fmtN(avisMin) : `${fmtN(avisMin)} à ${fmtN(avisMax)}`);
