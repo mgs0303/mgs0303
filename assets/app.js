@@ -317,9 +317,9 @@
     let n = 0;
     const grid = (gs) => `<div class="grid posters size-${avisSize}">${gs.map((g) => poster(g, n++)).join('')}</div>`;
     if (avisSort === 'recent' || avisSort === 'ancien') {
-      const monthName = (k) => { if (!/^\d{4}-\d{2}/.test(k)) return 'Sans date'; const s = new Date(Number(k.slice(0, 4)), Number(k.slice(5, 7)) - 1, 1).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }); return s.charAt(0).toUpperCase() + s.slice(1); };
+      const monthName = (k) => (/^\d{4}/.test(k) ? k : 'Sans date');
       const groups = []; const idx = {};
-      shown.forEach((g) => { const k = (g.end_date || '').slice(0, 7) || 'x'; if (!(k in idx)) { idx[k] = groups.length; groups.push({ k, gs: [] }); } groups[idx[k]].gs.push(g); });
+      shown.forEach((g) => { const k = (g.end_date || '').slice(0, 4) || 'x'; if (!(k in idx)) { idx[k] = groups.length; groups.push({ k, gs: [] }); } groups[idx[k]].gs.push(g); });
       box.innerHTML = `<div id="avis-grid" class="mgroups">${groups.map((gr) => `<section class="mgroup"><h3 class="mhead">${esc(monthName(gr.k))}<span>${gr.gs.length} jeu${gr.gs.length > 1 ? 'x' : ''}</span></h3>${grid(gr.gs)}</section>`).join('')}</div>`;
     } else {
       box.innerHTML = `<div id="avis-grid">${grid(shown)}</div>`;
