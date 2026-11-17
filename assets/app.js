@@ -1009,6 +1009,17 @@
     document.getElementById('twitter-label').textContent = '@' + h;
     a.hidden = false;
   })();
+  // écran de chargement : on attend la bannière, l'avatar et les images visibles (max 5 s) avant d'afficher le site
+  function hideBoot() {
+    const boot = document.getElementById('boot'); if (!boot) return;
+    const vh = window.innerHeight * 1.6;
+    const imgs = [...document.querySelectorAll('#app img, .top img')].filter((im) => im.getBoundingClientRect().top < vh);
+    if (bannerPre.src) imgs.push(bannerPre);
+    const wait = imgs.map((im) => (im.complete && im.naturalWidth ? Promise.resolve() : new Promise((r) => { im.addEventListener('load', r, { once: true }); im.addEventListener('error', r, { once: true }); })));
+    const decode = imgs.map((im) => (im.decode ? im.decode().catch(() => {}) : Promise.resolve()));
+    const done = () => { document.querySelectorAll('.pcard[data-t]').forEach(() => {}); boot.classList.add('off'); setTimeout(() => boot.remove(), 450); };
+    Promise.race([Promise.all(wait).then(() => Promise.all(decode)), new Promise((r) => setTimeout(r, 5000))]).then(() => setTimeout(done, 150));
+  }
   window.addEventListener('hashchange', route);
 
   Promise.all([
@@ -1016,8 +1027,8 @@
     fetch('goty.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
     fetch('profile.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
   ])
-    .then(([data, goty, prof]) => { profile = prof || {}; applyTint(profile.banner); games = data.filter((g) => g && g.title); games.forEach((g) => { if (g.status === 'DEMO') g.status = 'Demo'; }); gotyData = Array.isArray(goty) ? goty : []; route(); })
-    .catch(() => { app.innerHTML = '<p class="empty">Impossible de charger les jeux. Vérifie que le site est bien en ligne sur GitHub Pages.</p>'; });
+    .then(([data, goty, prof]) => { profile = prof || {}; applyTint(profile.banner); games = data.filter((g) => g && g.title); games.forEach((g) => { if (g.status === 'DEMO') g.status = 'Demo'; }); gotyData = Array.isArray(goty) ? goty : []; route(); hideBoot(); })
+    .catch(() => { const b = document.getElementById('boot'); if (b) b.remove(); app.innerHTML = '<p class="empty">Impossible de charger les jeux. Vérifie que le site est bien en ligne sur GitHub Pages.</p>'; });
 
   /* ---------- lecteur de musique (ordinateur uniquement) ---------- */
   (function initPlayer() {

@@ -8,9 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=201">
+<link rel="stylesheet" href="assets/style.css?v=202">
 </head>
 <body>
+<div id="boot" aria-label="Chargement"><div class="bt"><span class="bs"></span><span class="bl">La-Li-Lu-Le-Log 🐍</span></div></div>
+<style>#boot{position:fixed;inset:0;z-index:99999;background:#0b1626;display:flex;align-items:center;justify-content:center;transition:opacity .35s ease}#boot.off{opacity:0;pointer-events:none}#boot .bt{display:flex;flex-direction:column;align-items:center;gap:18px;color:#c8daf1;font:600 1rem Inter,system-ui,sans-serif;letter-spacing:.02em}#boot .bs{width:34px;height:34px;border-radius:50%;border:3px solid rgba(150,185,255,.22);border-top-color:#8db4ff;animation:bspin .8s linear infinite}@keyframes bspin{to{transform:rotate(360deg)}}</style>
 <header class="top">
   <a class="brand" href="#/">La-Li-Lu-Le-Log <span aria-hidden="true">🐍</span></a>
   <nav>
@@ -41,6 +43,6 @@
   <div class="lb-count"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="assets/app.js?v=201"></script>
+<script src="assets/app.js?v=202"></script>
 </body>
 </html>
