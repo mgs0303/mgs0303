@@ -2,9 +2,8 @@
 title: Judgment
 status: Dropped
 progress: 15
-start_date: 2026-11-11
-no_start_date: false
-no_end_date: false
+no_start_date: true
+no_end_date: true
 release_year: 2018
 genre:
   - Combat
