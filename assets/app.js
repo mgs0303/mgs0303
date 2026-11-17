@@ -154,6 +154,7 @@
           let gh = h, gs = Math.min(0.85, sat * 1.8) * (l < 0.25 ? 0.8 : 1), gl = Math.min(0.26, Math.max(0.1, l * 1.05)), ga = (l < 0.1 || (l < 0.2 && sat < 0.12)) ? 0 : 1;
           const slug = c.dataset.open || ((c.getAttribute('href') || '').match(/#\/jeu\/([^/?]+)/) || [])[1] || '';
           if (GRAD_BLEU.includes(decodeURIComponent(slug))) { gh = 214; gs = 0.8; gl = 0.2; ga = 1; }
+          if (/^baldur-s-gate-3/.test(decodeURIComponent(slug))) { gh = 218; gs = 0.38; gl = 0.12; ga = 1; }
           c.style.setProperty('--gh', gh); c.style.setProperty('--gs', Math.round(gs * 100) + '%');
           c.style.setProperty('--gl', Math.round(gl * 100) + '%'); c.style.setProperty('--ga', ga);
         } catch (e) { /* couleurs par défaut */ }
