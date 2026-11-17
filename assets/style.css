@@ -1569,3 +1569,21 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 /* v181 : contour de la photo de profil foncé ; ombre du haut des cartes en dégradé doux (plus de bord net) */
 .pf-av{border-color:#0b1626!important}
 .pcard:not(.portrait)::before{background:linear-gradient(to bottom,hsl(var(--h) var(--s) 14%/.78) 0,hsl(var(--h) var(--s) 14%/.69) 6%,hsl(var(--h) var(--s) 15%/.57) 12%,hsl(var(--h) var(--s) 16%/.44) 18%,hsl(var(--h) var(--s) 17%/.32) 24%,hsl(var(--h) var(--s) 18%/.21) 30%,hsl(var(--h) var(--s) 18%/.12) 36%,hsl(var(--h) var(--s) 18%/.05) 41%,hsl(var(--h) var(--s) 18%/0) 46%)!important}
+
+/* v182 */
+/* titre des cartes : plus de halo coupé en rectangle derrière le texte */
+.pcard .pc-name{text-shadow:0 1px 2px rgba(0,0,0,.65)!important}
+/* Dernier avis : ombre plus douce au survol */
+.lr-card:hover{box-shadow:0 10px 30px -8px rgba(0,0,0,.2)!important}
+/* lecteur de musique plus grand */
+@media(min-width:721px){#mp{width:240px!important;left:22px!important;bottom:18px!important}#mp .mp-time{font-size:11.6px!important}}
+/* jaquettes Metal Gear : image moins agrandie (le titre n'est plus coupé) */
+.pcard.fit:not(.portrait).baked{background-size:100% 100%,100% auto!important;background-position:0 0,center top!important;background-color:#0b1626!important}
+.pcard.fit:not(.portrait):not(.baked) .pc-img{object-fit:contain!important;object-position:center top!important;background:#0b1626}
+/* choix actif des filtres (Tous / Complété / Dropped) bien visible */
+.avis-panel .avis-row .chip.on{background:color-mix(in srgb,var(--sc) 42%,rgba(120,165,255,.22))!important;border-color:var(--sc)!important;color:#fff!important;font-weight:600;box-shadow:none!important}
+/* trait fin entre les années */
+.mgroup:not(:first-child){border-top:1px solid rgba(150,185,255,.2);padding-top:22px;margin-top:6px}
+/* vignettes de série : image seule */
+.pcard.mini::before,.pcard.mini::after{display:none!important}
+.pcard.mini .mini-t{position:absolute;inset:auto 8px 8px;font-weight:700;font-size:.8rem}

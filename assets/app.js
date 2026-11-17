@@ -150,6 +150,7 @@
           let gh = h, gs = Math.min(0.85, sat * 1.8) * (l < 0.25 ? 0.8 : 1), gl = Math.min(0.26, Math.max(0.1, l * 1.05)), ga = (l < 0.1 || (l < 0.2 && sat < 0.12)) ? 0 : 1;
           const slug = c.dataset.open || ((c.getAttribute('href') || '').match(/#\/jeu\/([^/?]+)/) || [])[1] || '';
           if (GRAD_BLEU.includes(decodeURIComponent(slug))) { gh = 214; gs = 0.8; gl = 0.2; ga = 1; }
+          if (/^metal-gear/.test(slug)) c.classList.add('fit'); // jaquettes très larges : moins agrandies pour que le titre passe
           c.style.setProperty('--gh', gh); c.style.setProperty('--gs', Math.round(gs * 100) + '%');
           c.style.setProperty('--gl', Math.round(gl * 100) + '%'); c.style.setProperty('--ga', ga);
         } catch (e) { /* couleurs par défaut */ }
@@ -211,6 +212,11 @@
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
         <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go" aria-label="Lire l’avis">›</span></div></div>
     </a>`;
+  }
+  // vignette de série : image seule (ni titre ni note), un clic ouvre la fenêtre de détails comme sur l'accueil
+  function miniPoster(g) {
+    const art = g.cover || g.banner;
+    return `<button class="pcard portrait mini${art ? '' : ' noart'}" data-open="${esc(g.slug)}" title="${esc(g.title)}">${art ? img(art, 'pc-img', g.title) : `<span class="mini-t">${esc(g.title)}</span>`}</button>`;
   }
   function lastReview() {
     const txt = (g) => (Array.isArray(g.blocks) ? g.blocks.filter((b) => (b.type || b._block) === 'texte' && b.text).map((b) => b.text).join(' ') : '');
@@ -589,7 +595,7 @@
     const panel = document.createElement('section');
     panel.className = 'spanel';
     panel.innerHTML = `<div class="sp-head"><h3>${esc(gr.name)}</h3><span class="v-meta">${gr.sorted.length} jeux</span><button class="x-btn" data-series-close aria-label="Fermer" title="Fermer">×</button></div>
-      <div class="grid posters compact">${gr.sorted.map(poster).join('')}</div>`;
+      <div class="grid posters compact">${gr.sorted.map(miniPoster).join('')}</div>`;
     tiles[end].after(panel);
     if (userClick) {
       const tr = tiles[openSeriesIdx].getBoundingClientRect();
@@ -664,10 +670,10 @@
         <span class="tr-meta">${esc([t.meta, t.score ? 'Note ' + t.score + '/10' : ''].filter(Boolean).join(' · '))}</span>
         ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>`);
     }).join('');
-    app.innerHTML = `<section class="avis-panel ypanel"><div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
+    app.innerHTML = `<div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
       ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
         ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
-      : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}</section>`;
+      : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
   }
 
   /* ---------- statistiques ---------- */
