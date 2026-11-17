@@ -1,5 +1,5 @@
 ---
-title: "Metal Gear Solid V: THE PHANTOM PAIN"
+title: Metal Gear Solid V the Phantom Pain
 status: Partie en cours
 progress: 5
 start_date: 2026-11-06
@@ -16,6 +16,7 @@ publisher: KONAMI
 developer: KONAMI
 completion: N/A
 platform: Steam
+mode: Solo
 banner: /assets/images/034ead906ae8e07b04f1373e6ed12667.png
 cover: /assets/images/METAL GEAR/727d89c97ccaa39b9f2b848bdce6aca5.jpg
 ---
