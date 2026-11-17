@@ -1504,9 +1504,6 @@ body.home .top nav a.on,body:not(.home) .top nav a.on,.top nav a.on{background:r
 .fold-list .chip,.fold-list .chip.opt,.fold-list .op{color:#cfdcf1!important}
 .fold-list .chip:hover,.fold-list .chip.opt:hover{background:rgba(120,165,255,.18)!important}
 .fold-list .chip.on,.fold-list .chip.opt.on{background:rgba(120,165,255,.26)!important;color:#fff!important}
-/* cartes à couverture claire : voile sombre en haut aussi (titre lisible) */
-.pcard::after{background:linear-gradient(to bottom,rgba(8,16,32,.62) 0,rgba(8,16,32,.28) 26%,transparent 44%),linear-gradient(to top,hsl(var(--h) var(--s) 15%/.97) 0,hsl(var(--h) var(--s) 19%/.88) 30%,hsl(var(--h) var(--s) 22%/.35) 52%,transparent 68%)!important}
-.pc-tags span{background:rgba(8,16,32,.6)!important;color:#eaf2ff}
 .fold-list,.dd .fold-list,.avis-bar .fold-list{background:#0b1628!important;opacity:1!important}
 
 /* v152 */
