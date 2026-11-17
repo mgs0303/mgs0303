@@ -1645,3 +1645,6 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 .notein input:focus{border-color:#7bbac9;background:rgba(120,165,255,.2)}
 .notein input::-webkit-outer-spin-button,.notein input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .notein .gt{font-weight:700}
+
+/* v204 : survol des cartes sans agrandissement (le zoom 1,02 rendait image et texte flous) — on garde seulement la montée */
+.pcard.portrait:hover,.grid.posters .pcard.portrait:hover,#avis-grid .pcard.portrait:hover{transform:translate3d(0,-8px,0)!important}
