@@ -1636,3 +1636,4 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
   .avis-panel .avis-bar .chips-inline,.avis-panel .avis-bar .avis-row>.dd,.avis-panel .avis-bar .rangebox,.avis-panel .avis-bar>.sec-head>.dd{margin-left:4px!important;padding-left:13px!important}
   .avis-panel .avis-bar .rangebox .range{width:90px!important;flex:0 0 90px!important}
 }
+@media(min-width:1000px){.avis-panel .avis-bar .avis-row>.dd.note{order:5}.avis-panel .avis-bar>.sec-head>.dd{order:6}}

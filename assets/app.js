@@ -313,6 +313,16 @@
 
   const filterSelect = (name, allLabel, values, current, short) => dd('fsel', name, [{ v: 'Tous', l: allLabel, s: short }, ...values.map((v) => ({ v, l: v }))], current, '');
   const fmtN = (n) => String(n).replace('.', ',');
+  // filtre de note : menu déroulant à la place du curseur
+  const NOTE_OPTS = [
+    { v: 'all', l: 'Toutes les notes', min: 0, max: 10 },
+    { v: '10', l: '10 / 10', min: 10, max: 10 },
+    { v: '9', l: '9 et plus', min: 9, max: 10 },
+    { v: '8', l: '8 et plus', min: 8, max: 10 },
+    { v: '7', l: '7 et plus', min: 7, max: 10 },
+    { v: 'low', l: 'Moins de 7', min: 0, max: 6.5 }
+  ];
+  const noteCur = () => (NOTE_OPTS.find((o) => o.min === avisMin && o.max === avisMax) || NOTE_OPTS[0]).v;
   const rangeLabel = () => (avisMin <= 0 && avisMax >= 10 ? 'toutes' : avisMin === avisMax ? fmtN(avisMin) : `${fmtN(avisMin)} à ${fmtN(avisMax)}`);
   const rangeFill = () => `left:${avisMin * 10}%;width:${(avisMax - avisMin) * 10}%`;
 
@@ -354,10 +364,7 @@
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
-        <div class="rangebox"><span class="rl">Note : <b id="range-label">${rangeLabel()}</b></span>
-          <div class="range"><span class="track"></span><span class="fill" id="range-fill" style="${rangeFill()}"></span>
-            <input type="range" min="0" max="10" step="0.5" value="${avisMin}" data-range="min" aria-label="Note minimale">
-            <input type="range" min="0" max="10" step="0.5" value="${avisMax}" data-range="max" aria-label="Note maximale"></div></div></div></div>
+        ${dd('note', 'avis', NOTE_OPTS, noteCur(), 'note')}</div></div>
       <div id="avis-results"></div></section>`;
     updateAvisResults();
   }
@@ -897,6 +904,7 @@
       const v = opt.dataset.value; const w = opt.dataset.which;
       keepScroll(() => {
         if (opt.dataset.dd === 'sort') { if (w === 'avis') { avisSort = v; avisExpanded = false; renderAvis(); } else { homeSort = v; renderHome(); } }
+        else if (opt.dataset.dd === 'note') { const o = NOTE_OPTS.find((x) => x.v === v) || NOTE_OPTS[0]; avisMin = o.min; avisMax = o.max; avisExpanded = false; renderAvis(); }
         else { if (w === 'genre') avisGenre = v; if (w === 'year') avisYear = v; avisExpanded = false; renderAvis(); }
       });
       return;
