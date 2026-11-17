@@ -11,9 +11,10 @@ genre:
   - JRPG
   - Combat
   - Aventure
-series: Like a Dragon
-publisher: Ryu ga Gotoku Studio
-developer: SEGA
+series: Yakuza
+hide_series: false
+publisher: SEGA
+developer: Amusement Vision
 note: 10
 completion: 100%
 platform: Steam PC
