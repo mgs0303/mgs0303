@@ -1519,8 +1519,6 @@ section.avis-panel,.avis-panel{background:rgba(120,165,255,.07)!important}
 /* cartes : aucun flou dedans (coins nets), pas de liseré clair */
 .pcard,.pcard *,.pcard::before,.pcard::after,.card,.card *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .pcard.portrait,.pcard.portrait.stile,.pod,.podium .pod,.toprow{border:0!important}
-.pcard,.card{isolation:isolate;transform:translateZ(0)}
-.pcard:hover{transform:translateY(-5px) translateZ(0)}
 
 /* v153 */
 /* Dernier avis : plus de contour animé, juste une ombre douce derrière au survol */
@@ -1529,16 +1527,13 @@ section.avis-panel,.avis-panel{background:rgba(120,165,255,.07)!important}
 /* barre de navigation : fond foncé */
 .top nav,body.home .top nav{background:rgba(8,16,30,.88)!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important}
 /* coins : un seul découpage net, plus de liseré clair */
-.pcard,.pcard.portrait,.pod,.podium .pod{clip-path:inset(0 round 28px);background:#0b1628!important}
-.pcard.portrait,.pod,.podium .pod{clip-path:inset(0 round 20px)}
-.pcard::before{display:none!important}
 .pcard,.pcard.portrait,.card,.pod,.toprow,.lr-card{border:0!important;outline:0!important}
 /* survols calmes : ombre douce seulement, pas de contour animé */
 .pcard:hover,.pcard.portrait:hover,.card:hover,.pod:hover,.toprow:hover,.ycard:hover,.tile:hover,.st-art:hover{border:0!important;outline:0!important}
 *{-webkit-tap-highlight-color:transparent}
-/* coins : l'image est rognée de 1px pour qu'aucun bord clair ne dépasse */
-.pcard .pc-img{inset:1px!important;width:calc(100% - 2px)!important;height:calc(100% - 2px)!important;border-radius:27px}
-.pcard.portrait .pc-img{border-radius:19px}
-.pcard .pc-img{clip-path:inset(1px round 19px)!important}
-.pcard:not(.portrait) .pc-img{clip-path:inset(1px round 27px)!important}
-.pcard .pc-img{transform:scale(.985)!important}
+
+/* v155 : barre de navigation — sur l'accueil, translucide sur la bannière ; sur les autres pages, verre bleu bien visible */
+.top nav,body.home .top nav{background:rgba(12,24,44,.5)!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important;border:1px solid rgba(150,185,255,.14)!important}
+body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px solid rgba(150,185,255,.28)!important}
+/* coins des cartes : fin cadre de la couleur du fond posé par-dessus, rien d'autre ne change */
+.pcard.portrait::after{box-shadow:inset 0 0 0 1px #14233d}
