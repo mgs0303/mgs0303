@@ -12,6 +12,7 @@ genre:
   - Action
   - Aventure
 series: Devil May Cry
+hide_series: false
 publisher: Capcom
 developer: Capcom
 note: 7
@@ -19,5 +20,5 @@ completion: Main Story
 platform: Steam PC
 mode: Solo
 banner: /assets/images/a867653e238e182ddc0807682c77a11d8784a723f0a0c968f6873b4858e848f6.avif
-cover: /assets/images/1582214450-5500-jaquette-avant.jpg
+cover: /assets/images/132de569a9b2c91ed218660eb634a4e3.jpg
 ---
