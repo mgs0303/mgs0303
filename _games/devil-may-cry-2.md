@@ -10,6 +10,7 @@ release_year: 2003
 genre:
   - Hack'n'slash
 series: Devil May Cry
+hide_series: false
 publisher: Capcom
 developer: Capcom
 note: 1
@@ -17,5 +18,5 @@ completion: Main Story
 platform: Steam PC
 mode: Solo
 banner: /assets/images/H2x1_NSwitchDS_DevilMayCry2.jpg
-cover: /assets/images/MV5BZTIxMjE5YWItMGYxOS00ZjhmLTk0YmUtMjFmNjk2ZTIxYTIwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg
+cover: /assets/images/e8d672f3e5e067ef82d0b0463bf6878c.png
 ---
