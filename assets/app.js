@@ -654,10 +654,10 @@
         <span class="tr-meta">${esc([t.meta, t.score ? 'Note ' + t.score + '/10' : ''].filter(Boolean).join(' · '))}</span>
         ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>`);
     }).join('');
-    app.innerHTML = `<div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
+    app.innerHTML = `<section class="avis-panel ypanel"><div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
       ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
         ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
-      : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
+      : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}</section>`;
   }
 
   /* ---------- statistiques ---------- */
