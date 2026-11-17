@@ -1,6 +1,6 @@
 ---
 title: Ready or Not
-status: Dropped
+status: Endless
 start_date: 2026-11-18
 no_start_date: true
 end_date: 2026-11-18
