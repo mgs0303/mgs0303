@@ -1,9 +1,10 @@
 ---
-title: "Persona 2: Innocent Sin"
+title: Persona 2 Innocent Sin
 status: Partie en cours
 progress: 25
 start_date: 2026-06-24
 no_start_date: false
+end_date: 2026-11-17
 no_end_date: true
 release_year: 1999
 genre:
