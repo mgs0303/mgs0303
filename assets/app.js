@@ -147,7 +147,7 @@
           const l = (mx + mn) / 2, sat = dl ? dl / (1 - Math.abs(2 * l - 1)) : 0;
           c.style.setProperty('--h', h); c.style.setProperty('--s', Math.round(Math.min(0.85, Math.max(0.25, sat * 1.15)) * 100) + '%');
           // dégradé : couleur de la moitié basse ; gris si l'image est peu colorée ; aucun dégradé si le bas est déjà noir
-          let gh = h, gs = Math.min(0.75, sat * 1.4) * (l < 0.25 ? 0.65 : 1), gl = Math.min(0.26, Math.max(0.1, l * 1.05)), ga = l < 0.1 ? 0 : 1;
+          let gh = h, gs = Math.min(0.85, sat * 1.6) * (l < 0.25 ? 0.65 : 1), gl = Math.min(0.26, Math.max(0.1, l * 1.05)), ga = (l < 0.1 || (l < 0.2 && sat < 0.12)) ? 0 : 1;
           const slug = c.dataset.open || (c.querySelector('[data-open]') || {}).dataset && c.querySelector('[data-open]').dataset.open;
           if (GRAD_BLEU.includes(slug)) { gh = 214; gs = 0.55; gl = 0.17; ga = 1; }
           c.style.setProperty('--gh', gh); c.style.setProperty('--gs', Math.round(gs * 100) + '%');
