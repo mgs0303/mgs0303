@@ -576,9 +576,19 @@
         <span class="pc-body"><span class="pc-name">${esc(gr.name)}</span>${m !== null ? `<span class="pc-meta">note moyenne ${fmt1(m)}</span>` : ''}</span></button>`;
     }).join('') + '</div></section>';
     window.__series = groups;
+    requestAnimationFrame(alignSeriesPanel); setTimeout(alignSeriesPanel, 300); setTimeout(alignSeriesPanel, 1200);
     openSeriesIdx = openSeriesName ? groups.findIndex((x) => x.name === openSeriesName) : -1;
     if (openSeriesIdx >= 0) placeSeriesPanel(false);
   }
+  // Séries : le panneau est élargi vers la droite jusqu'au bord droit du menu (Accueil … @pseudo)
+  function alignSeriesPanel() {
+    const pn = document.querySelector('section.ypanel'); const nav = document.querySelector('.top nav');
+    if (!pn || !nav || !pn.querySelector('#stiles')) return;
+    pn.style.marginRight = '';
+    const extra = nav.getBoundingClientRect().right - pn.getBoundingClientRect().right;
+    if (extra > 1) pn.style.marginRight = -extra + 'px';
+  }
+  window.addEventListener('resize', () => requestAnimationFrame(alignSeriesPanel));
   let openSeriesIdx = -1;
   let openSeriesName = '';
   function placeSeriesPanel(userClick) {
