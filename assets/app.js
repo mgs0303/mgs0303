@@ -8,10 +8,11 @@
     'Relancé': '#e07fa8',
     'Pause': '#e3a05a',
     'Partie en cours': '#5f9bd8',
+    'Endless': '#a58bdc',
     'Dropped': '#d96e6e',
     'Complété': '#5db97f'
   };
-  const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'Demo', 'Relancé', 'Pause', 'Dropped', 'Complété'];
+  const GROUP_ORDER = ['Pas lancé', 'En attente de sortie', 'Accès Anticipé', 'Demo', 'Relancé', 'Endless', 'Pause', 'Dropped', 'Complété'];
   const COMPLETION_ICONS = { 'Main Story': '🎯', 'Main + Sides': '🧭', '100%': '🎖️', 'Endless': '⏳', 'N/A': '❌' };
 
   // Mets ton pseudo Twitter / X ici, sans le @ (laisse vide pour cacher le lien)
@@ -199,6 +200,8 @@
   function fitFacts() {
     document.querySelectorAll('.game .facts .f dd').forEach((dd) => {
       dd.style.fontSize = '';
+      const tile = dd.closest('.f');
+      if (tile && tile.classList.contains('short') && dd.scrollWidth > dd.clientWidth + 1) tile.classList.remove('short'); // le texte ne tient pas : on allonge la tuile
       let fs = parseFloat(getComputedStyle(dd).fontSize);
       while (dd.scrollWidth > dd.clientWidth + 1 && fs > 11) { fs -= 0.5; dd.style.fontSize = fs + 'px'; }
     });
@@ -297,7 +300,7 @@
     if (doneAll.length) html += `<section class="wish"><div class="sec-head"><h2>Derniers complétés</h2><span class="count">${doneAll.length}</span><a class="see-all" href="#/avis" data-allavis>Voir tout ›</a></div><div class="pgrid">${doneAll.slice(0, 6).map((g) => pcard(g, 'note')).join('')}</div></section>`;
     html += section('Mes envies', of('Priorité backlog').sort((a, b) => a.title.localeCompare(b.title)), false, false, false, true);
 
-    const tabs = ['En attente de sortie', 'Accès Anticipé', 'Demo', 'Relancé', 'Pause', 'Dropped'];
+    const tabs = ['En attente de sortie', 'Accès Anticipé', 'Demo', 'Relancé', 'Endless', 'Pause', 'Dropped'];
     if (of('Pas lancé').length) tabs.unshift('Pas lancé');
     if (homeStatus !== 'Tous' && !tabs.includes(homeStatus)) homeStatus = 'Tous';
     const shown = (homeStatus === 'Tous' ? tabs : [homeStatus]).filter((st) => of(st).length);
@@ -435,7 +438,7 @@
       add('Début', dStart, '', 'R'); add('Fin', dEnd, '', 'R');
       const cTxt = c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : '';
       add('Completion', cTxt, 'wide2' + (!dEnd ? ' short' : ''), 'R'); // pas de date de fin : la tuile a la largeur de « Début »
-      add('Temps de jeu', hrs, 'wide2', 'R');
+      add('Temps de jeu', hrs, 'wide2' + (!dEnd ? ' short' : ''), 'R'); // sans date de fin : même largeur que Début / Completion (rallongée automatiquement si le texte ne tient pas)
     } else {
       nr.push(['Temps de jeu', hrs], ['Note', noteV], ['Completion', c ? `${COMPLETION_ICONS[c] || ''} ${esc(c)}` : ''], ['Début', dStart], ['Fin', dEnd]);
     }
@@ -521,7 +524,7 @@
     const g = games.find((x) => x.slug === slug);
     if (!g) { app.innerHTML = backBtn('#/', 'Accueil') + '<p class="empty">Ce jeu n\'existe pas.</p>'; return; }
     const art = g.cover || g.banner;
-    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie' && g.completion !== 'Endless';
+    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie' && g.completion !== 'Endless' && g.status !== 'Endless';
     app.innerHTML = `${backBtn('#/avis', 'Retour', true)}
       <article class="game">
         <div class="cover">${art ? img(art, 'cv-main', g.title) : `<div class="ph">${esc(g.title)}</div>`}${g.banner ? img(g.banner, 'cv-alt', g.title) : ''}</div>
@@ -793,7 +796,7 @@
     const g = games.find((x) => x.slug === slug);
     if (!g) return;
     const banner = g.banner || g.cover;
-    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie' && g.completion !== 'Endless';
+    const showBar = g.status !== 'Pas lancé' && g.status !== 'En attente de sortie' && g.completion !== 'Endless' && g.status !== 'Endless';
     modal.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(g.title)}">
       <button class="close" data-close aria-label="Fermer">×</button>
       ${banner ? img(banner, 'banner', g.title) : `<div class="banner ph">${esc(g.title)}</div>`}

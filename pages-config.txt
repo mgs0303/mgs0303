@@ -31,6 +31,7 @@ content:
             - Relancé
             - Pause
             - Partie en cours
+            - Endless
             - Dropped
             - Complété
       - name: progress
