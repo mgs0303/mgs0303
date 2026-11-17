@@ -1649,8 +1649,12 @@ section.avis-panel.ypanel{background:rgba(120,165,255,.13)!important;padding:22p
 /* v204 : survol des cartes sans agrandissement (le zoom 1,02 rendait image et texte flous) — on garde seulement la montée */
 .pcard.portrait:hover,.grid.posters .pcard.portrait:hover,#avis-grid .pcard.portrait:hover{transform:translate3d(0,-8px,0)!important}
 
-/* v205 : barres de défilement aux couleurs du site (bleu nuit + curseur bleu) */
-html{scrollbar-color:#3f6196 #0b1626}
-*{scrollbar-width:thin;scrollbar-color:#3f6196 transparent}
-html{scrollbar-width:auto;scrollbar-color:#3f6196 #0b1626}
-.grid.carousel,.avis-years{scrollbar-width:none}
+/* v205 : barres de défilement aux couleurs du site (bleu nuit + curseur bleu), toujours visibles */
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:rgba(8,16,30,.55);border-radius:99px}
+::-webkit-scrollbar-thumb{background:#3f6196;border-radius:99px;border:2px solid transparent;background-clip:content-box;min-height:36px}
+::-webkit-scrollbar-thumb:hover{background:#5a82c0;background-clip:content-box}
+::-webkit-scrollbar-corner{background:transparent}
+html::-webkit-scrollbar-track{background:#0b1626;border-radius:0}
+.grid.carousel::-webkit-scrollbar,.avis-years::-webkit-scrollbar{display:none}
+@supports not selector(::-webkit-scrollbar){*{scrollbar-width:thin;scrollbar-color:#3f6196 transparent}html{scrollbar-color:#3f6196 #0b1626}}
