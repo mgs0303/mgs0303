@@ -1676,3 +1676,6 @@ html,body{overflow-x:clip!important}
 /* v212 : sur la page Jeux, le lecteur est transparent (net au survol) pour ne pas gêner les cartes */
 body.avispage #mp{opacity:.28!important;transition:opacity .25s ease,transform .12s ease,filter .12s ease!important}
 body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
+
+/* v213 : GOTY — titre trop long sur une seule ligne, coupé par « … » */
+.podium .gpod .pc-name{display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;min-width:0}
