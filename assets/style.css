@@ -1537,3 +1537,6 @@ section.avis-panel,.avis-panel{background:rgba(120,165,255,.07)!important}
 body:not(.home) .top nav{background:rgba(120,165,255,.16)!important;border:1px solid rgba(150,185,255,.28)!important}
 /* coins des cartes : fin cadre de la couleur du fond posé par-dessus, rien d'autre ne change */
 .pcard.portrait::after{box-shadow:inset 0 0 0 1px #14233d}
+/* v156 : liseré blanc des cartes — fin cadre exactement de la couleur du fond, pour masquer le bord de l'image */
+.pcard::after{box-shadow:inset 0 0 0 1px #15243c}
+.pcard.portrait::after{box-shadow:inset 0 0 0 1px #122035}
