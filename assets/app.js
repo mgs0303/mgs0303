@@ -728,7 +728,7 @@
 
   function renderStats(year) {
     const done = games.filter((g) => g.status === 'Complété' || g.status === 'Dropped');
-    const years = [...new Set(done.filter((g) => g.end_date).map((g) => g.end_date.slice(0, 4)))].sort().reverse();
+    const years = [...new Set(done.filter((g) => g.end_date).map((g) => g.end_date.slice(0, 4)))].filter((y) => y !== '2023').sort().reverse(); // l'année 2023 n'est pas affichée dans les stats
     if (year !== 'Tous' && !years.includes(year)) year = 'Tous';
     const sel = year === 'Tous' ? done : done.filter((g) => (g.end_date || '').slice(0, 4) === year);
     const comp = sel.filter((g) => g.status === 'Complété');
