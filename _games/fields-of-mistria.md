@@ -19,6 +19,6 @@ completion: Endless
 platform: Steam PC
 mode: Solo
 playtime: 73.4
-banner: /assets/images/a58c87c7bef8cfa5aeb21c6b73ef6309.png
+banner: /assets/images/page_bg_raw-2.jpg
 cover: /assets/images/46deb66ae61bc2da0db3be1d8aa525ac.png
 ---
