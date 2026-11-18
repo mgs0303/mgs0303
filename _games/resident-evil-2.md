@@ -3,8 +3,7 @@ title: Resident Evil 2
 status: Dropped
 start_date: 2024-05-11
 no_start_date: false
-end_date: 2024-05-18
-no_end_date: false
+no_end_date: true
 release_year: 2019
 genre:
   - Horreur
