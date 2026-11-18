@@ -1902,8 +1902,6 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .pf{margin-bottom:58px}
   .pf-pills{position:absolute;left:4px;right:4px;top:calc(100% + 12px);flex-wrap:nowrap!important;gap:4px!important;margin:0;justify-content:space-between}
   .pf-pills span{font-size:.66rem!important;padding:5px 7px!important;white-space:nowrap}
-  body:not(.home) .top .brand{display:none!important}
-  body:not(.home) .top{justify-content:flex-end}
 }
 @media (max-width:720px){
   html body section.lastrev .pcard:not(#_):not(#__)::before,html body section.lastrev .pcard:not(#_):not(#__)::after,
@@ -1958,4 +1956,26 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   html body .top .drawer .search input,html body.home .top .drawer .search input,html body:not(.home) .top .drawer .search input{background:rgba(120,165,255,.12)!important;border:1px solid rgba(123,186,201,.7)!important;color:#b9cfed!important;box-shadow:0 1px 4px rgba(80,160,185,.1)!important}
   html body .top .drawer .search input::placeholder{color:#79a3dd!important}
   html body .top .drawer .search>svg{color:#79a3dd!important}
+}
+
+/* v260 : téléphone — page Jeux : filtres rangés en grille propre (2 colonnes), titre du site de retour */
+@media (max-width:720px){
+  html body .top .brand{display:inline-flex!important}
+  .avis-bar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important;align-items:center;padding:4px 0 0!important}
+  .avis-bar .sec-head,.avis-bar .avis-row{display:contents!important}
+  .avis-bar .sec-head h2{grid-column:1;order:1;margin:0}
+  .avis-bar .sec-head .count{grid-column:2;order:2;justify-self:end;margin:0}
+  .avis-bar .sec-head .fold{grid-column:1;order:3}
+  .avis-bar .sec-head>:nth-child(4){grid-column:2;order:4}
+  .avis-bar .sec-head>:nth-child(5){grid-column:1;order:5}
+  .avis-bar .avis-row>.dd:not(.note){grid-column:2;order:6}
+  .avis-bar .avis-years{grid-column:1/-1;order:7;margin:2px 0 0}
+  .avis-bar .avis-row>.note{grid-column:1/-1;order:8;justify-self:start}
+  .avis-bar .fold,.avis-bar .dd:not(.note){width:100%;min-width:0}
+  .avis-bar .fold-toggle{width:100%;justify-content:space-between;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:9px 14px!important;font-size:.9rem!important}
+  .avis-bar .dd:not(.note)>.fold-toggle{width:100%}
+  .avis-bar .fold-list{min-width:100%;max-width:calc(100vw - 40px)}
+}
+@media (max-width:720px){
+  .avis-bar .fold-toggle,.avis-bar .dd>.fold-toggle,.avis-bar .dd>.select,.avis-bar .dd button{padding:8px 10px!important;font-size:.8rem!important;gap:6px}
 }
