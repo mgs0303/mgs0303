@@ -1771,3 +1771,6 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 
 /* v239 : halo du n°1 GOTY plus petit et plus discret (ne déborde plus) */
 :is(#app,body) .podium .pcard.gpod.gp1,:is(#app,body) .pcard.portrait.gpod.gp1{box-shadow:0 0 14px -1px rgba(120,175,255,.34),0 0 0 1px rgba(140,185,255,.18)!important}
+
+/* v240 : taille Petit — titres sur une seule ligne avec « … » */
+:is(#app,body) .grid.posters.size-s .pcard.portrait .pc-name{display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;-webkit-line-clamp:unset!important;-webkit-box-orient:initial!important;min-width:0;max-width:100%}
