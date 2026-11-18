@@ -1713,3 +1713,18 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .statut .filters{flex-wrap:nowrap!important;gap:clamp(4px,.6vw,8px)!important}
   .statut .filters .chip{flex:0 1 auto;min-width:0;white-space:nowrap;padding-left:clamp(8px,1vw,14px)!important;padding-right:clamp(8px,1vw,14px)!important;font-size:clamp(.72rem,1.05vw,.85rem)!important}
 }
+
+/* v227 : chiffres des pastilles un peu moins collés au bord */
+@media(min-width:721px){
+  .statut .filters .chip{padding-left:clamp(9px,1.05vw,15px)!important;padding-right:clamp(11px,1.3vw,18px)!important;gap:6px}
+  .statut .filters .chip .chip-n{margin-left:5px}
+}
+
+/* v227 : texte centré dans les pastilles (même marge à gauche et à droite) */
+@media(min-width:721px){
+  .statut .filters .chip{padding-left:clamp(10px,1.2vw,16px)!important;padding-right:clamp(10px,1.2vw,16px)!important;display:inline-flex;align-items:center;justify-content:center;text-align:center}
+}
+
+/* v227 : le voile sous le titre ne concerne que le carrousel « Jeux du moment » (plus de rectangle sur Mes envies / statuts) et il est plus progressif */
+:is(#app,body) section.wish .pcard:not(.portrait)::before,:is(#app,body) section.statut .pcard:not(.portrait)::before{content:none!important;background:none!important}
+:is(#app,body) .car-wrap .pcard:not(.portrait):not(.nograd)::before{height:72%;background:linear-gradient(to bottom,hsl(var(--gh,215) min(100%,calc(var(--gs,40%) * 1.3)) calc(var(--gl,15%) * .4)/.8) 0,hsl(var(--gh,215) min(100%,calc(var(--gs,40%) * 1.3)) calc(var(--gl,15%) * .45)/.55) 32%,hsl(var(--gh,215) min(100%,calc(var(--gs,40%) * 1.3)) calc(var(--gl,15%) * .5)/.22) 65%,hsl(var(--gh,215) min(100%,calc(var(--gs,40%) * 1.3)) calc(var(--gl,15%) * .5)/0) 100%)!important}
