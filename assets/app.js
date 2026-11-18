@@ -879,6 +879,7 @@
     if (h.startsWith('#/recherche/')) {
       const q = decodeURIComponent(h.slice(12));
       if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
+      document.body.classList.remove('avispage'); document.body.classList.remove('home');
       renderSearch(q);
       window.scrollTo({ top: restoreY, left: 0, behavior: 'instant' });
       enterPage();

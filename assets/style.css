@@ -1888,3 +1888,20 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   html body .top .drawer nav,html body.home .top .drawer nav,html body:not(.home) .top .drawer nav{border:0!important;background:none!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 }
+
+/* v254 : téléphone — plus d'effet de surélévation au toucher, cartes accueil vides, pastilles de stats sur une ligne, pas de nom du site hors accueil */
+@media (hover:none),(max-width:720px){
+  :is(#app,body) .pcard:hover,:is(#app,body) .pcard.portrait:hover,:is(#app,body) .grid.posters .pcard.portrait:hover,:is(#app,body) .pcard:active{transform:none!important}
+  :is(#app,body) .pcard.portrait:hover .pc-img{transform:none!important}
+}
+@media (max-width:720px){
+  :is(#app,body) .grid.carousel{overflow-y:hidden!important}
+  :is(#app,body) section.lastrev .pcard .pc-body,:is(#app,body) section.wish .pcard .pc-body,:is(#app,body) section.statut .pcard .pc-body{display:none!important}
+  .pf{flex-wrap:wrap}
+  .pf-tx{min-width:0}
+  .pf{margin-bottom:58px}
+  .pf-pills{position:absolute;left:4px;right:4px;top:calc(100% + 12px);flex-wrap:nowrap!important;gap:4px!important;margin:0;justify-content:space-between}
+  .pf-pills span{font-size:.66rem!important;padding:5px 7px!important;white-space:nowrap}
+  body:not(.home) .top .brand{display:none!important}
+  body:not(.home) .top{justify-content:flex-end}
+}
