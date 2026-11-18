@@ -1746,7 +1746,7 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 }
 
 /* v234 : survol des cartes larges — halo bleu clair discret à la place de l'ombre sombre */
-:is(#app,body) .pcard:not(.portrait):hover{box-shadow:0 6px 26px -4px rgba(120,175,255,.38),0 0 0 1px rgba(140,185,255,.16)!important}
+:is(#app,body) .pcard:not(.portrait):hover{box-shadow:0 8px 18px -10px rgba(0,0,0,.28)!important}
 
 /* v234 : le halo du survol n'est plus coupé par le bord du carrousel (marge intérieure compensée) */
 @media(min-width:721px){
@@ -1755,3 +1755,7 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 
 /* v234 : n°1 du GOTY — léger halo bleu lumineux */
 :is(#app,body) .podium .pcard.gpod.gp1,:is(#app,body) .pcard.portrait.gpod.gp1{box-shadow:0 0 38px -4px rgba(120,175,255,.5),0 0 0 1px rgba(140,185,255,.2),0 18px 34px -16px rgba(80,140,230,.35)!important}
+
+/* v235 : effet verre remis au survol des cartes Jeux / GOTY / Séries : reflet de lumière qui balaie la carte (sans liseré blanc en bordure, c'était lui le défaut) */
+#avis-grid .pcard.portrait::before,.grid.posters .pcard.portrait::before{display:block!important;content:""!important;position:absolute!important;inset:0!important;z-index:2!important;pointer-events:none!important;border-radius:inherit!important;border:0!important;outline:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;opacity:1!important;background-color:transparent!important;background-image:linear-gradient(115deg,rgba(150,190,255,0) 0,rgba(150,190,255,0) 34%,rgba(150,190,255,.16) 42%,rgba(150,190,255,.05) 48%,rgba(150,190,255,0) 53%,rgba(150,190,255,.07) 61%,rgba(150,190,255,0) 69%,rgba(150,190,255,0) 100%)!important;background-size:260% 100%!important;background-position:110% 0!important;background-repeat:no-repeat!important;transition:background-position .9s cubic-bezier(.3,.6,.3,1)!important}
+#avis-grid .pcard.portrait:hover::before,.grid.posters .pcard.portrait:hover::before,#avis-grid .pcard.portrait:focus-visible::before,.grid.posters .pcard.portrait:focus-visible::before{background-position:-10% 0!important}
