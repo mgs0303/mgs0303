@@ -378,7 +378,7 @@
     const chips = ['Tous', ...sts].map((f) => `<button class="chip${f === avisStatus ? ' on' : ''}" style="--sc:${f === 'Tous' ? '#7bbac9' : color(f)}" data-filter="avis-status" data-value="${esc(f)}">${esc(f)}</button>`).join('');
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}${sizeSelect(avisSize)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
-      <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
+      <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${dd('fsel', 'year', [{ v: 'Tous', l: 'Récents', s: 'Année : Récents' }, ...years.map((y) => ({ v: y, l: y, s: 'Année : ' + y }))], avisYear, 'yearsel')}${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
         <label class="notein dd note">Note : <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="tout" value="${avisMin === avisMax ? avisMin : ''}" data-notemin aria-label="Note"></label></div></div>
       <div id="avis-results"></div></section>`;
     updateAvisResults();

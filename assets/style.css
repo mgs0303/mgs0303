@@ -1989,3 +1989,20 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   html body .top .drawer nav:not(#_):not(#__){border-top:1px solid rgba(150,185,255,.3)!important}
   html body .top .drawer .search input{font-size:.82rem!important;padding-left:34px!important;padding-right:10px!important;text-overflow:ellipsis}
 }
+
+/* v262 : téléphone — page Jeux : taille Petit fixe (sans menu), cartes sans titre/note/dégradé, années dans un menu, sans filtre de note */
+.dd.yearsel{display:none}
+@media (max-width:720px){
+  .avis-bar .yearsel{display:block!important;grid-column:1;order:5}
+  .avis-bar .sec-head>:nth-child(5){display:none!important}
+  .avis-bar .avis-row>.dd:not(.note):not(.yearsel){grid-column:2;order:6}
+  .avis-bar .avis-years,.avis-bar .avis-row>.note{display:none!important}
+  :is(#app,body) .grid.posters,:is(#app,body) .grid.posters.size-s,:is(#app,body) .grid.posters.size-m,:is(#app,body) .grid.posters.size-l{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+  html body .avis-panel .pcard .pc-body,html body .avis-panel .pcard .pc-pct,html body .avis-panel .pcard .pc-hover,html body #avis-grid .pcard .pc-body{display:none!important}
+  html body .avis-panel .pcard:not(#_):not(#__)::before,html body .avis-panel .pcard:not(#_):not(#__)::after{background:none!important;background-image:none!important;opacity:0!important}
+  html body .avis-panel .pcard:not(#_):not(#__){--ovg:linear-gradient(transparent,transparent)!important;background-color:transparent!important}
+}
+@media (max-width:720px){
+  .avis-bar .avis-row>.dd.yearsel:not(.note){grid-column:1!important;order:5!important}
+  .avis-bar .avis-row>.dd:not(.note):not(.yearsel){grid-column:2!important;order:5!important}
+}
