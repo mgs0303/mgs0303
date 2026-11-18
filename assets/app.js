@@ -53,7 +53,7 @@
     return isNaN(n) ? 0 : Math.max(0, Math.min(100, n));
   };
   const cmpDate = (dir) => (a, b) => {
-    const x = a.end_date || '', y = b.end_date || '';
+    const x = a.status === 'Endless' ? '' : a.end_date || '', y = b.status === 'Endless' ? '' : b.end_date || ''; // les Endless n'ont pas de date de fin : toujours à la fin
     if (!x && !y) return a.title.localeCompare(b.title);
     if (!x) return 1;
     if (!y) return -1;
@@ -345,7 +345,7 @@
     return games.filter((g) => g.status === 'Complété' || g.status === 'Dropped' || g.status === 'Endless')
       .filter((g) => avisStatus === 'Tous' || g.status === avisStatus)
       .filter((g) => avisGenre === 'Tous' || toList(g.genre).includes(avisGenre))
-      .filter((g) => avisYear === 'Tous' || (g.end_date || '').slice(0, 4) === avisYear)
+      .filter((g) => avisYear === 'Tous' || (g.status !== 'Endless' && (g.end_date || '').slice(0, 4) === avisYear))
       .filter((g) => (avisMin <= 0 && avisMax >= 10) || (hasNote(g) && g.note >= avisMin && g.note <= avisMax))
       .sort(SORTS[avisSort].fn);
   }
@@ -359,9 +359,9 @@
     let n = 0;
     const grid = (gs) => `<div class="grid posters size-${avisSize}">${gs.map((g) => poster(g, n++)).join('')}</div>`;
     if (avisSort === 'recent' || avisSort === 'ancien') {
-      const monthName = (k) => (/^\d{4}/.test(k) ? k : 'Sans date');
+      const monthName = (k) => (/^\d{4}/.test(k) || k === 'Endless' ? k : 'Sans date');
       const groups = []; const idx = {};
-      shown.forEach((g) => { const k = (g.end_date || '').slice(0, 4) || 'x'; if (!(k in idx)) { idx[k] = groups.length; groups.push({ k, gs: [] }); } groups[idx[k]].gs.push(g); });
+      shown.forEach((g) => { const k = g.status === 'Endless' ? 'Endless' : (g.end_date || '').slice(0, 4) || 'x'; if (!(k in idx)) { idx[k] = groups.length; groups.push({ k, gs: [] }); } groups[idx[k]].gs.push(g); });
       box.innerHTML = `<div id="avis-grid" class="mgroups">${groups.map((gr) => `<section class="mgroup"><h3 class="mhead">${esc(monthName(gr.k))}<span>${gr.gs.length} jeu${gr.gs.length > 1 ? 'x' : ''}</span></h3>${grid(gr.gs)}</section>`).join('')}</div>`;
     } else {
       box.innerHTML = `<div id="avis-grid">${grid(shown)}</div>`;
@@ -371,7 +371,7 @@
   function renderAvis() {
     const base = games.filter((g) => g.status === 'Complété' || g.status === 'Dropped' || g.status === 'Endless');
     const genres = [...new Set(base.flatMap((g) => toList(g.genre)))].sort((a, b) => a.localeCompare(b));
-    const years = [...new Set(base.filter((g) => g.end_date).map((g) => g.end_date.slice(0, 4)))].sort().reverse();
+    const years = [...new Set(base.filter((g) => g.end_date && g.status !== 'Endless').map((g) => g.end_date.slice(0, 4)))].sort().reverse();
     if (avisGenre !== 'Tous' && !genres.includes(avisGenre)) avisGenre = 'Tous';
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const sts = ['Complété', 'Dropped', 'Endless'];
