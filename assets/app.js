@@ -871,6 +871,7 @@
     navCount += 1;
     closeModal();
     closeLb();
+    app.style.minHeight = '';
     const h = location.hash || '#/';
     document.title = 'La-Li-Lu-Le-Log';
     const navKey = h.startsWith('#/avis') ? 'avis' : h.startsWith('#/goty') ? 'goty' : h.startsWith('#/series') ? 'series'
@@ -938,11 +939,18 @@
     const more = e.target.closest('[data-avis-more]');
     if (more) { avisExpanded = !avisExpanded; keepScroll(() => updateAvisResults()); if (!avisExpanded) { const rb = document.getElementById('avis-results'); if (rb) rb.scrollIntoView({ block: 'start', behavior: 'smooth' }); } return; }
     const f = e.target.closest('[data-filter]');
+    if (f && f.dataset.filter === 'home-status') {
+      const s0 = document.querySelector('section.statut'); const t0 = s0 ? s0.getBoundingClientRect().top : null;
+      app.style.minHeight = app.offsetHeight + 'px';
+      homeStatus = f.dataset.value; renderHome();
+      const s1 = document.querySelector('section.statut');
+      if (t0 !== null && s1) window.scrollBy({ top: s1.getBoundingClientRect().top - t0, left: 0, behavior: 'instant' });
+      return;
+    }
     if (f) {
       keepScroll(() => {
         if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; avisExpanded = false; renderAvis(); }
         if (f.dataset.filter === 'avis-year') { avisYear = f.dataset.value; avisExpanded = false; renderAvis(); }
-        if (f.dataset.filter === 'home-status') { homeStatus = f.dataset.value; renderHome(); }
       });
     }
   });
