@@ -2082,3 +2082,9 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   body.gotyyear .gpod .pc-body{padding-bottom:6px!important;padding-left:12px!important;padding-right:12px!important}
 }
+
+/* v275 : telephone - partout : le bouton retour n'affiche que la fleche */
+@media (max-width:720px){
+  html body .backbtn span,html body .backbtn .bl-long,html body .backbtn .bl-short{display:none!important}
+  html body .backbtn{padding-left:14px!important;padding-right:14px!important;gap:0!important}
+}
