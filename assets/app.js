@@ -610,6 +610,7 @@
     const pn = document.querySelector('section.ypanel'); const nav = document.querySelector('.top nav');
     if (!pn || !nav) return;
     pn.style.marginRight = '';
+    if (window.innerWidth <= 720) return; // téléphone : le menu est dans le tiroir, on ne s'aligne pas dessus
     const extra = nav.getBoundingClientRect().right - pn.getBoundingClientRect().right;
     if (extra > 1) pn.style.marginRight = -extra + 'px';
   }

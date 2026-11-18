@@ -2034,3 +2034,11 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   body.gamepage .gser{display:none!important}
 }
+
+/* v267 : telephone - GOTY / Series : le cadre reste dans l'ecran */
+@media (max-width:720px){
+  section.avis-panel.ypanel{margin-right:0!important;max-width:100%!important;box-sizing:border-box}
+  .ycards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+  .ycard{min-width:0}
+  .ypanel .sub{margin:-4px 0 16px;font-size:.9rem}
+}
