@@ -673,7 +673,7 @@
   function renderGotyIndex() {
     const years = gotyYears();
     if (!years.length) { app.innerHTML = '<div class="sec-head"><h2>GOTY</h2></div><p class="empty">Pas encore de top.</p>'; return; }
-    app.innerHTML = `<section class="avis-panel ypanel"><div class="sec-head"><h2>GOTY</h2></div><p class="sub"><span class="sub-long">Mon top 10 des jeux que j’ai joué chaque année .✦ ݁˖</span><span class="sub-short">Mon top 10 par année ✦</span></p>
+    app.innerHTML = `<section class="avis-panel ypanel"><div class="sec-head"><h2>GOTY</h2></div><p class="sub">Mon top 10 des jeux que j’ai joué chaque année .✦ ݁˖</p>
       <div class="ycards">${years.map((y) => {
       const n = gotyRows(y).length;
       const hue = (Number(y) * 47) % 360;
@@ -701,7 +701,7 @@
       const r = top[i], t = info(r);
       const art = r.g && (r.g.cover || r.g.banner);
       return wrap(r, `pcard portrait gpod gp${i + 1}`, `${art ? img(art, 'pc-img', t.title) : ''}
-        <div class="pc-body"><div class="pc-name"><span class="gp-rank">#${i + 1}</span> ${esc(t.title)}</div>${(t.meta || t.score) ? `<div class="gp-line"><span class="pc-meta">${esc(t.meta || '')}</span>${t.score ? `<span class="gp-score">${esc(t.score)}${/^[\d.,]+$/.test(String(t.score)) ? ' / 10' : ''}</span>` : ''}</div>` : ''}
+        <div class="pc-body"><div class="pc-name"><span class="gp-rank">#${i + 1}</span> <span class="gp-title">${esc(t.title)}</span></div>${(t.meta || t.score) ? `<div class="gp-line"><span class="pc-meta">${esc(t.meta || '')}</span>${t.score ? `<span class="gp-score">${esc(t.score)}${/^[\d.,]+$/.test(String(t.score)) ? ' / 10' : ''}</span>` : ''}</div>` : ''}
         ${i === 0 && r.comment ? `<p class="gp-comment">${esc(r.comment)}</p>` : ''}</div>`);
     }).join('');
     const list = rest.map((r, i) => {
@@ -713,7 +713,7 @@
         <span class="tr-meta">${esc([t.meta, t.score ? 'Note ' + t.score + '/10' : ''].filter(Boolean).join(' · '))}</span>
         ${r.comment ? `<span class="tr-comment">${esc(r.comment)}</span>` : ''}</span>`);
     }).join('');
-    app.innerHTML = `<div class="goty-head">${backBtn('#/goty', 'Tous les GOTY')}<h2>GOTY ${esc(year)}</h2><span></span></div>
+    app.innerHTML = `<div class="goty-head">${backBtn('#/goty', 'Tous les GOTY').replace('<span>Tous les GOTY</span>', '<span class="bl-long">Tous les GOTY</span><span class="bl-short">Retour</span>')}<h2>GOTY ${esc(year)}</h2><span></span></div>
       ${rows.length ? `<div class="podium" data-n="${top.length}">${podium}</div>
         ${list ? `<div class="toplist" style="--rows:${Math.ceil(rest.length / 2)}">${list}</div>` : ''}`
       : `<p class="empty">Le top 10 ${esc(year)} n'est pas encore fait.</p>`}`;
@@ -878,7 +878,8 @@
     const navKey = h.startsWith('#/avis') ? 'avis' : h.startsWith('#/goty') ? 'goty' : h.startsWith('#/series') ? 'series'
       : h.startsWith('#/stats') ? 'stats' : (h === '#/' || h === '') ? 'home' : '';
     document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('on', a.dataset.nav === navKey));
-    document.body.classList.toggle('gamepage', h.startsWith('#/jeu/'));
+    document.body.classList.toggle('gotyyear', /^#\/goty\/./.test(h));
+    document.body.classList.toggle('gamepage', h.startsWith('#/jeu/') || /^#\/goty\/./.test(h));
     if (h.startsWith('#/recherche/')) {
       const q = decodeURIComponent(h.slice(12));
       if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
