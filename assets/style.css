@@ -2108,3 +2108,8 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   html body{min-height:100vh;min-height:100dvh}
 }
+
+/* v278 : telephone - menu burger : un peu d'espace entre Accueil, Jeux, GOTY... */
+@media (max-width:720px){
+  html body .top .drawer nav:not(#_):not(#__){gap:10px!important;padding-top:16px!important}
+}
