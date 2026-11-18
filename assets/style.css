@@ -1825,3 +1825,30 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   :is(#app,body) section.avis-panel .avis-bar{padding:0 0 4px!important;background:none!important}
 }
 @media (max-width:720px){:is(#app,body) .pcard.nograd .pc-name{visibility:hidden!important}}
+
+/* v252 : téléphone — menu burger (liens + recherche), cartes sans titre/tags, carrousel jusqu'au bord, dernier avis sans image */
+.burger{display:none}
+@media (max-width:720px){
+  .top{display:flex!important;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:40px;padding:0 11px;border-radius:14px;border:1px solid rgba(150,185,255,.28);background:rgba(12,24,44,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);cursor:pointer;z-index:70}
+  .burger span{display:block;height:2px;border-radius:2px;background:#dbe8ff;transition:transform .2s,opacity .2s}
+  .top.open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .top.open .burger span:nth-child(2){opacity:0}
+  .top.open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .top nav,.top .search{display:none!important}
+  .top.open nav{display:flex!important;flex:1 1 100%;order:2;margin-top:10px}
+  .top.open .search{display:flex!important;flex:1 1 100%;order:3;margin-top:8px}
+  .top.open nav,.top.open .search input{background-color:rgba(10,20,38,.92)}
+  .top.open .search kbd{display:none}
+  /* cartes : ni titre ni tags (le titre est dans l'image) */
+  :is(#app,body) section.lastrev .pcard .pc-name,:is(#app,body) section.lastrev .pcard .pc-tags,
+  :is(#app,body) section.wish .pcard .pc-name,:is(#app,body) section.wish .pcard .pc-tags,
+  :is(#app,body) section.statut .pcard .pc-name,:is(#app,body) section.statut .pcard .pc-tags{display:none!important}
+  /* carrousel : va jusqu'au bord de l'écran */
+  :is(#app,body) section .grid.carousel{margin-left:-30px!important;margin-right:-30px!important;padding-left:30px!important;padding-right:30px!important;scroll-padding-left:30px!important}
+  :is(#app,body) section:has(.car-wrap),:is(#app,body) section:has(>.grid.carousel){overflow:visible!important}
+  /* dernier avis : sans image */
+  .lr-art{display:none!important}
+  .lr-card{display:block!important}
+}
+@media (max-width:720px){.top.open nav{flex-wrap:wrap;overflow:visible;border-radius:22px}}
