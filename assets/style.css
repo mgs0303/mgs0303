@@ -1939,3 +1939,11 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 }
 @media (max-width:720px){.sec-head:has(.see-all) h2{font-size:1.2rem!important;white-space:nowrap}}
 @media (max-width:720px){.sec-head:has(.see-all) h2{font-size:1.05rem!important}.sec-head .see-all{padding:3px 9px!important;font-size:.7rem!important;margin-left:4px!important}}
+
+/* v258 : téléphone — coins moins arrondis, « Voir tout » à droite */
+@media (max-width:720px){
+  html body .pcard,html body .pcard.portrait,html body .pcard .pc-img,html body .pod,html body .toprow,html body .card,html body .stile{border-radius:14px!important}
+  html body section:has(.car-wrap),html body section:has(>.grid.carousel),html body section.wish,html body section.lastrev,html body section.statut,html body section.avis-panel,html body .avis-bar,html body .panel,html body .spanel,html body .content{border-radius:18px!important}
+  html body .lr-card{border-radius:14px!important}
+  html body .sec-head .see-all{margin-left:auto!important}
+}
