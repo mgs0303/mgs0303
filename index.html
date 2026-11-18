@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=262">
+<link rel="stylesheet" href="assets/style.css?v=263">
 </head>
 <body>
 <div id="boot" aria-label="Chargement"><img class="bg" src="assets/loading.gif" alt=""></div>
@@ -43,6 +43,8 @@
   <div class="drawer-bg" id="drawer-bg"></div>
 </header>
 <script>(function(){var h=document.querySelector('.top'),b=document.getElementById('burger');if(!h||!b)return;function s(o){h.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}b.addEventListener('click',function(e){e.stopPropagation();s(!h.classList.contains('open'))});h.addEventListener('click',function(e){if(e.target.closest('nav a'))s(false)});window.addEventListener('hashchange',function(){s(false)});var c=document.getElementById('drawer-close'),g=document.getElementById('drawer-bg');if(c)c.addEventListener('click',function(){s(false)});if(g)g.addEventListener('click',function(){s(false)})})();</script>
+<button id="gotop" class="gotop" type="button" aria-label="Remonter en haut" hidden><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<script>(function(){var b=document.getElementById('gotop');if(!b)return;function u(){var on=/^#\/avis/.test(location.hash)&&window.scrollY>500;b.hidden=!on}window.addEventListener('scroll',u,{passive:true});window.addEventListener('hashchange',u);b.addEventListener('click',function(){window.scrollTo({top:0,left:0,behavior:'smooth'})});u()})();</script>
 <main id="app"><p class="empty">Chargement…</p></main>
 <div id="modal" class="modal" hidden></div>
 <div id="lightbox" class="lightbox" hidden>
@@ -53,6 +55,6 @@
   <div class="lb-count"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="assets/app.js?v=262"></script>
+<script src="assets/app.js?v=263"></script>
 </body>
 </html>

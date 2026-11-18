@@ -2006,3 +2006,10 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .avis-bar .avis-row>.dd.yearsel:not(.note){grid-column:1!important;order:5!important}
   .avis-bar .avis-row>.dd:not(.note):not(.yearsel){grid-column:2!important;order:5!important}
 }
+
+/* v263 : téléphone — flèche pour remonter en haut (page Jeux) */
+.gotop{display:none}
+@media (max-width:720px){
+  .gotop{display:flex;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));width:46px;height:46px;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(123,186,201,.7);background:rgba(18,34,60,.92);color:#dbe8ff;box-shadow:0 6px 16px rgba(0,0,0,.4);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);cursor:pointer;z-index:120;padding:0}
+  .gotop[hidden]{display:none!important}
+}
