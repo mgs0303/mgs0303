@@ -1921,3 +1921,21 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .pf-pills{justify-content:flex-start!important;gap:5px!important}
   .pf-pills span{flex:1 1 auto;text-align:center;font-size:.72rem!important;padding:6px 6px!important}
 }
+
+/* v257 : téléphone — « Voir tout » à côté du titre (sans chiffre), menu des statuts sur une ligne chiffres collés, texte trop long qui défile en boucle */
+@media (max-width:720px){
+  .sec-head:has(.see-all){flex-wrap:nowrap!important}
+  .sec-head:has(.see-all) .count{display:none!important}
+  .sec-head .see-all{margin-left:6px!important;padding:4px 12px!important;font-size:.76rem!important;white-space:nowrap}
+  .fold-list{min-width:max-content;max-width:calc(100vw - 40px)}
+  .fold-list .chip,.fold-list .chip.opt{white-space:nowrap!important;gap:0!important;justify-content:flex-start!important}
+  .fold-list .chip .chip-n{margin-left:8px!important;padding:0!important;flex:none}
+  .sheet .facts dd,.game .facts dd{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal;min-width:0}
+  .sheet .facts .f dd .mq,.game .facts .f dd .mq{display:inline-block;white-space:nowrap}
+  .facts .f .mq2{display:none;padding-left:36px}
+  .facts .f.trunc dd{text-overflow:clip}
+  .facts .f.trunc .mq2{display:inline}
+  .facts .f.trunc .mq{animation:mqscroll calc(var(--w,0) * 11ms) linear infinite}
+}
+@media (max-width:720px){.sec-head:has(.see-all) h2{font-size:1.2rem!important;white-space:nowrap}}
+@media (max-width:720px){.sec-head:has(.see-all) h2{font-size:1.05rem!important}.sec-head .see-all{padding:3px 9px!important;font-size:.7rem!important;margin-left:4px!important}}
