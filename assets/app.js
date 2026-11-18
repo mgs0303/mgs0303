@@ -412,7 +412,7 @@
     const genreTxt = esc([...toList(g.genre), ...toList(g.subgenre)].join(' / '));
     const nl = [], nr = [];
     if (!full) nl.push(['Genre', genreTxt], ['Série', esc(seriesOf(g))]);
-    if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre');
+    if (full) { add('Genre', genreTxt, 'genre'); add('Série', esc(seriesOf(g)), 'genre serie');
       const pub = String(g.publisher || '').trim(), dev = String(g.developer || '').trim();
       if (pub && dev && pub.toLowerCase() === dev.toLowerCase()) add('Éditeur / Dév.', esc(pub));
       else if (dev.length >= 14 && dev.length > pub.length) { add('Développeur', esc(g.developer)); add('Éditeur', esc(g.publisher)); } // le nom le plus long prend la grande tuile

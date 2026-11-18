@@ -2088,3 +2088,13 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   html body .backbtn span,html body .backbtn .bl-long,html body .backbtn .bl-short{display:none!important}
   html body .backbtn{padding-left:14px!important;padding-right:14px!important;gap:0!important}
 }
+
+/* v276 : telephone - page jeu : on cache la case Serie */
+@media (max-width:720px){
+  .game .facts .f.serie{display:none!important}
+}
+
+/* v276 : telephone - stats : la derniere case (Rejeux) prend toute la largeur quand elle est seule */
+@media (max-width:720px){
+  .tiles .tile:last-child:nth-child(odd){grid-column:1/-1!important}
+}
