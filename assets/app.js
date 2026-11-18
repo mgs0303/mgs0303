@@ -76,6 +76,8 @@
     const cur = options.find((o) => o.v === current) || options[0];
     return `<div class="dd${cls ? ' ' + cls : ''}"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(cur.s || cur.l)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${options.map((o) => `<button class="chip opt${o.v === cur.v ? ' on' : ''}" data-dd="${kind}" data-which="${which}" data-value="${esc(o.v)}">${esc(o.l)}</button>`).join('')}</div></div>`;
   };
+  const SIZE_OPTS = [{ v: 's', l: 'Petit', s: 'Taille : Petit' }, { v: 'm', l: 'Moyen', s: 'Taille : Moyen' }, { v: 'l', l: 'Grand', s: 'Taille : Grand' }];
+  const sizeSelect = (current) => dd('size', 'avis', SIZE_OPTS, current, 'right');
   const sortSelect = (which, current) => dd('sort', which, Object.keys(SORTS).map((k) => ({ v: k, l: SORTS[k].label })), current, 'right');
   const backBtn = (href, label, hist) => `<a class="backbtn" href="${href}"${hist ? ' data-back' : ''}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(label)}</span></a>`;
   const keepScroll = (fn) => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
@@ -374,7 +376,7 @@
     if (avisYear !== 'Tous' && !years.includes(avisYear)) avisYear = 'Tous';
     const sts = ['Complété', 'Dropped'];
     const chips = ['Tous', ...sts].map((f) => `<button class="chip${f === avisStatus ? ' on' : ''}" style="--sc:${f === 'Tous' ? '#7bbac9' : color(f)}" data-filter="avis-status" data-value="${esc(f)}">${esc(f)}</button>`).join('');
-    app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}</div>
+    app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}${sizeSelect(avisSize)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
         <label class="notein dd note">Note : <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="tout" value="${avisMin === avisMax ? avisMin : ''}" data-notemin aria-label="Note"></label></div></div>
@@ -923,7 +925,8 @@
     if (opt) {
       const v = opt.dataset.value; const w = opt.dataset.which;
       keepScroll(() => {
-        if (opt.dataset.dd === 'sort') { if (w === 'avis') { avisSort = v; avisExpanded = false; renderAvis(); } else { homeSort = v; renderHome(); } }
+        if (opt.dataset.dd === 'size') { avisSize = v; renderAvis(); }
+        else if (opt.dataset.dd === 'sort') { if (w === 'avis') { avisSort = v; avisExpanded = false; renderAvis(); } else { homeSort = v; renderHome(); } }
         else if (opt.dataset.dd === 'note') { const o = NOTE_OPTS.find((x) => x.v === v) || NOTE_OPTS[0]; avisMin = o.min; avisMax = o.max; avisExpanded = false; renderAvis(); }
         else { if (w === 'genre') avisGenre = v; if (w === 'year') avisYear = v; avisExpanded = false; renderAvis(); }
       });
