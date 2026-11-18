@@ -1795,3 +1795,25 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 /* v249 : Higurashi — même forme de dégradé que les autres cartes, juste un peu plus haut (pas de palier, aucune démarcation) */
 .pcard.hig{--hg:linear-gradient(to top,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .36)/.97) 0,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .5)/.88) 14%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .7)/.66) 25%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 4%)/.42) 35%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 8%)/.2) 45%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 10%)/.07) 55%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 12%)/0) 64%)}
 .pcard.hig{--hg:linear-gradient(to top,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .34)/.985) 0,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .46)/.94) 12%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .62)/.8) 22%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) * .85)/.6) 32%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 5%)/.38) 42%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 8%)/.18) 52%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 10%)/.06) 60%,hsl(var(--gh) min(100%,calc(var(--gs) * 1.3)) calc(var(--gl) + 12%)/0) 68%)}
+
+/* v250 : téléphone — menu qui tient sur l'écran, et la Taille (Petit/Moyen/Grand) fonctionne */
+@media (max-width:720px){
+  :is(#app,body) .top nav,body.home .top nav{gap:0!important;max-width:100%;box-sizing:border-box;justify-content:space-between}
+  :is(#app,body) .top nav a,body .top nav a{padding:6px 7px!important;font-size:.82rem!important}
+  .top nav a.social{gap:4px!important}
+  .top nav a.social svg{width:15px;height:15px}
+  :is(#app,body) .grid.posters.size-s{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+  :is(#app,body) .grid.posters.size-m{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+  :is(#app,body) .grid.posters.size-l{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+  :is(#app,body) .grid.posters.size-s .pc-name{font-size:.68rem!important}
+  :is(#app,body) .grid.posters.size-s .pc-meta,:is(#app,body) .grid.posters.size-s .pc-tags{display:none!important}
+}
+@media (max-width:720px){
+  .top nav{overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+  .top nav a.social span{display:none!important}
+  .top nav a.social{padding:6px 8px!important}
+}
+@media (max-width:720px){
+  :is(#app,body) .grid.posters.size-s .pcard.portrait .pc-body{padding-right:34px!important}
+  :is(#app,body) .grid.posters.size-s .pc-pct{font-size:.7rem!important}
+}
