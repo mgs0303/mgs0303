@@ -1782,3 +1782,10 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 /* v242 : voile sous le titre plus sombre et neutre, pour lire les titres même sur les bannières très colorées */
 :is(#app,body) section.wish .pcard:not(.portrait):not(.nograd)::before,:is(#app,body) section.statut .pcard:not(.portrait):not(.nograd)::before,:is(#app,body) .car-wrap .pcard:not(.portrait):not(.nograd)::before{height:46%!important;background:linear-gradient(to bottom,hsl(var(--gh,215) 35% 6%/.92) 0,hsl(var(--gh,215) 35% 7%/.8) 28%,hsl(var(--gh,215) 35% 8%/.42) 62%,hsl(var(--gh,215) 35% 8%/0) 100%)!important}
 :is(#app,body) .pcard:not(.portrait) .pc-name{text-shadow:0 1px 3px rgba(0,0,0,.9)!important}
+
+/* v244 : « Par statut » — petit trait vertical entre les pastilles, comme sur la page Jeux */
+@media(min-width:721px){
+  .statut .filters{gap:clamp(12px,1.1vw,16px)!important}
+  .statut .filters .chip{position:relative}
+  .statut .filters .chip + .chip::before{content:"";position:absolute;left:calc(clamp(12px,1.1vw,16px) / -2 - .5px);top:50%;height:26px;width:1px;transform:translateY(-50%);background:rgba(150,185,255,.35);pointer-events:none}
+}
