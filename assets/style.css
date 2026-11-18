@@ -2098,3 +2098,13 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   .tiles .tile:last-child:nth-child(odd){grid-column:1/-1!important}
 }
+
+/* v277 : telephone - plus de lien Series dans le menu */
+@media (max-width:720px){
+  .top nav a[href="#/series"]{display:none!important}
+}
+
+/* v277 : telephone - le fond (degrade) couvre toujours tout l'ecran, plus de coupure sous le contenu */
+@media (max-width:720px){
+  html body{min-height:100vh;min-height:100dvh}
+}

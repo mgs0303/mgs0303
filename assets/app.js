@@ -865,6 +865,7 @@
   let navCount = 0;
   window.addEventListener('scroll', () => { lastY = window.scrollY; }, { passive: true });
   function route() {
+    if (window.innerWidth <= 720 && (location.hash || '').startsWith('#/series')) { location.replace('#/'); return; } // téléphone : pas de page Séries
     if (currentHash !== null) scrollPos[currentHash] = lastY;
     const restoreY = !userNav && scrollPos[location.hash || '#/'] ? scrollPos[location.hash || '#/'] : 0;
     userNav = false;
