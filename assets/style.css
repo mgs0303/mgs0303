@@ -1947,3 +1947,15 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   html body .lr-card{border-radius:14px!important}
   html body .sec-head .see-all{margin-left:auto!important}
 }
+@media (max-width:720px){
+  html body :is(.pcard,.pcard.portrait,.pcard.portrait.baked,.pcard.portrait.fit,.stile,.gpod,.pod,.toprow,.card,.ycard,.lr-card,.tile,.st-art,.goty-item):not(#_):not(#__):not(#___){border-radius:14px!important}
+  html body :is(.pcard,.stile,.gpod,.pod) :is(.pc-img,.pod-art,.pod-art img):not(#_):not(#__){border-radius:14px!important}
+  html body :is(section,section.avis-panel,section.avis-panel.ypanel,section.lastrev,section.statut,section.wish,.avis-bar,.panel,.spanel,.content):not(#_):not(#__):not(#___){border-radius:18px!important}
+}
+@media (max-width:720px){
+  .drawer{padding-top:48px!important}
+  .drawer-close{top:8px!important;right:12px!important}
+  html body .top .drawer .search input,html body.home .top .drawer .search input,html body:not(.home) .top .drawer .search input{background:rgba(120,165,255,.12)!important;border:1px solid rgba(123,186,201,.7)!important;color:#b9cfed!important;box-shadow:0 1px 4px rgba(80,160,185,.1)!important}
+  html body .top .drawer .search input::placeholder{color:#79a3dd!important}
+  html body .top .drawer .search>svg{color:#79a3dd!important}
+}
