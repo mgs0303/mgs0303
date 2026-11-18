@@ -877,6 +877,7 @@
     const navKey = h.startsWith('#/avis') ? 'avis' : h.startsWith('#/goty') ? 'goty' : h.startsWith('#/series') ? 'series'
       : h.startsWith('#/stats') ? 'stats' : (h === '#/' || h === '') ? 'home' : '';
     document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('on', a.dataset.nav === navKey));
+    document.body.classList.toggle('gamepage', h.startsWith('#/jeu/'));
     if (h.startsWith('#/recherche/')) {
       const q = decodeURIComponent(h.slice(12));
       if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
