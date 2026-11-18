@@ -2022,3 +2022,9 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   body.gamepage .game .backbtn,body.gamepage #app .backbtn{margin-top:0!important}
   .facts .f.trunc .mq{animation-duration:calc(var(--w,0) * 26ms)!important}
 }
+
+/* v265 : telephone - page jeu : le bandeau ne bloque plus le bouton Retour */
+@media (max-width:720px){
+  body.gamepage .top{pointer-events:none!important}
+  body.gamepage .top .burger,body.gamepage .top .drawer,body.gamepage .top .drawer-bg{pointer-events:auto!important}
+}
