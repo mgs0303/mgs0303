@@ -1018,10 +1018,9 @@
   });
   (function () {
     const a = document.getElementById('twitter-link');
-    const h = TWITTER.trim().replace(/^@/, '');
-    if (!a || !h) return;
-    a.href = 'https://x.com/' + encodeURIComponent(h);
-    document.getElementById('twitter-label').textContent = '@' + h;
+    if (!a) return;
+    a.href = 'https://steamcommunity.com/profiles/76561199405138894';
+    document.getElementById('twitter-label').textContent = 'marnia';
     a.hidden = false;
   })();
   // écran de chargement : on attend la bannière, l'avatar et les images visibles (max 5 s) avant d'afficher le site
