@@ -2068,6 +2068,12 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 
 /* v271 : telephone - GOTY annee : fleche seule ; rang a cote de la note (top 3) */
 @media (max-width:720px){
-  body.gotyyear .gpod .pc-body{display:flex!important;flex-direction:row!important;align-items:baseline!important;justify-content:flex-start!important;text-align:left!important;gap:6px!important;flex-wrap:nowrap!important;white-space:nowrap}
+  body.gotyyear .gpod .pc-body{display:flex!important;flex-direction:row!important;align-items:baseline!important;justify-content:space-between!important;text-align:left!important;gap:6px!important;flex-wrap:nowrap!important;white-space:nowrap}
   body.gotyyear .gpod .pc-body .pc-name,body.gotyyear .gpod .pc-body .gp-line{display:inline-flex!important;width:auto!important;margin:0!important;min-width:0}
+}
+
+/* v273 : telephone - GOTY annee : rang a gauche, note a droite (top 3) */
+@media (max-width:720px){
+  body.gotyyear .gpod .pc-body{justify-content:space-between!important;width:100%!important;box-sizing:border-box}
+  body.gotyyear .gpod .pc-body .gp-line{margin-left:auto!important;justify-content:flex-end!important}
 }
