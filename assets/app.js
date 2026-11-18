@@ -80,7 +80,7 @@
   const sizeSelect = (current) => dd('size', 'avis', SIZE_OPTS, current, 'right');
   const sortSelect = (which, current) => dd('sort', which, Object.keys(SORTS).map((k) => ({ v: k, l: SORTS[k].label })), current, 'right');
   const backBtn = (href, label, hist) => `<a class="backbtn" href="${href}"${hist ? ' data-back' : ''}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(label)}</span></a>`;
-  const keepScroll = (fn) => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
+  const keepScroll = (fn) => { const y = window.scrollY; fn(); window.scrollTo({ top: y, left: 0, behavior: 'instant' }); };
   const chip = (filter, value, on) => `<button class="chip${on ? ' on' : ''}" data-filter="${filter}" data-value="${esc(value)}">${esc(value)}</button>`;
   const fold = (label, chipsHtml) => `<div class="fold"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(label)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${chipsHtml}</div></div>`;
   const byEndDesc = (a, b) => (b.end_date || '').localeCompare(a.end_date || '') || a.title.localeCompare(b.title);
@@ -880,7 +880,7 @@
       const q = decodeURIComponent(h.slice(12));
       if (document.activeElement !== searchInput && searchInput.value.trim() !== q) searchInput.value = q;
       renderSearch(q);
-      window.scrollTo(0, restoreY);
+      window.scrollTo({ top: restoreY, left: 0, behavior: 'instant' });
       enterPage();
       return;
     }
@@ -893,7 +893,7 @@
     else if (h.startsWith('#/series')) renderSeries();
     else if (h.startsWith('#/stats')) renderStats(decodeURIComponent(h.slice(8)) || 'Tous');
     else renderHome();
-    window.scrollTo(0, restoreY);
+    window.scrollTo({ top: restoreY, left: 0, behavior: 'instant' });
     lastY = restoreY;
     enterPage();
   }
