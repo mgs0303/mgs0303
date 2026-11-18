@@ -2029,3 +2029,8 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   body.gamepage .top .burger{pointer-events:auto!important}
   body.gamepage .top.open .drawer,body.gamepage .top.open .drawer-bg{pointer-events:auto!important}
 }
+
+/* v266 : telephone - page jeu : on cache "Meme serie" */
+@media (max-width:720px){
+  body.gamepage .gser{display:none!important}
+}
