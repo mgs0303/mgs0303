@@ -2026,5 +2026,6 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 /* v265 : telephone - page jeu : le bandeau ne bloque plus le bouton Retour */
 @media (max-width:720px){
   body.gamepage .top{pointer-events:none!important}
-  body.gamepage .top .burger,body.gamepage .top .drawer,body.gamepage .top .drawer-bg{pointer-events:auto!important}
+  body.gamepage .top .burger{pointer-events:auto!important}
+  body.gamepage .top.open .drawer,body.gamepage .top.open .drawer-bg{pointer-events:auto!important}
 }
