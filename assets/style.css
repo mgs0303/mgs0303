@@ -2060,12 +2060,6 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   body.gotyyear .bl-long{display:none}
   body.gotyyear .bl-short{display:block}
   body.gotyyear .gp-title,body.gotyyear .gpod .gp-line .pc-meta,body.gotyyear .gp-comment{display:none!important}
-  body.gotyyear .toprow .tr-title,body.gotyyear .toprow .tr-meta,body.gotyyear .toprow .tr-comment{display:none!important}
-}
-
-@media (max-width:720px){
-  body.gotyyear .toplist{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-flow:row!important;grid-template-rows:none!important;gap:10px!important}
-  body.gotyyear .toplist .toprow{padding:10px 14px!important;gap:12px!important;min-width:0}
 }
 .backbtn .bl-short{display:none!important}
 @media (max-width:720px){
