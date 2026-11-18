@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=252">
+<link rel="stylesheet" href="assets/style.css?v=253">
 </head>
 <body>
 <div id="boot" aria-label="Chargement"><img class="bg" src="assets/loading.gif" alt=""></div>
@@ -16,6 +16,8 @@
 <header class="top">
   <a class="brand" href="#/">La-Li-Lu-Le-Log <span aria-hidden="true">🐍</span></a>
   <button id="burger" class="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <div class="drawer" id="drawer">
+  <button id="drawer-close" class="drawer-close" type="button" aria-label="Fermer le menu">×</button>
   <nav>
     <a href="#/" data-nav="home">Accueil</a>
     <a href="#/avis" data-nav="avis">Jeux</a>
@@ -37,8 +39,10 @@
     <kbd aria-hidden="true">/</kbd>
     <div id="suggest" class="suggest" hidden></div>
   </div>
+  </div>
+  <div class="drawer-bg" id="drawer-bg"></div>
 </header>
-<script>(function(){var h=document.querySelector('.top'),b=document.getElementById('burger');if(!h||!b)return;function s(o){h.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}b.addEventListener('click',function(e){e.stopPropagation();s(!h.classList.contains('open'))});h.addEventListener('click',function(e){if(e.target.closest('nav a'))s(false)});window.addEventListener('hashchange',function(){s(false)});document.addEventListener('click',function(e){if(!e.target.closest('.top'))s(false)})})();</script>
+<script>(function(){var h=document.querySelector('.top'),b=document.getElementById('burger');if(!h||!b)return;function s(o){h.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}b.addEventListener('click',function(e){e.stopPropagation();s(!h.classList.contains('open'))});h.addEventListener('click',function(e){if(e.target.closest('nav a'))s(false)});window.addEventListener('hashchange',function(){s(false)});var c=document.getElementById('drawer-close'),g=document.getElementById('drawer-bg');if(c)c.addEventListener('click',function(){s(false)});if(g)g.addEventListener('click',function(){s(false)})})();</script>
 <main id="app"><p class="empty">Chargement…</p></main>
 <div id="modal" class="modal" hidden></div>
 <div id="lightbox" class="lightbox" hidden>
@@ -49,6 +53,6 @@
   <div class="lb-count"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="assets/app.js?v=252"></script>
+<script src="assets/app.js?v=253"></script>
 </body>
 </html>

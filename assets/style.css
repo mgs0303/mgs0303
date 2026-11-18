@@ -1852,3 +1852,39 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .lr-card{display:block!important}
 }
 @media (max-width:720px){.top.open nav{flex-wrap:wrap;overflow:visible;border-radius:22px}}
+
+/* v253 : téléphone — menu en tiroir à droite, carrousel dans le cadre, dernier avis avec marges, cartes sans dégradé */
+.drawer{display:contents}.drawer-close,.drawer-bg{display:none}
+@media (max-width:720px){
+  .drawer{display:flex!important;flex-direction:column;position:fixed;top:0;right:0;bottom:0;width:min(80vw,320px);padding:70px 18px 24px;gap:6px;background:#0d1a2e;border-left:1px solid rgba(150,185,255,.2);box-shadow:-12px 0 32px rgba(0,0,0,.5);transform:translateX(105%);transition:transform .28s ease;z-index:200;overflow-y:auto;box-sizing:border-box}
+  .top.open .drawer{transform:none}
+  .drawer-bg{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .28s;z-index:190}
+  .top.open .drawer-bg{opacity:1;pointer-events:auto}
+  .drawer-close{display:block;position:absolute;top:14px;right:16px;width:40px;height:40px;border:0;background:none;color:#dbe8ff;font-size:2rem;line-height:1;cursor:pointer}
+  .top .drawer .search{display:flex!important;order:0;flex:none;margin:0 0 12px;width:100%}
+  .top .drawer nav{display:flex!important;flex-direction:column;align-items:stretch;order:1;margin:0;padding:0;gap:2px!important;background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;overflow:visible;flex-wrap:nowrap;justify-content:flex-start}
+  .top .drawer nav a{padding:13px 12px!important;font-size:1.05rem!important;border-radius:14px!important;justify-content:flex-start;text-align:left}
+  .top .drawer nav a.social span{display:inline!important}
+  .top .drawer nav a.social svg{width:18px;height:18px}
+  .top.open nav,.top.open .search{margin:0}
+  .top{z-index:210}
+  /* carrousel : une carte à la fois, dans le cadre */
+  :is(#app,body) section .grid.carousel{margin-left:-14px!important;margin-right:-14px!important;padding-left:14px!important;padding-right:14px!important;scroll-padding-left:14px!important}
+  :is(#app,body) section .grid.carousel .pcard{flex:0 0 100%!important}
+  :is(#app,body) section:has(.car-wrap),:is(#app,body) section:has(>.grid.carousel){overflow:hidden!important}
+  /* dernier avis */
+  .lr-card .lr-body{padding:18px 18px 20px!important}
+  /* cartes sans dégradé */
+  :is(#app,body) section.lastrev .pcard::before,:is(#app,body) section.lastrev .pcard::after,
+  :is(#app,body) section.wish .pcard::before,:is(#app,body) section.wish .pcard::after,
+  :is(#app,body) section.statut .pcard::before,:is(#app,body) section.statut .pcard::after{background:none!important;opacity:0!important}
+  :is(#app,body) section.lastrev .pcard,:is(#app,body) section.wish .pcard,:is(#app,body) section.statut .pcard{--ovg:none!important}
+}
+@media (max-width:720px){
+  .top .drawer nav{flex:none!important;height:auto!important;min-height:0!important;max-height:none!important;border-radius:0!important}
+  .top .drawer nav::before,.top .drawer nav::after{display:none!important}
+  .top .drawer nav a{flex:none!important;height:auto!important;min-height:0!important}
+}
+@media (max-width:720px){
+  html body .top .drawer nav,html body.home .top .drawer nav,html body:not(.home) .top .drawer nav{border:0!important;background:none!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
