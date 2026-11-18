@@ -1744,3 +1744,14 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .top nav,body.home .top nav{gap:2px!important}
   .top nav a,body .top nav a{padding:6px 10px!important}
 }
+
+/* v234 : survol des cartes larges — halo bleu clair discret à la place de l'ombre sombre */
+:is(#app,body) .pcard:not(.portrait):hover{box-shadow:0 6px 26px -4px rgba(120,175,255,.38),0 0 0 1px rgba(140,185,255,.16)!important}
+
+/* v234 : le halo du survol n'est plus coupé par le bord du carrousel (marge intérieure compensée) */
+@media(min-width:721px){
+  .car-wrap .grid.carousel,.car-wrap .carousel{margin:-10px -14px -6px!important;padding:18px 14px 34px!important;scroll-padding-left:14px!important}
+}
+
+/* v234 : n°1 du GOTY — léger halo bleu lumineux */
+:is(#app,body) .podium .pcard.gpod.gp1,:is(#app,body) .pcard.portrait.gpod.gp1{box-shadow:0 0 38px -4px rgba(120,175,255,.5),0 0 0 1px rgba(140,185,255,.2),0 18px 34px -16px rgba(80,140,230,.35)!important}
