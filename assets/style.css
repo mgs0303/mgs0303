@@ -2113,3 +2113,11 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   html body .top .drawer nav:not(#_):not(#__){gap:10px!important;padding-top:16px!important}
 }
+
+/* v279 : telephone - le burger reste toujours visible en haut a droite quand on scrolle ; page jeu : tuiles en 2 colonnes (seul Genre en pleine largeur) */
+@media (max-width:720px){
+  html body .top{min-height:60px;z-index:210!important}
+  html body .top .burger{position:fixed!important;top:10px!important;right:16px!important;left:auto!important;z-index:230;background:rgba(12,24,44,.78)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  html body .top.open .burger,html body.gamepage .top.open .burger{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+  .game .facts.split .fl .f.genre:not(:first-child){grid-column:auto!important}
+}
