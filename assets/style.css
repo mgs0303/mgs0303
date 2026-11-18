@@ -2042,3 +2042,10 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .ycard{min-width:0}
   .ypanel .sub{margin:-4px 0 16px;font-size:.9rem}
 }
+
+/* v268 : telephone - GOTY : texte d'intro raccourci */
+.sub-short{display:none}
+@media (max-width:720px){
+  .sub-long{display:none}
+  .sub-short{display:inline}
+}
