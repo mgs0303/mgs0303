@@ -1817,3 +1817,11 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   :is(#app,body) .grid.posters.size-s .pcard.portrait .pc-body{padding-right:34px!important}
   :is(#app,body) .grid.posters.size-s .pc-pct{font-size:.7rem!important}
 }
+
+/* v251 : téléphone — les blocs de l'accueil / Jeux ont des coins arrondis et de la marge (plus de rectangles collés au texte) */
+@media (max-width:720px){
+  :is(#app,body) section:has(.car-wrap),:is(#app,body) section:has(>.grid.carousel),:is(#app,body) section.wish,:is(#app,body) section.lastrev,:is(#app,body) section.statut,:is(#app,body) section.avis-panel{border-radius:24px!important;padding:16px 14px 14px!important;box-sizing:border-box}
+  :is(#app,body) section .grid.carousel{margin-left:-14px!important;margin-right:-14px!important;padding-left:14px!important;padding-right:14px!important;scroll-padding-left:14px!important}
+  :is(#app,body) section.avis-panel .avis-bar{padding:0 0 4px!important;background:none!important}
+}
+@media (max-width:720px){:is(#app,body) .pcard.nograd .pc-name{visibility:hidden!important}}
