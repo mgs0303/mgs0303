@@ -1979,3 +1979,13 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 @media (max-width:720px){
   .avis-bar .fold-toggle,.avis-bar .dd>.fold-toggle,.avis-bar .dd>.select,.avis-bar .dd button{padding:8px 10px!important;font-size:.8rem!important;gap:6px}
 }
+@media (max-width:720px){
+  .drawer{display:grid!important;grid-template-columns:minmax(0,1fr) 40px;grid-template-rows:auto 1fr;align-content:start;column-gap:8px!important;row-gap:0!important;padding:14px 16px 24px!important}
+  .drawer-close{position:static!important;grid-column:2;grid-row:1;width:40px!important;height:40px!important;display:flex!important;align-items:center;justify-content:center;font-size:1.9rem!important;padding:0}
+  .top .drawer .search{grid-column:1!important;grid-row:1;margin:0!important;width:auto!important}
+  .top .drawer nav{grid-column:1/-1!important;grid-row:2;align-self:start;margin-top:14px!important;padding-top:12px!important;border-top:1px solid rgba(150,185,255,.22)!important}
+}
+@media (max-width:720px){
+  html body .top .drawer nav:not(#_):not(#__){border-top:1px solid rgba(150,185,255,.3)!important}
+  html body .top .drawer .search input{font-size:.82rem!important;padding-left:34px!important;padding-right:10px!important;text-overflow:ellipsis}
+}
