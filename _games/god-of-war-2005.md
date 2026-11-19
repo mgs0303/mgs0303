@@ -1,6 +1,6 @@
 ---
 title: God Of War (2005)
-status: Partie en cours
+status: Complété
 progress: 100
 start_date: 2026-11-01
 no_start_date: false
