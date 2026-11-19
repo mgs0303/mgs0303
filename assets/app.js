@@ -90,12 +90,12 @@
     const dt = new Date(d + 'T00:00:00');
     return isNaN(dt) ? d : dt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
   };
-  // téléphone : dates courtes JJ/MM/AA (évite le texte qui défile dans les petites tuiles)
-  const fmtDateTile = (d) => {
-    if (window.innerWidth > 720) return fmtDate(d);
-    const dt = new Date(d + 'T00:00:00');
-    return isNaN(dt) ? d : dt.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
-  };
+  // tuiles de date : longues sur PC (14 septembre 2026), courtes JJ/MM/AA sur téléphone ; suit la largeur de l'écran
+  const dtSpan = (d) => `<span class="dt" data-iso="${esc(d)}">${esc(fmtDate(d))}</span>`;
+  const syncDates = (root) => root.querySelectorAll('.dt[data-iso]').forEach((e) => {
+    const iso = e.dataset.iso; const dt = new Date(iso + 'T00:00:00');
+    e.textContent = window.innerWidth <= 720 && !isNaN(dt) ? dt.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' }) : fmtDate(iso);
+  });
   const img = (src, cls, alt) => (src ? `<img class="${cls}" src="${esc(path(src))}" alt="${esc(alt || '')}" loading="lazy">` : '');
   const badge = (status) => `<span class="badge" style="--c:${color(status)}">${esc(status || 'Sans statut')}</span>`;
   const progressBar = (g) => `<div class="progress" style="--c:${color(g.status)}"><span class="pct">${pct(g)} %</span><div class="bar"><i style="width:${pct(g)}%"></i></div></div>`;
@@ -439,10 +439,10 @@
     const hours = Number(g.playtime);
     let dStart = '', dEnd = '';
     if (g.status === 'Priorité backlog') dStart = '';
-    else if (g.start_date) dStart = esc(fmtDateTile(g.start_date));
+    else if (g.start_date) dStart = dtSpan(g.start_date);
     else if (g.no_start_date && !notStarted) dStart = 'N/A';
     if (finished) {
-      if (g.end_date) dEnd = esc(fmtDateTile(g.end_date));
+      if (g.end_date) dEnd = dtSpan(g.end_date);
       else if (g.no_end_date) dEnd = 'N/A';
     }
     const c = g.completion;
@@ -580,6 +580,7 @@
     if (!info) return;
     const h1 = info.querySelector('h1');
     if (h1) { h1.style.fontSize = ''; h1.style.height = ''; if (window.innerWidth > 720) { const h0 = h1.offsetHeight; let fs = parseFloat(getComputedStyle(h1).fontSize); const mn = fs * 0.55; while (h1.scrollWidth > h1.clientWidth + 1 && fs > mn) { fs -= 1; h1.style.fontSize = fs + 'px'; } h1.style.height = h0 + 'px'; } }
+    syncDates(art);
     markTrunc(art);
     if (window.innerWidth <= 720) { art.style.gridTemplateColumns = ''; return; }
     const w = Math.max(220, Math.min(440, Math.round(info.offsetHeight * 2 / 3)));
