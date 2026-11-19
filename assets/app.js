@@ -540,13 +540,21 @@
         <div class="cover">${art ? img(art, 'cv-main', g.title) : `<div class="ph">${esc(g.title)}</div>`}${g.banner ? img(g.banner, 'cv-alt', g.title) : ''}</div>
         <div class="ginfo">
           <h1>${esc(g.title)}</h1>
-          <div class="row">${badge(g.status)}<span class="big-note">${esc(noteText(g))}${hasNote(g) ? '<small> / 10</small>' : ''}</span></div>
+          <div class="row">${badge(g.status)}<span class="big-note">${esc(noteText(g))}${hasNote(g) ? '<small> / 10</small>' : ''}</span><button type="button" class="share-btn" data-slug="${esc(g.slug)}" title="Copier le lien de partage"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg><span>Copier le lien</span></button></div>
           ${showBar ? progressBar(g) : '<div class="progress ghost" style="visibility:hidden"><span class="pct">0 %</span><div class="bar"></div></div>'}
           ${facts(g, true)}
         </div>
       </article>
       ${renderBlocks(g.blocks)}${gameNav(g)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
+    const sb = app.querySelector('.share-btn');
+    if (sb) sb.addEventListener('click', () => {
+      // lien de partage : page /jeu/<slug>/ (aperçu avec bannière + titre), qui renvoie vers la fiche
+      const url = new URL('jeu/' + sb.dataset.slug + '/', location.href.split('#')[0]).href;
+      const ok = () => { const t = sb.querySelector('span'); t.textContent = 'Lien copié ✓'; sb.classList.add('done'); setTimeout(() => { t.textContent = 'Copier le lien'; sb.classList.remove('done'); }, 1800); };
+      const fallback = () => { const ta = document.createElement('textarea'); ta.value = url; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) { window.prompt('Copie ce lien :', url); } ta.remove(); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, fallback); else fallback();
+    });
     fitCover();
   }
   function fitCover() {
