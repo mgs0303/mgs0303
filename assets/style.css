@@ -2143,3 +2143,14 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .gallery::-webkit-scrollbar{display:none}
   .gallery img{flex:0 0 100%!important;width:100%!important;min-width:0;aspect-ratio:16/9;object-fit:cover;scroll-snap-align:center;scroll-snap-stop:always}
 }
+
+/* v288 : indicateur du carrousel d'images (telephone) : compteur 1 / N + points */
+.gal-wrap{position:relative}
+.gal-count,.gal-dots{display:none}
+@media (max-width:720px){
+  .gal-wrap .gallery{margin-bottom:10px!important}
+  .gal-count{display:block;position:absolute;top:10px;right:10px;z-index:2;padding:4px 10px;border-radius:999px;background:rgba(8,16,30,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#ecf4ff;font:600 .75rem/1.2 Inter,system-ui,sans-serif;pointer-events:none}
+  .gal-dots{display:flex;justify-content:center;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+  .gal-dots i{width:7px;height:7px;border-radius:50%;background:rgba(150,185,255,.35);transition:width .2s,background .2s}
+  .gal-dots i.on{width:20px;border-radius:4px;background:#9bbcff}
+}

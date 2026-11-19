@@ -519,7 +519,7 @@
       if (type === 'titre') return b.text ? `<h2>${esc(b.text)}</h2>` : '';
       if (type === 'texte') return b.text ? `<div>${renderMarkdown(b.text)}</div>` : '';
       if (type === 'image') return b.image ? `<figure><img src="${esc(path(b.image))}" alt="${esc(b.caption)}" loading="lazy">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>` : '';
-      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gallery">${b.images.map((s) => `<img src="${esc(path(s))}" alt="" loading="lazy">`).join('')}</div>` : '';
+      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gal-wrap"><div class="gallery">${b.images.map((s) => `<img src="${esc(path(s))}" alt="" loading="lazy">`).join('')}</div>${b.images.length > 1 ? `<span class="gal-count">1 / ${b.images.length}</span><div class="gal-dots">${b.images.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}</div>` : '';
       if (type === 'video') { const id = youtubeId(b.url); return id ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" allowfullscreen loading="lazy" title="Vidéo"></iframe></div>` : ''; }
       return '';
     }).join('');
@@ -553,6 +553,17 @@
       </article>
       ${renderBlocks(g.blocks)}${gameNav(g)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
+    // carrousel d'images : met à jour le compteur et les points quand on glisse
+    app.querySelectorAll('.gal-wrap').forEach((w) => {
+      const gal = w.querySelector('.gallery'); const cnt = w.querySelector('.gal-count'); const dots = w.querySelectorAll('.gal-dots i');
+      if (!gal || !cnt) return;
+      gal.addEventListener('scroll', () => {
+        const step = gal.firstElementChild ? gal.firstElementChild.getBoundingClientRect().width + 10 : gal.clientWidth;
+        const i = Math.max(0, Math.min(dots.length - 1, Math.round(gal.scrollLeft / step)));
+        cnt.textContent = (i + 1) + ' / ' + dots.length;
+        dots.forEach((d, k) => d.classList.toggle('on', k === i));
+      }, { passive: true });
+    });
     const sb = app.querySelector('.share-btn');
     if (sb) sb.addEventListener('click', () => {
       // lien de partage : page /jeu/<slug>/ (aperçu avec bannière + titre), qui renvoie vers la fiche
