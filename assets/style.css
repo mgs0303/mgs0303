@@ -2154,3 +2154,25 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .gal-dots i{width:7px;height:7px;border-radius:50%;background:rgba(150,185,255,.35);transition:width .2s,background .2s}
   .gal-dots i.on{width:20px;border-radius:4px;background:#9bbcff}
 }
+
+/* v290 : page Jeux - icone "avis ecrit" sur la jaquette + filtre "Avec avis" */
+.pcard .has-avis{position:absolute;top:10px;left:10px;z-index:3;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(8,16,30,.72);border:1px solid rgba(150,185,255,.45);color:#cfe0ff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
+.avis-bar .chip.avis-only{display:inline-flex;align-items:center;gap:7px;order:7;white-space:nowrap}
+.avis-bar .chip.avis-only svg{flex:0 0 auto}
+@media(max-width:720px){
+  .avis-bar .avis-row>.chip.avis-only{grid-column:1/-1;order:9;justify-self:start}
+}
+
+/* v290 : PC - filtre Note retire */
+.avis-bar .avis-row>.note{display:none!important}
+
+/* v290 : PC - filtres de la page Jeux sur une seule ligne (boutons un peu plus compacts) */
+@media(min-width:721px){
+  .avis-panel .avis-bar{gap:10px 5px!important;padding-left:16px!important;padding-right:16px!important}
+  .avis-panel .avis-bar .chip{padding:6px 11px!important;font-size:.8rem!important}
+  .avis-panel .avis-bar .avis-years,.avis-panel .avis-bar .chips-inline{gap:5px!important}
+  .avis-panel .avis-bar .fold-toggle{padding:6px 11px!important;font-size:.8rem!important}
+  .avis-panel .avis-bar .chips-inline,.avis-panel .avis-bar .avis-row>.dd,.avis-panel .avis-bar>.sec-head>.dd,.avis-panel .avis-bar .avis-only{margin-left:3px!important;padding-left:9px!important}
+  .avis-panel .avis-bar .chip.avis-only{padding:6px 11px!important}
+  .avis-panel .avis-bar .chip.avis-only{margin-left:3px!important}
+}

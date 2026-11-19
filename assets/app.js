@@ -29,6 +29,7 @@
   let homeStatus = 'Tous';
   let homeSort = 'recent';
   let avisGenre = 'Tous';
+  let avisReview = false; // filtre « Avec avis »
   let avisYear = 'Tous';
   let avisExpanded = false;
   let avisMin = 0;
@@ -221,13 +222,15 @@
   window.addEventListener('resize', () => requestAnimationFrame(fitFacts));
   new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); requestAnimationFrame(fitFacts); }).observe(app, { childList: true, subtree: true });
   window.addEventListener('resize', syncCar);
-  function poster(g, i) {
+  const hasAvis = (g) => Array.isArray(g.blocks) && g.blocks.some((b) => (b.type || b._block) === 'texte' && String(b.text || '').trim());
+  const AVIS_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4.5"/></svg>';
+  function poster(g, i, mark) {
     const art = g.cover || g.banner;
     const meta = g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété';
     const tags = toList(g.genre).slice(0, 2);
     const gold = hasNote(g) && Number(g.note) >= 9.5;
     return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}" style="--i:${Number.isInteger(i) ? i : 0}">
-      ${art ? img(art, 'pc-img', g.title) : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
+      ${art ? img(art, 'pc-img', g.title) : ''}${mark && hasAvis(g) ? `<span class="has-avis" title="Avis écrit" aria-label="Avis écrit">${AVIS_ICON}</span>` : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
         <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go" aria-label="Lire l’avis">›</span></div></div>
     </a>`;
@@ -356,6 +359,7 @@
       .filter((g) => avisStatus === 'Tous' || g.status === avisStatus)
       .filter((g) => avisGenre === 'Tous' || toList(g.genre).includes(avisGenre))
       .filter((g) => avisYear === 'Tous' || (g.status !== 'Endless' && (g.end_date || '').slice(0, 4) === avisYear))
+      .filter((g) => !avisReview || hasAvis(g))
       .filter((g) => (avisMin <= 0 && avisMax >= 10) || (hasNote(g) && g.note >= avisMin && g.note <= avisMax))
       .sort(SORTS[avisSort].fn);
   }
@@ -367,7 +371,7 @@
     if (!list.length) { box.innerHTML = '<p class="empty">Aucun jeu ne correspond à ces filtres.</p>'; return; }
     const shown = list;
     let n = 0;
-    const grid = (gs) => `<div class="grid posters size-${avisSize}">${gs.map((g) => poster(g, n++)).join('')}</div>`;
+    const grid = (gs) => `<div class="grid posters size-${avisSize}">${gs.map((g) => poster(g, n++, true)).join('')}</div>`;
     if (avisSort === 'recent' || avisSort === 'ancien') {
       const monthName = (k) => (/^\d{4}/.test(k) || k === 'Endless' ? k : 'Sans date');
       const groups = []; const idx = {};
@@ -389,7 +393,7 @@
     app.innerHTML = `<section class="avis-panel"><div class="avis-bar"><div class="sec-head"><h2>Jeux</h2><span class="count" id="avis-count">0</span>${fold(avisStatus, chips)}${sortSelect('avis', avisSort)}${sizeSelect(avisSize)}</div>
       <div class="avis-years">${['Tous', ...years].map((y) => `<button class="chip${y === avisYear ? ' on' : ''}" data-filter="avis-year" data-value="${esc(y)}">${y === 'Tous' ? 'Récents' : esc(y)}</button>`).join('')}</div>
       <div class="filters avis-row"><span class="desk-only chips-inline">${chips}</span>${dd('fsel', 'year', [{ v: 'Tous', l: 'Récents', s: 'Année : Récents' }, ...years.map((y) => ({ v: y, l: y, s: 'Année : ' + y }))], avisYear, 'yearsel')}${filterSelect('genre', 'Tous les genres', genres, avisGenre)}
-        <label class="notein dd note">Note : <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="tout" value="${avisMin === avisMax ? avisMin : ''}" data-notemin aria-label="Note"></label></div></div>
+        <label class="notein dd note">Note : <input type="number" inputmode="decimal" min="0" max="10" step="0.5" placeholder="tout" value="${avisMin === avisMax ? avisMin : ''}" data-notemin aria-label="Note"></label><button type="button" class="chip avis-only${avisReview ? ' on' : ''}" data-filter="avis-review" aria-pressed="${avisReview}">${AVIS_ICON}<span>Avec avis</span></button></div></div>
       <div id="avis-results"></div></section>`;
     updateAvisResults();
   }
@@ -984,6 +988,7 @@
     if (f) {
       keepScroll(() => {
         if (f.dataset.filter === 'avis-status') { avisStatus = f.dataset.value; avisExpanded = false; renderAvis(); }
+        if (f.dataset.filter === 'avis-review') { avisReview = !avisReview; avisExpanded = false; renderAvis(); }
         if (f.dataset.filter === 'avis-year') { avisYear = f.dataset.value; avisExpanded = false; renderAvis(); }
       });
     }
