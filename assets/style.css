@@ -2136,3 +2136,10 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 .game .row .share-btn:hover{background:rgba(120,165,255,.24);color:#cfe0ff}
 .game .row .share-btn.done{color:#9fe3b8;border-color:rgba(159,227,184,.5)}
 @media(max-width:720px){.game .row{flex-wrap:nowrap}.game .row .share-btn{padding:7px 11px;font-size:.75rem}}
+
+/* v286 : telephone - galerie d'images en carrousel (on glisse a gauche / a droite) */
+@media (max-width:720px){
+  .gallery{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;gap:10px!important;overflow-x:auto!important;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:20px 0!important;padding:0 0 2px}
+  .gallery::-webkit-scrollbar{display:none}
+  .gallery img{flex:0 0 100%!important;width:100%!important;min-width:0;aspect-ratio:16/9;object-fit:cover;scroll-snap-align:center;scroll-snap-stop:always}
+}
