@@ -16,7 +16,7 @@ series: God of War
 hide_series: false
 publisher: SONY
 developer: Santa Monica Studio
-note: 8
+note: 7
 completion: Main Story
 platform: PCSX2
 mode: Solo
@@ -33,7 +33,7 @@ blocks:
       (même si pour gow05 j'ai joué en facile vers la fin...)  
 
 
-      Et pour ce premier God of War que je note 8/10 bah il aurait pu avoir la
+      Et pour ce premier God of War que je note 7/10 bah il aurait pu avoir la
       note de 9/10 mais comme Devil May Cry au début des mécaniques incroyables
       hyper fun à jouer et vers la fin on a juste envie de tout exploser
       tellement le game design du jeu est mauvais pour aucune raison et c'est
