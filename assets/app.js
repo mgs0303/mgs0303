@@ -90,6 +90,12 @@
     const dt = new Date(d + 'T00:00:00');
     return isNaN(dt) ? d : dt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
   };
+  // téléphone : dates courtes JJ/MM/AA (évite le texte qui défile dans les petites tuiles)
+  const fmtDateTile = (d) => {
+    if (window.innerWidth > 720) return fmtDate(d);
+    const dt = new Date(d + 'T00:00:00');
+    return isNaN(dt) ? d : dt.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  };
   const img = (src, cls, alt) => (src ? `<img class="${cls}" src="${esc(path(src))}" alt="${esc(alt || '')}" loading="lazy">` : '');
   const badge = (status) => `<span class="badge" style="--c:${color(status)}">${esc(status || 'Sans statut')}</span>`;
   const progressBar = (g) => `<div class="progress" style="--c:${color(g.status)}"><span class="pct">${pct(g)} %</span><div class="bar"><i style="width:${pct(g)}%"></i></div></div>`;
@@ -433,10 +439,10 @@
     const hours = Number(g.playtime);
     let dStart = '', dEnd = '';
     if (g.status === 'Priorité backlog') dStart = '';
-    else if (g.start_date) dStart = esc(fmtDate(g.start_date));
+    else if (g.start_date) dStart = esc(fmtDateTile(g.start_date));
     else if (g.no_start_date && !notStarted) dStart = 'N/A';
     if (finished) {
-      if (g.end_date) dEnd = esc(fmtDate(g.end_date));
+      if (g.end_date) dEnd = esc(fmtDateTile(g.end_date));
       else if (g.no_end_date) dEnd = 'N/A';
     }
     const c = g.completion;
