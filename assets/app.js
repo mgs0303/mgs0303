@@ -233,21 +233,25 @@
   }
   function lastReview() {
     const txt = (g) => (Array.isArray(g.blocks) ? g.blocks.filter((b) => (b.type || b._block) === 'texte' && b.text).map((b) => b.text).join(' ') : '');
-    const list = games.filter((g) => (g.status === 'Complété' || g.status === 'Dropped') && txt(g).trim()).sort(byEndDesc);
-    const g = list[0]; if (!g) return '';
-    let ex = txt(g).replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/[*_`>#~]/g, '').replace(/\s+/g, ' ').trim();
-    if (ex.length > 260) ex = ex.slice(0, 260).replace(/\s+\S*$/, '') + '…';
-    const art = g.cover || g.banner;
-    const tags = toList(g.genre).slice(0, 2);
-    return `<section class="lastrev"><div class="sec-head"><h2>Dernier avis</h2></div>
-      <a class="lr-card" href="#/jeu/${encodeURIComponent(g.slug)}">
+    const list = games.filter((g) => (g.status === 'Complété' || g.status === 'Dropped') && txt(g).trim()).sort(byEndDesc).slice(0, 3);
+    if (!list.length) return '';
+    // PC : les 3 derniers jeux finis ; téléphone : seulement le premier (les autres sont masqués en CSS)
+    const card = (g, i) => {
+      let ex = txt(g).replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/[*_`>#~]/g, '').replace(/\s+/g, ' ').trim();
+      if (ex.length > 260) ex = ex.slice(0, 260).replace(/\s+\S*$/, '') + '…';
+      const art = g.cover || g.banner;
+      const tags = toList(g.genre).slice(0, 2);
+      return `<a class="lr-card${i ? ' lr-extra' : ''}" href="#/jeu/${encodeURIComponent(g.slug)}">
         <div class="lr-art">${art ? img(art, '', g.title) : `<div class="ph">${esc(g.title)}</div>`}</div>
         <div class="lr-body">
           <div class="lr-top"><span class="lr-title">${esc(g.title)}</span><span class="lr-score">${esc(noteText(g))}<small>/10</small></span></div>
           <div class="lr-meta">${[g.status !== 'Complété' ? g.status : '', g.end_date ? fmtDate(g.end_date) : '', ...tags].filter(Boolean).map((t) => `<span>${esc(t)}</span>`).join('')}</div>
           <p class="lr-ex">${esc(ex)}</p>
           <span class="lr-more">Lire l’avis ›</span>
-        </div></a></section>`;
+        </div></a>`;
+    };
+    const title = list.length > 1 ? '<span class="lr-t-pc">Derniers avis</span><span class="lr-t-tel">Dernier avis</span>' : 'Dernier avis';
+    return `<section class="lastrev"><div class="sec-head"><h2>${title}</h2></div><div class="lr-list">${list.map(card).join('')}</div></section>`;
   }
   function section(title, list, withBar, small, carousel, wish) {
     if (!list.length) return '';

@@ -2121,3 +2121,12 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   html body .top.open .burger,html body.gamepage .top.open .burger{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
   .game .facts.split .fl .f.genre:not(:first-child){grid-column:auto!important}
 }
+
+/* v284 : accueil - "Derniers avis" : 3 jeux sur PC, 1 seul sur telephone */
+.lr-list{display:flex;flex-direction:column;gap:16px}
+.lr-t-tel{display:none}
+@media(max-width:720px){
+  .lr-extra{display:none!important}
+  .lr-t-pc{display:none}
+  .lr-t-tel{display:inline}
+}
