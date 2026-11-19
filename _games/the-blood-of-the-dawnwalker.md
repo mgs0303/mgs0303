@@ -59,5 +59,4 @@ blocks:
 
       Mais on aura bientôt une New Game + et peut être j'essayerai de continuer
       des quêtes que j'avais pas pu finir et qui m'intéressait !
-  - type: galerie
 ---
