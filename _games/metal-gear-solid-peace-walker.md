@@ -31,11 +31,22 @@ blocks:
       c'est de bonnes idées mais je trouve que ça a complexifié mon expérience
       de jeu. Et surtout les boss étaient horribles des sacs à PV qui n'en
       finissent jamais...  
-        
+
+
       Après l'histoire était vraiment bien comme toujours, les cinématiques
       aussi j'ai beaucoup aimé et ça change de celle en 3D !  
-        
+
+
       J'ai pas grand chose à dire parce que c'est que du négatif sur ce jeu j'ai
       vraiment passé 0 bon moment et je l'ai vite oublié.
   - type: galerie
+    images:
+      - /assets/images/MGS Peace
+        Walker/MedalTVMETALGEARSOLIDPeaceWalkerMasterCollectionVersion20261015124624236.png
+      - /assets/images/MGS Peace
+        Walker/MedalTVMETALGEARSOLIDPeaceWalkerMasterCollectionVersion20261018142106517.png
+      - /assets/images/MGS Peace
+        Walker/MedalTVMETALGEARSOLIDPeaceWalkerMasterCollectionVersion20261019181123901.png
+      - /assets/images/MGS Peace
+        Walker/MedalTVMETALGEARSOLIDPeaceWalkerMasterCollectionVersion20261022154023620.png
 ---
