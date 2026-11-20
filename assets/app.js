@@ -523,7 +523,7 @@
       if (type === 'titre') return b.text ? `<h2>${esc(b.text)}</h2>` : '';
       if (type === 'texte') return b.text ? `<div>${renderMarkdown(b.text)}</div>` : '';
       if (type === 'image') return b.image ? `<figure><img src="${esc(path(b.image))}" alt="${esc(b.caption)}" loading="lazy">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>` : '';
-      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gal-wrap"><div class="gallery">${b.images.map((s) => `<img src="${esc(path(s))}" alt="" loading="lazy">`).join('')}</div>${b.images.length > 1 ? `<span class="gal-count">1 / ${b.images.length}</span><div class="gal-dots">${b.images.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}</div>` : '';
+      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gal-wrap"><div class="gallery">${b.images.map((s) => `<img src="${esc(path(s))}" alt="" loading="lazy">`).join('')}</div>${b.images.length > 1 ? `<button type="button" class="gal-nav gal-prev off" aria-label="Images précédentes"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="gal-nav gal-next off" aria-label="Images suivantes"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><span class="gal-count">1 / ${b.images.length}</span><div class="gal-dots">${b.images.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}</div>` : '';
       if (type === 'video') { const id = youtubeId(b.url); return id ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" allowfullscreen loading="lazy" title="Vidéo"></iframe></div>` : ''; }
       return '';
     }).join('');
@@ -567,6 +567,16 @@
         cnt.textContent = (i + 1) + ' / ' + dots.length;
         dots.forEach((d, k) => d.classList.toggle('on', k === i));
       }, { passive: true });
+      // PC : fleches precedent / suivant (4 images par page)
+      const pv = w.querySelector('.gal-prev'); const nx = w.querySelector('.gal-next');
+      if (pv && nx) {
+        const upd = () => { const mx = gal.scrollWidth - gal.clientWidth; pv.classList.toggle('off', gal.scrollLeft < 2); nx.classList.toggle('off', mx < 2 || gal.scrollLeft > mx - 2); };
+        pv.addEventListener('click', () => gal.scrollBy({ left: -(gal.clientWidth + 12), behavior: 'smooth' }));
+        nx.addEventListener('click', () => gal.scrollBy({ left: gal.clientWidth + 12, behavior: 'smooth' }));
+        gal.addEventListener('scroll', upd, { passive: true });
+        if (window.ResizeObserver) new ResizeObserver(upd).observe(gal); else window.addEventListener('resize', upd);
+        upd();
+      }
     });
     const sb = app.querySelector('.share-btn');
     if (sb) sb.addEventListener('click', () => {
