@@ -44,4 +44,13 @@ blocks:
 
       En tout cas trop contente d'avoir écouté mon collègue et d'avoir lancer le
       jeu parce que j'ai découvert un univers incroyable
+  - type: galerie
+    images:
+      - /assets/images/MGS 1/Capture d'écran 2026-05-15 164209.png
+      - /assets/images/MGS 1/Capture d'écran 2026-05-16 181044.png
+      - /assets/images/MGS 1/Capture d'écran 2026-05-17 005002.png
+      - /assets/images/MGS 1/Capture d'écran 2026-05-17 010243.png
+      - /assets/images/MGS 1/Capture d'écran 2026-05-17 013802.png
+      - /assets/images/MGS 1/Capture d'écran 2026-05-16 182058.png
+      - /assets/images/MGS 1/Capture d'écran 2026-05-17 015602.png
 ---
