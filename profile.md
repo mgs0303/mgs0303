@@ -1,7 +1,7 @@
 ---
 banner: /assets/images/Frame 2.png
 avatar: /assets/images/Naoto Shirogane.jpg
-display_name: Marnia
+display_name: 𝒎𝒂’ ଘ( ᴗ͈ ᴗ͈)ഒ
 twitter: bitterchocosan
 bio: kya pwo kya kya !!! pow pow :33
 ---
