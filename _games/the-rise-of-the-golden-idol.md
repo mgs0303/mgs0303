@@ -22,4 +22,14 @@ mode: Solo
 playtime: 7
 banner: /assets/images/537894b69c4f299c8eb7e1b480feb8a6fbc13d4dc8f737ceee82c66ce242030a.avif
 cover: /assets/images/0e7593e02198bc7714d025e11737d824.png
+blocks:
+  - type: titre
+    text: The Rise of the Golden Idol
+  - type: texte
+    text: >-
+      Hyper déçu de la suite du jeu... J'avais trop aimé la trame narratif du
+      premier et ici je trouve qu'on a plus ce truc qui nous faisait continuer
+      le jeu pour savoir l'histoire et l'origine de l'idole.  
+        
+      C'était super compliqué à comprendre et les énigmes étaient pas terribles.
 ---
