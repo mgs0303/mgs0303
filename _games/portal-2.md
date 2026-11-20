@@ -35,7 +35,8 @@ blocks:
       pour l'instant bientôt 3 !) et à chaque fois j'oublie ce qu'il faut faire
       donc toujours un plaisir de retourner dessus ! J'ai trop envie d'installer
       des maps sur steam pour voir ce que la communauté a fait.  
-        
+
+
       Mais sinon c'est la première fois cette année que je lance le jeu pour son
       histoire solo, et wow j'ai trop aimé l'histoire, le scénario 10/10 j'ai eu
       pas mal de moment ou je me sentais un peu mal parce qu'on ressent de fou
