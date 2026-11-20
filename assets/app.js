@@ -223,14 +223,14 @@
   new MutationObserver(() => { initLoop(); tintCards(); requestAnimationFrame(syncCar); requestAnimationFrame(fitFacts); }).observe(app, { childList: true, subtree: true });
   window.addEventListener('resize', syncCar);
   const hasAvis = (g) => Array.isArray(g.blocks) && g.blocks.some((b) => (b.type || b._block) === 'texte' && String(b.text || '').trim());
-  const AVIS_ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+  const AVIS_ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
   function poster(g, i, mark) {
     const art = g.cover || g.banner;
     const meta = g.status !== 'Complété' ? g.status : g.end_date ? fmtDate(g.end_date) : 'Complété';
     const tags = toList(g.genre).slice(0, 2);
     const gold = hasNote(g) && Number(g.note) >= 9.5;
     return `<a class="pcard portrait${art ? '' : ' noart'}" href="#/jeu/${encodeURIComponent(g.slug)}" style="--i:${Number.isInteger(i) ? i : 0}">
-      ${art ? img(art, 'pc-img', g.title) : ''}${mark && hasAvis(g) ? `<span class="has-avis" title="Avis écrit" aria-label="Avis écrit">${AVIS_ICON}<b>Avis</b></span>` : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
+      ${art ? img(art, 'pc-img', g.title) : ''}${mark && hasAvis(g) ? `<span class="has-avis" title="Avis écrit" aria-label="Avis écrit">${AVIS_ICON}</span>` : ''}<span class="pc-pct${gold ? ' gold' : ''}">${esc(noteText(g))}${hasNote(g) ? '/10' : ''}</span>
       <div class="pc-body"><div class="pc-name">${esc(g.title)}</div><div class="pc-meta">${esc(meta)}</div>
         <div class="pc-hover">${tags.length ? `<span class="ph-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</span>` : ''}<span class="ph-go" aria-label="Lire l’avis">›</span></div></div>
     </a>`;
