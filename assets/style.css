@@ -2176,3 +2176,18 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .avis-panel .avis-bar .chip.avis-only{padding:6px 11px!important}
   .avis-panel .avis-bar .chip.avis-only{margin-left:3px!important}
 }
+
+/* v291 : badge "Avis" plus lisible (stylo + mot) ; PC : filtres qui grossissent avec la largeur de l'ecran pour aller jusqu'au bord */
+.pcard .has-avis{width:auto!important;height:auto!important;gap:5px;padding:5px 11px 5px 8px;border-radius:999px;font:700 .74rem/1 Inter,system-ui,sans-serif;letter-spacing:.2px}
+.pcard .has-avis b{font-weight:700}
+@media(max-width:720px){
+  .pcard .has-avis{top:6px;left:6px;gap:3px;padding:3px 7px 3px 5px;font-size:.6rem}
+  .pcard .has-avis svg{width:10px;height:10px}
+}
+@media(min-width:721px){
+  .avis-panel .avis-bar{--fs:clamp(12.2px,calc((100vw - 199px) * .0104),15.4px)}
+  .avis-panel .avis-bar .chip,.avis-panel .avis-bar .fold-toggle{font-size:var(--fs)!important;padding:.47em .86em!important}
+  .avis-panel .avis-bar .chip.avis-only{padding:.47em .86em!important}
+  .avis-panel .avis-bar .chip.avis-only svg{width:1.1em;height:1.1em}
+  .avis-panel .avis-bar .chips-inline,.avis-panel .avis-bar .avis-row>.dd,.avis-panel .avis-bar>.sec-head>.dd,.avis-panel .avis-bar .avis-only{margin-left:.25em!important;padding-left:.7em!important}
+}
