@@ -10,10 +10,11 @@ release_year: 2017
 genre:
   - Visual Novel
   - BL
+hide_series: false
 publisher: PIL/SLASH
 developer: PIL/SLASH
 note: 4
-completion: Main Story
+completion: Main + Sides
 platform: Steam PC
 mode: Solo
 banner: /assets/images/capsule_616x353 (4).jpg
