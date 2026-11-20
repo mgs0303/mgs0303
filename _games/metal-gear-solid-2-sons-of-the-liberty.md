@@ -30,7 +30,8 @@ blocks:
       le seul où on joue Raiden !) Mais plus sérieusement le jeu est incroyable
       il reprend tout du 1 mais en l'améliorant, je trouve juste que ça manque
       de boss.  
-        
+
+
       Je pense ce qui m'a fait aimer encore plus le 2 c'est vraiment Raiden, il
       est dans mon top 10 personnage préféré of all time et la manière dont tout
       le monde le déteste (surtout les vieux fans) genre i feel so maternal for
@@ -39,8 +40,20 @@ blocks:
       encore une fois le jouer lui à la place de Snake pour encore plus
       découvrir et en plus avoir aussi peu d'info en même temps que lui wow je
       vais arrêter d'en parler mais j'adore Raiden merci pour tout !  
-        
+
+
       Aussi un truc que j'ai trop aimé c'est le côté nanar du 2 (j'aurais adoré
       une VF pour celui là) les mouvements de caméra, les cinématiques et les
       musiques pour moi c'est des jeux les plus iconiques avec juste ça !
+  - type: galerie
+    images:
+      - /assets/images/MGS 2/Capture d'écran 2026-05-25 174438.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-26 150628.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-29 005625.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-29 005415.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-28 233648.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-29 000418.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-25 180724.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-29 005316.png
+      - /assets/images/MGS 2/Capture d'écran 2026-05-25 182201.png
 ---
