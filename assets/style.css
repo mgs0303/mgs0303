@@ -2185,7 +2185,7 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .pcard .has-avis svg{width:10px;height:10px}
 }
 @media(min-width:721px){
-  .avis-panel .avis-bar{--fs:clamp(12.2px,calc((100vw - 199px) * .0104),15.4px)}
+  .avis-panel .avis-bar{--fs:clamp(13.8px,calc((100vw - 199px) * .01175),17.4px)}
   .avis-panel .avis-bar .chip,.avis-panel .avis-bar .fold-toggle{font-size:var(--fs)!important;padding:.47em .86em!important}
   .avis-panel .avis-bar .chip.avis-only{padding:.47em .86em!important}
   .avis-panel .avis-bar .chip.avis-only svg{width:1.1em;height:1.1em}
@@ -2199,3 +2199,6 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
   .pcard .has-avis{top:5px;left:5px;width:20px!important;height:20px!important}
   .pcard .has-avis svg{width:11px;height:11px}
 }
+
+/* v293 : PC - filtre des tailles retire (la taille reste "Moyen") */
+.avis-bar .dd.sizesel{display:none!important}

@@ -78,7 +78,7 @@
     return `<div class="dd${cls ? ' ' + cls : ''}"><button class="fold-toggle" data-fold aria-expanded="false" aria-haspopup="true">${esc(cur.s || cur.l)} <span class="chev" aria-hidden="true"></span></button><div class="fold-list" role="menu">${options.map((o) => `<button class="chip opt${o.v === cur.v ? ' on' : ''}" data-dd="${kind}" data-which="${which}" data-value="${esc(o.v)}">${esc(o.l)}</button>`).join('')}</div></div>`;
   };
   const SIZE_OPTS = [{ v: 's', l: 'Petit', s: 'Taille : Petit' }, { v: 'm', l: 'Moyen', s: 'Taille : Moyen' }, { v: 'l', l: 'Grand', s: 'Taille : Grand' }];
-  const sizeSelect = (current) => dd('size', 'avis', SIZE_OPTS, current, 'right');
+  const sizeSelect = (current) => dd('size', 'avis', SIZE_OPTS, current, 'right sizesel');
   const sortSelect = (which, current) => dd('sort', which, Object.keys(SORTS).map((k) => ({ v: k, l: SORTS[k].label })), current, 'right');
   const backBtn = (href, label, hist) => `<a class="backbtn" href="${href}"${hist ? ' data-back' : ''}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(label)}</span></a>`;
   const keepScroll = (fn) => { const y = window.scrollY; fn(); window.scrollTo({ top: y, left: 0, behavior: 'instant' }); };
