@@ -30,7 +30,8 @@ blocks:
       On passe enfin à mon chouchou, Devil May Cry 4. En fait, je suis une
       grande défenseuse du 4 et j'adore quand j'aime des jeux et qu'au final ce
       sont les moins aimés des gens.  
-        
+
+
       Encore une fois, on a ce même "problème" : on ne joue plus le personnage
       principal, on joue un autre personnage, et ça énerve tout le monde, comme
       avec Metal Gear Solid 2. Et vous le savez j'adore Raiden, voilà
@@ -48,7 +49,8 @@ blocks:
       screens. Mon site, il va bugger. J'en ai rien à faire. Mais j'ai trop
       envie de montrer plein de screens que j'ai fait, tellement c'était
       magnifique. Le jeu est trop beau. Les personnages étaient beaux.  
-        
+
+
       Et un truc que j'attendais depuis longtemps, et dont je me plaignais dans
       le 3, c'est le manque de vie humaine, de vie même démoniaque, d'un monde
       peuplé. Dans le 4, on a cette cinématique d'intro qui montre la ville, tu
@@ -115,4 +117,35 @@ blocks:
       pense sincèrement que le 1 aurait été mon préféré si dans le 4 on n'avait
       pas eu Nero. Et bref, voilà, j'adore le 4. <3
   - type: galerie
+    images:
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260816221925423.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260816222234844.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260816222640702.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260817175858882.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260817191215219.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260818010530669.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260818020205954.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260818210154686.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260818211752490.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260822120400872.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260822120408036.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260822133833841.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260822134407157.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260822134502612.png
+      - /assets/images/DMC
+        4/MedalTVDevilMayCry4SpecialEdition20260822134556344.png
 ---
