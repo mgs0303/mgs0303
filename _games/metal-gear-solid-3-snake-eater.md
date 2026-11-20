@@ -52,4 +52,13 @@ blocks:
 
       Petit défaut de fin ou faut trainer Eva, tuer tout le monde, et faire les
       deux derniers boss avec 20hp sans munitions.
+  - type: galerie
+    images:
+      - /assets/images/MGS 3/Capture d'écran 2026-06-07 182654.png
+      - /assets/images/MGS 3/Capture d'écran 2026-06-07 191125.png
+      - /assets/images/MGS 3/Capture d'écran 2026-06-08 203956.png
+      - /assets/images/MGS 3/Capture d'écran 2026-06-21 195120.png
+      - /assets/images/MGS 3/Capture d'écran 2026-06-24 005011-1.png
+      - /assets/images/MGS 3/Capture d'écran 2026-06-24 013010.png
+      - /assets/images/MGS 3/Capture d'écran 2026-06-24 020038.png
 ---
