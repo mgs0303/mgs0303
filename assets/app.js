@@ -523,7 +523,14 @@
       if (type === 'titre') return b.text ? `<h2>${esc(b.text)}</h2>` : '';
       if (type === 'texte') return b.text ? `<div>${renderMarkdown(b.text)}</div>` : '';
       if (type === 'image') return b.image ? `<figure><img src="${esc(path(b.image))}" alt="${esc(b.caption)}" loading="lazy">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>` : '';
-      if (type === 'galerie') return Array.isArray(b.images) && b.images.length ? `<div class="gal-wrap"><div class="gallery">${b.images.map((s) => `<img src="${esc(path(s))}" alt="" loading="lazy">`).join('')}</div>${b.images.length > 1 ? `<button type="button" class="gal-nav gal-prev off" aria-label="Images précédentes"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="gal-nav gal-next off" aria-label="Images suivantes"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><span class="gal-count">1 / ${b.images.length}</span><div class="gal-dots">${b.images.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}</div>` : '';
+      if (type === 'galerie') {
+        const im = Array.isArray(b.images) ? b.images : [];
+        if (!im.length) return '';
+        const tag = (src, cl) => `<img${cl ? ` class="${cl}" aria-hidden="true"` : ''} src="${esc(path(src))}" alt="" loading="lazy">`;
+        const loop = im.length > 4; // PC : plus de 4 images -> carrousel en boucle (copies invisibles aux deux bouts)
+        const arrow = (cl, lab, d) => `<button type="button" class="gal-nav ${cl}" aria-label="${lab}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg></button>`;
+        return `<div class="gal-wrap"${loop ? ` data-n="${im.length}"` : ''}><div class="gallery">${loop ? im.slice(-4).map((x) => tag(x, 'gclone')).join('') : ''}${im.map((x) => tag(x)).join('')}${loop ? im.slice(0, 4).map((x) => tag(x, 'gclone')).join('') : ''}</div>${im.length > 1 ? `<span class="gal-count">1 / ${im.length}</span><div class="gal-dots">${im.map((_, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}${loop ? `<div class="gal-ctl">${arrow('gal-prev', 'Image précédente', 'M15 5l-7 7 7 7')}<div class="gal-pdots">${im.map((_, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</div>${arrow('gal-next', 'Image suivante', 'M9 5l7 7-7 7')}</div>` : ''}</div>`;
+      }
       if (type === 'video') { const id = youtubeId(b.url); return id ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" allowfullscreen loading="lazy" title="Vidéo"></iframe></div>` : ''; }
       return '';
     }).join('');
@@ -562,20 +569,31 @@
       const gal = w.querySelector('.gallery'); const cnt = w.querySelector('.gal-count'); const dots = w.querySelectorAll('.gal-dots i');
       if (!gal || !cnt) return;
       gal.addEventListener('scroll', () => {
-        const step = gal.firstElementChild ? gal.firstElementChild.getBoundingClientRect().width + 10 : gal.clientWidth;
+        const f1 = gal.querySelector('img:not(.gclone)'); const step = f1 ? f1.getBoundingClientRect().width + 10 : gal.clientWidth;
         const i = Math.max(0, Math.min(dots.length - 1, Math.round(gal.scrollLeft / step)));
         cnt.textContent = (i + 1) + ' / ' + dots.length;
         dots.forEach((d, k) => d.classList.toggle('on', k === i));
       }, { passive: true });
-      // PC : fleches precedent / suivant (4 images par page)
-      const pv = w.querySelector('.gal-prev'); const nx = w.querySelector('.gal-next');
-      if (pv && nx) {
-        const upd = () => { const mx = gal.scrollWidth - gal.clientWidth; pv.classList.toggle('off', gal.scrollLeft < 2); nx.classList.toggle('off', mx < 2 || gal.scrollLeft > mx - 2); };
-        pv.addEventListener('click', () => gal.scrollBy({ left: -(gal.clientWidth + 12), behavior: 'smooth' }));
-        nx.addEventListener('click', () => gal.scrollBy({ left: gal.clientWidth + 12, behavior: 'smooth' }));
-        gal.addEventListener('scroll', upd, { passive: true });
-        if (window.ResizeObserver) new ResizeObserver(upd).observe(gal); else window.addEventListener('resize', upd);
-        upd();
+      // PC : carrousel en boucle (4 images visibles), fleches + points en bas
+      const ctl = w.querySelector('.gal-ctl');
+      if (ctl && w.dataset.n) {
+        const n = +w.dataset.n; const V = 4;
+        const pv = ctl.querySelector('.gal-prev'); const nx = ctl.querySelector('.gal-next'); const pd = ctl.querySelectorAll('.gal-pdots i');
+        let inited = false; let pending = null; let last = V; let tm;
+        const stepPx = () => (gal.children.length > 1 ? gal.children[1].offsetLeft - gal.children[0].offsetLeft : gal.clientWidth) || 1;
+        const idxNow = () => Math.round(gal.scrollLeft / stepPx());
+        const mark = () => { last = idxNow(); const i = (((last - V) % n) + n) % n; pd.forEach((d, k) => d.classList.toggle('on', k === i)); };
+        const jump = (idx) => { gal.style.scrollSnapType = 'none'; gal.scrollLeft = idx * stepPx(); last = idx; requestAnimationFrame(() => { gal.style.scrollSnapType = ''; }); };
+        const fix = () => { if (window.innerWidth <= 720) return; const i = idxNow(); if (i < V) jump(i + n); else if (i >= V + n) jump(i - n); pending = null; mark(); };
+        const go = (idx) => { pending = idx; gal.scrollTo({ left: idx * stepPx(), behavior: 'smooth' }); };
+        pv.addEventListener('click', () => go((pending === null ? idxNow() : pending) - 1));
+        nx.addEventListener('click', () => go((pending === null ? idxNow() : pending) + 1));
+        pd.forEach((d, k) => d.addEventListener('click', () => go(V + k)));
+        gal.addEventListener('scroll', () => { if (window.innerWidth <= 720) return; mark(); clearTimeout(tm); tm = setTimeout(fix, 140); }, { passive: true });
+        if (window.ResizeObserver) new ResizeObserver(() => {
+          if (window.innerWidth <= 720 || !gal.clientWidth) { inited = false; return; }
+          if (!inited) { inited = true; jump(V); mark(); } else { jump(last); }
+        }).observe(gal);
       }
     });
     const sb = app.querySelector('.share-btn');
@@ -876,9 +894,10 @@
     lb.classList.toggle('single', lbList.length < 2);
   }
   function openLb(el) {
-    const all = Array.from(document.querySelectorAll('.content img'));
+    const all = Array.from(document.querySelectorAll('.content img:not(.gclone)'));
     lbList = all.map((i) => i.currentSrc || i.src);
-    lbIdx = Math.max(0, all.indexOf(el));
+    lbIdx = all.indexOf(el);
+    if (lbIdx < 0) { const u = el.currentSrc || el.src; lbIdx = Math.max(0, lbList.indexOf(u)); }
     lbShow();
     lb.hidden = false;
     document.body.style.overflow = 'hidden';
