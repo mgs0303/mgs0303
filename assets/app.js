@@ -442,7 +442,7 @@
     const notStarted = ['Pas lancé', 'En attente de sortie', 'Priorité backlog'].includes(g.status);
     const hours = Number(g.playtime);
     let dStart = '', dEnd = '';
-    if (g.status === 'Priorité backlog') dStart = '';
+    if (g.status === 'Priorité backlog' || g.status === 'Endless') dStart = ''; // Endless : pas de date de début
     else if (g.start_date) dStart = dtSpan(g.start_date);
     else if (g.no_start_date && !notStarted) dStart = 'N/A';
     if (finished) {
