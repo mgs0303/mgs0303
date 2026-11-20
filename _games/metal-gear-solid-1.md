@@ -29,17 +29,19 @@ blocks:
       J'ai vraiment écrit tous les avis de MGS d'en l'ordre inverse c'est
       hilarant mais bref quelle magnifique découverte je vous comprends
       maintenant les bandeurs de Kojima et j'en fais parti désormais !  
-        
+
+
       J'adore la VF, j'adore comment tout est linéaire (même si sans guide le
       jeu est un peu plus dur c'est vrai) j'ai trop hâte d'y rejouer sur steam
       parce que je savais pas qu'il était disponible du coup j'y ai joué sur
       émulateur...  
-        
+
+
       Mais même au niveau des boss je pense on a pas fait mieux depuis et ça me
       manque de revoir des boss aussi charismatiques et avec des truc à dire
       quand ils meurent !  
-        
+
+
       En tout cas trop contente d'avoir écouté mon collègue et d'avoir lancer le
       jeu parce que j'ai découvert un univers incroyable
-  - type: galerie
 ---
