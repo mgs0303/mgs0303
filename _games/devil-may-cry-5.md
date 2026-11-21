@@ -15,7 +15,7 @@ series: Devil May Cry
 hide_series: false
 publisher: Capcom
 developer: Capcom
-note: 7
+note: 6.5
 completion: Main Story
 platform: Steam PC
 mode: Solo
@@ -35,7 +35,8 @@ blocks:
       terminé le 5 j'étais là en mode ah ouais heureusement que j'ai jamais joué
       au 5 sans faire les 4 premiers parce que j'aurais été grave déçue et
       j'aurais rien compris.  
-        
+
+
       Et du coup pour moi le 5 il a vraiment rien de bien. Le seul truc qu'il y
       a de bien là-dedans c'est Nico. Voilà merci d'avoir mis Nico et d'avoir
       donné un peu plus d'écran à Trish et Lady.
@@ -49,7 +50,8 @@ blocks:
       système de bah j'ai plus de bras et du coup faut me trouver des recharges
       pour que je fasse différents trucs et tout bah c'est trop nul. Quand tu te
       retrouves sans bras tu fais quoi ? Bah tu fais rien voilà.  
-        
+
+
       Un moment donné on nous laisse choisir entre V et Nero et j'avais choisi
       Nero et en fait j'avais pas rechargé mes bras et du coup pendant tout la
       partie j'étais là en mode bah en fait je peux pas faire de dégâts je fais
