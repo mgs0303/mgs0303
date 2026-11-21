@@ -27,9 +27,7 @@ blocks:
     text: Devil May Cry 4
   - type: texte
     text: >-
-      On passe enfin à mon chouchou, Devil May Cry 4. En fait, je suis une
-      grande défenseuse du 4 et j'adore quand j'aime des jeux et qu'au final ce
-      sont les moins aimés des gens.  
+      On passe enfin à mon chouchou, Devil May Cry 4.
 
 
       Encore une fois, on a ce même "problème" : on ne joue plus le personnage
