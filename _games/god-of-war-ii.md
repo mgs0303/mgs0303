@@ -1,9 +1,10 @@
 ---
 title: God Of War II
 status: Partie en cours
-progress: 5
+progress: 65
 start_date: 2026-11-20
 no_start_date: false
+end_date: 2026-11-25
 no_end_date: true
 release_year: 2007
 genre:
