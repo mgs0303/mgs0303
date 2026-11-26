@@ -1,6 +1,6 @@
 ---
 title: Undertale
-status: Partie en cours
+status: Pause
 progress: 30
 start_date: 2026-11-17
 no_start_date: false
