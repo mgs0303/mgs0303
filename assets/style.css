@@ -2224,3 +2224,16 @@ body.avispage #mp:hover,body.avispage #mp:focus-visible{opacity:1!important}
 /* v297 : fleches rondes (visionneuse d'images) : chevron centre dans le cercle */
 .lightbox .lb-prev,.lightbox .lb-next{display:flex;align-items:center;justify-content:center;padding:0}
 .lightbox .lb-prev svg,.lightbox .lb-next svg{display:block}
+
+/* v299 : réactions emoji sous les avis écrits (affichées seulement si le service est configuré dans app.js) */
+.content .reactions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:26px;padding-top:20px;border-top:1px solid rgba(123,186,201,.45)}
+.reactions[hidden]{display:none!important}
+.reactions .rx-lbl{margin-right:4px;font-size:.88rem;font-weight:600;letter-spacing:.03em;opacity:.75}
+.reactions .rx{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:6px 14px;border-radius:999px;border:1px solid rgba(150,185,255,.38);background:rgba(8,16,30,.38);color:inherit;font:inherit;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+.reactions .rx:hover{background:rgba(40,66,112,.7);transform:translateY(-1px)}
+.reactions .rx:focus-visible{outline:3px solid #9bbcff;outline-offset:2px}
+.reactions .rx.on{background:rgba(143,176,255,.3);border-color:#9bbcff}
+.reactions .rx-e{font-size:1.2rem;line-height:1}
+.reactions .rx-n{font-size:.88rem;font-weight:600;font-variant-numeric:tabular-nums;min-width:0}
+.reactions .rx-n:empty{display:none}
+@media(max-width:720px){.content .reactions{margin-top:20px;padding-top:16px;gap:8px 6px}.reactions .rx-lbl{flex-basis:100%;margin:0 0 2px}.reactions .rx{padding:6px 10px;gap:5px}}

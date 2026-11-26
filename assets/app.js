@@ -40,6 +40,9 @@
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const BASE = location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '');
   const encPath = (p) => p.split('/').map((seg) => { try { return encodeURIComponent(decodeURIComponent(seg)); } catch (e) { return encodeURIComponent(seg); } }).join('/');
+  // Réactions emoji sous les avis écrits. Adresse du service (voir _tools/REACTIONS-GUIDE.md) : vide = désactivé, rien ne s'affiche.
+  const REACTIONS_URL = '';
+  const REACTION_EMOJIS = ['❤️', '🔥', '😂', '😮', '😢'];
   const path = (s) => {
     if (!s) return '';
     if (/^(https?:)?\/\//.test(s) || /^data:/.test(s)) return s;
@@ -514,7 +517,7 @@
     if (e.key === 'Escape') closeReplay();
     else if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.f[data-replay]')) { e.preventDefault(); openReplay(e.target.getAttribute('data-replay')); }
   });
-  function renderBlocks(blocks, reason) {
+  function renderBlocks(blocks, reason, slug) {
     if (!Array.isArray(blocks)) blocks = [];
     const rs = String(reason || '').trim();
     if (!blocks.length && !rs) return '';
@@ -534,7 +537,43 @@
       if (type === 'video') { const id = youtubeId(b.url); return id ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" allowfullscreen loading="lazy" title="Vidéo"></iframe></div>` : ''; }
       return '';
     }).join('');
-    return html.trim() ? `<div class="content">${html}</div>` : '';
+    const written = blocks.some((b) => (b.type || b._block) === 'texte' && String(b.text || '').trim());
+    const rx = REACTIONS_URL && slug && written
+      ? `<div class="reactions" data-slug="${esc(slug)}" hidden><span class="rx-lbl">Ta réaction</span>${REACTION_EMOJIS.map((e) => `<button type="button" class="rx" data-e="${e}" aria-pressed="false" aria-label="Réagir avec ${e}"><span class="rx-e">${e}</span><span class="rx-n"></span></button>`).join('')}</div>`
+      : '';
+    return html.trim() ? `<div class="content">${html}${rx}</div>` : '';
+  }
+
+  // Branche la barre d'emoji : lit les totaux, enregistre un seul choix par navigateur (modifiable ou retirable).
+  function initReactions(box) {
+    const slug = box.dataset.slug;
+    const url = REACTIONS_URL.replace(/\/$/, '') + '/r/' + encodeURIComponent(slug);
+    const KEY = 'lll-react-' + slug;
+    let mine = null;
+    try { mine = localStorage.getItem(KEY); } catch (e) { /* stockage bloque : on continue sans */ }
+    if (!REACTION_EMOJIS.includes(mine)) mine = null;
+    let counts = {};
+    const paint = () => box.querySelectorAll('.rx').forEach((b) => {
+      const e = b.dataset.e, n = counts[e] | 0;
+      b.querySelector('.rx-n').textContent = n > 0 ? n : '';
+      b.classList.toggle('on', e === mine);
+      b.setAttribute('aria-pressed', String(e === mine));
+    });
+    const save = () => { try { if (mine) localStorage.setItem(KEY, mine); else localStorage.removeItem(KEY); } catch (e) { /* rien */ } };
+    fetch(url).then((r) => (r.ok ? r.json() : Promise.reject())).then((d) => { counts = d.counts || {}; paint(); box.hidden = false; }).catch(() => { /* service indisponible : la barre reste cachee */ });
+    box.addEventListener('click', (ev) => {
+      const b = ev.target.closest('.rx');
+      if (!b) return;
+      const e = b.dataset.e, prev = mine, snap = Object.assign({}, counts), body = {};
+      const dec = (k) => { counts[k] = Math.max(0, (counts[k] | 0) - 1); };
+      if (prev === e) { mine = null; body.remove = e; dec(e); }
+      else { if (prev) { body.remove = prev; dec(prev); } mine = e; body.add = e; counts[e] = (counts[e] | 0) + 1; }
+      save(); paint();
+      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((d) => { if (d && d.counts) { counts = d.counts; paint(); } })
+        .catch(() => { mine = prev; counts = snap; save(); paint(); });
+    });
   }
 
   function gameNav(g) {
@@ -562,7 +601,7 @@
           ${facts(g, true)}
         </div>
       </article>
-      ${renderBlocks(g.blocks)}${gameNav(g)}`;
+      ${renderBlocks(g.blocks, '', g.slug)}${gameNav(g)}`;
     document.title = g.title + ' · La-Li-Lu-Le-Log';
     // carrousel d'images : met à jour le compteur et les points quand on glisse
     app.querySelectorAll('.gal-wrap').forEach((w) => {
@@ -596,6 +635,8 @@
         }).observe(gal);
       }
     });
+    const rxBox = app.querySelector('.reactions');
+    if (rxBox) initReactions(rxBox);
     const sb = app.querySelector('.share-btn');
     if (sb) sb.addEventListener('click', () => {
       // lien de partage : page /jeu/<slug>/ (aperçu avec bannière + titre), qui renvoie vers la fiche
