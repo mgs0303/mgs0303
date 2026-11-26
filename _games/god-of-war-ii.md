@@ -17,7 +17,7 @@ hide_series: false
 publisher: SONY
 developer: Santa Monica StudioSanta Monica Studio
 note: 6
-completion: N/A
+completion: Main Story
 platform: PCSX2
 mode: Solo
 playtime: 17
