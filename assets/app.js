@@ -41,7 +41,7 @@
   const BASE = location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '');
   const encPath = (p) => p.split('/').map((seg) => { try { return encodeURIComponent(decodeURIComponent(seg)); } catch (e) { return encodeURIComponent(seg); } }).join('/');
   // Réactions emoji sous les avis écrits. Adresse du service (voir _tools/REACTIONS-GUIDE.md) : vide = désactivé, rien ne s'affiche.
-  const REACTIONS_URL = '';
+  const REACTIONS_URL = 'https://lll-reactions.lalilulelog.workers.dev';
   const REACTION_EMOJIS = ['❤️', '🔥', '😂', '😮', '😢'];
   const path = (s) => {
     if (!s) return '';
