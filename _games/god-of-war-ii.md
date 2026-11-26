@@ -15,7 +15,7 @@ genre:
 series: God of War
 hide_series: false
 publisher: SONY
-developer: Santa Monica StudioSanta Monica Studio
+developer: Santa Monica Studio
 note: 6
 completion: Main Story
 platform: PCSX2
