@@ -52,4 +52,14 @@ blocks:
       effets de grandeur ou Kratos apparait vraiment petit et j'ai hâte de faire
       le 3 pour voir comment ça va être avec les Titans !
   - type: galerie
+    images:
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261124210218052.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261120132437996.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261121210437063.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261123010146693.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261124215544691.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261124224616345.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261125181904136.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261125225312714.png
+      - /assets/images/GOW2/MedalTVPCSX2PS2Emulator20261126140643204.png
 ---
