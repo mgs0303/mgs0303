@@ -1,9 +1,10 @@
 ---
 title: Escape Academy 2 Back to school
 status: Partie en cours
-progress: 10
+progress: 25
 start_date: 2026-11-09
 no_start_date: false
+end_date: 2026-11-26
 no_end_date: true
 release_year: 2026
 genre:
