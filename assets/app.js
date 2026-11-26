@@ -44,23 +44,24 @@
   const REACTIONS_URL = 'https://lll-reactions.lalilulelog.workers.dev';
   const REACTION_EMOJIS = ['👍', '👎', '❤️', '🔥', '😂', '😮', '😢'];
   // Compteur de visites GoatCounter (sans cookies, sans données personnelles). Ton code de compte, par exemple 'lalilulelog' : vide = désactivé.
+  // Chaque page vue envoie une petite image de 1 pixel à GoatCounter (aucun script externe).
   const GOATCOUNTER = 'lalilulelog';
-  let gcLoaded = false;
+  let gcFirst = true;
   function track() {
     if (!GOATCOUNTER) return;
     try {
-      if (!gcLoaded) {
-        gcLoaded = true;
-        window.goatcounter = { no_onload: true };
-        const sc = document.createElement('script');
-        sc.async = true;
-        sc.src = 'https://gc.zgo.at/count.js';
-        sc.dataset.goatcounter = 'https://' + GOATCOUNTER + '.goatcounter.com/count';
-        document.head.appendChild(sc);
-      }
       const pagePath = (location.hash || '#/').replace(/^#/, '') || '/';
+      const first = gcFirst;
+      gcFirst = false;
       setTimeout(() => {
-        try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: pagePath, title: document.title }); } catch (e) {}
+        try {
+          const enc = encodeURIComponent;
+          const ref = first && document.referrer && document.referrer.indexOf(location.origin) !== 0 ? document.referrer : '';
+          const q = 'p=' + enc(pagePath) + '&t=' + enc(document.title) + (ref ? '&r=' + enc(ref) : '')
+            + '&s=' + [window.screen.width, window.screen.height, window.devicePixelRatio || 1].join(',')
+            + '&rnd=' + Math.random().toString(36).slice(2, 7);
+          new Image().src = 'https://' + GOATCOUNTER + '.goatcounter.com/count?' + q;
+        } catch (e) {}
       }, 500);
     } catch (e) {}
   }
