@@ -44,7 +44,7 @@
   const REACTIONS_URL = 'https://lll-reactions.lalilulelog.workers.dev';
   const REACTION_EMOJIS = ['👍', '👎', '❤️', '🔥', '😂', '😮', '😢'];
   // Compteur de visites GoatCounter (sans cookies, sans données personnelles). Ton code de compte, par exemple 'lalilulelog' : vide = désactivé.
-  const GOATCOUNTER = '';
+  const GOATCOUNTER = 'lalilulelog';
   let gcLoaded = false;
   function track() {
     if (!GOATCOUNTER) return;
