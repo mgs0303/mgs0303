@@ -1,9 +1,10 @@
 ---
 title: Big Walk
-status: Partie en cours
+status: Pause
 progress: 15
 start_date: 2026-10-08
 no_start_date: false
+end_date: 2026-11-26
 no_end_date: true
 release_year: 2026
 genre:
@@ -11,6 +12,7 @@ genre:
   - Party game
   - Puzzle
   - Indépendant
+hide_series: false
 publisher: Panic
 developer: House House
 completion: N/A
