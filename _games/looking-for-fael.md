@@ -1,9 +1,10 @@
 ---
 title: Looking for Fael
 status: Partie en cours
-progress: 15
+progress: 70
 start_date: 2026-11-04
 no_start_date: false
+end_date: 2026-11-26
 no_end_date: true
 release_year: 2026
 genre:
