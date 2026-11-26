@@ -1,6 +1,6 @@
 ---
 title: God Of War II
-status: Partie en cours
+status: Complété
 progress: 100
 start_date: 2026-11-20
 no_start_date: false
