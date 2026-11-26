@@ -43,6 +43,27 @@
   // Réactions emoji sous les avis écrits. Adresse du service (voir _tools/REACTIONS-GUIDE.md) : vide = désactivé, rien ne s'affiche.
   const REACTIONS_URL = 'https://lll-reactions.lalilulelog.workers.dev';
   const REACTION_EMOJIS = ['👍', '👎', '❤️', '🔥', '😂', '😮', '😢'];
+  // Compteur de visites GoatCounter (sans cookies, sans données personnelles). Ton code de compte, par exemple 'lalilulelog' : vide = désactivé.
+  const GOATCOUNTER = '';
+  let gcLoaded = false;
+  function track() {
+    if (!GOATCOUNTER) return;
+    try {
+      if (!gcLoaded) {
+        gcLoaded = true;
+        window.goatcounter = { no_onload: true };
+        const sc = document.createElement('script');
+        sc.async = true;
+        sc.src = 'https://gc.zgo.at/count.js';
+        sc.dataset.goatcounter = 'https://' + GOATCOUNTER + '.goatcounter.com/count';
+        document.head.appendChild(sc);
+      }
+      const pagePath = (location.hash || '#/').replace(/^#/, '') || '/';
+      setTimeout(() => {
+        try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: pagePath, title: document.title }); } catch (e) {}
+      }, 500);
+    } catch (e) {}
+  }
   const path = (s) => {
     if (!s) return '';
     if (/^(https?:)?\/\//.test(s) || /^data:/.test(s)) return s;
@@ -975,6 +996,7 @@
     userNav = false;
     currentHash = location.hash || '#/';
     navCount += 1;
+    track();
     closeModal();
     closeLb();
     app.style.minHeight = '';
