@@ -10,7 +10,7 @@
 //   GET  /r/<jeu>  -> { "counts": { ... } }
 //   POST /r/<jeu>  avec { "add": "❤️" } et/ou { "remove": "🔥" } -> { "counts": { ... } }
 
-const EMOJIS = ['❤️', '🔥', '😂', '😮', '😢']; // doit être la même liste que sur le site
+const EMOJIS = ['👍', '👎', '❤️', '🔥', '😂', '😮', '😢']; // doit être la même liste que sur le site
 const SLUG = /^[a-z0-9][a-z0-9-]{0,90}$/;
 
 export default {

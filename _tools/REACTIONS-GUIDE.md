@@ -1,6 +1,6 @@
 # Réactions emoji sous les avis
 
-Le site affiche une rangée d'emoji (❤️ 🔥 😂 😮 😢) sous chaque avis écrit.
+Le site affiche une rangée d'emoji (👍 👎 ❤️ 🔥 😂 😮 😢) sous chaque avis écrit.
 Les totaux sont gardés par un petit service gratuit (Cloudflare Worker + KV) : `_tools/reactions-worker.js`.
 Il ne garde que des totaux par jeu, aucune information sur les visiteurs.
 
